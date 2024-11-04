@@ -2,50 +2,110 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'pie',
-  data: {
-    labels: ["Direct", "Referral", "Social"],
-    datasets: [{
-      data: [55, 30, 15],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    plugins: {
-      datalabels: {
-        color: '#00000',
-        font: {
-          size: 16,
-          weight: 'bold'
-        },
-        display: true,
-        anchor: 'center',
-        align: 'center',
-        formatter: (value, ctx) => {
-          let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
-          let percentage = (value / sum * 100).toFixed(1) + "%";
-          return percentage;
-        },
-      }
-    },
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-    },
-    legend: {
-      display: true
-    }
-  },
-});
+// Ambil data dari server
+fetch('/total_semua')
+    .then(response => response.json())
+    .then(data => {
+        const config = {
+            type: 'pie', // Tipe chart
+            data: {
+                labels: ['Tidak Unggah', 'Sebagian Unggah', 'Semua Unggah'], // Menggunakan labels dari server
+                datasets: [{
+                    data: [data.belum_unggah, data.sebagian_unggah, data.semua_unggah], // Menggunakan data dari server
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Donut Chart Example' // Judul chart
+                    }
+                }
+            },
+        };
 
+        // Buat instance chart
+        const myPieChart = new Chart(
+            document.getElementById('myPieChart'),
+            config
+        );
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+// Ambil data dari server
+fetch('/total_semua')
+    .then(response => response.json())
+    .then(data => {
+        const config = {
+            type: 'pie', // Tipe chart
+            data: {
+                labels: ['Belum Verifikasi', 'Sebagian Verifikasi', 'Semua Verifikasi'], // Menggunakan labels dari server
+                datasets: [{
+                    data: [data.belum_ver, data.sebagian_ver, data.semua_ver], // Menggunakan data dari server
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Donut Chart Example' // Judul chart
+                    }
+                }
+            },
+        };
+
+        // Buat instance chart
+        const myPieChart = new Chart(
+            document.getElementById('myPieChart2'),
+            config
+        );
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+// Ambil data dari server
+fetch('/total_semua')
+    .then(response => response.json())
+    .then(data => {
+        const config = {
+            type: 'pie', // Tipe chart
+            data: {
+                labels: ['Belum Valid', 'Sebagian Valid', 'Semua Valid'], // Menggunakan labels dari server
+                datasets: [{
+                    data: [data.belum_valid, data.sebagian_valid, data.semua_valid], // Menggunakan data dari server
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Donut Chart Example' // Judul chart
+                    }
+                }
+            },
+        };
+
+        // Buat instance chart
+        const myPieChart = new Chart(
+            document.getElementById('myPieChart3'),
+            config
+        );
+    })
+    .catch(error => console.error('Error fetching data:', error));

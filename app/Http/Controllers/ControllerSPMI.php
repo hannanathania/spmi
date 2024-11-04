@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\ModelSPMI;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ControllerSPMI extends Controller
 {
@@ -12,37 +16,46 @@ class ControllerSPMI extends Controller
     {
         // Query dasar untuk mengambil data ModelSPMI
         $spmi = ModelSPMI::query();
-        $data = $this->ambilData();
+        $data = $this->calculate();
     
         // Check if search input is provided and not empty
+        // Filter array berdasarkan pencarian, jika ada input "search"
         if ($request->has('search') && !empty($request->search)) {
-            $searchTerm = strtolower($request->search); // Convert input to lowercase
-    
-            if (is_numeric($searchTerm)) {
-                $spmi->whereRaw('LOWER(kodept) LIKE ?', ['%' . $searchTerm . '%']);
-            } else {
-                $spmi->whereRaw('LOWER(ptspmi) LIKE ?', ['%' . $searchTerm . '%']);
-            }
+            $searchTerm = strtolower($request->search); // Konversi input menjadi lowercase
+
+            $filteredData = array_filter($data, function ($item) use ($searchTerm) {
+                // Jika search term numerik, cari di 'kodept'
+                if (is_numeric($searchTerm)) {
+                    return strpos(strtolower($item['kode_pt']), $searchTerm) !== false;
+                } else {
+                    // Jika bukan numerik, cari di 'ptspmi'
+                    return strpos(strtolower($item['pt']), $searchTerm) !== false;
+                }
+            });
+        } else {
+            // Jika tidak ada pencarian, tampilkan semua data
+            $filteredData = $data;
         }
     
         // Paginasi setelah pencarian sudah difilter
-        $spmiPaginated = $spmi->paginate(10)->appends(request()->query());
+        $spmiPaginated = $this->paginate($filteredData);
+        $spmiPaginated->withPath('/');
     
         // Hitung total berdasarkan data yang dipaginasi
         $total_baris = $this->calculate();
+        $total_semua = $this->calculateAll();
     
         // Kembalikan view dengan data yang sudah diatur
         return view('index', [
             'spmi' => $spmiPaginated,
-            'data' => $data,
-            'total_baris' => $total_baris
+            'data' => $filteredData,
+            'total_baris' => $total_baris,
+            'total_semua'=>$total_semua
         ]);
     }
     
-    
-    
     public function ambilData(){
-        $spmi = ModelSPMI::all();
+        $spmi = ModelSPMI::where('tutup', '=', null)->get();
         $result = []; 
     
         foreach ($spmi as $item) {
@@ -243,7 +256,6 @@ class ControllerSPMI extends Controller
     {
         // Retrieve data
         $data = $this->ambilData();
-        $i=0;
 
         // Calculate totals by iterating over each item
         foreach ($data as $item) {
@@ -252,6 +264,7 @@ class ControllerSPMI extends Controller
             $totalValid = 0;
             $totalVerif = 0;
             $totalUnggah = 0;
+            $klaster = '';
     
             $totalValid_seharusnya = 0;
             $totalVerif_seharusnya = 0;
@@ -276,11 +289,17 @@ class ControllerSPMI extends Controller
                 $totalUnggah_seharusnya += 1;
             }
 
-            $i+=1;
             $presentase_valid = round(($totalValid / $totalValid_seharusnya) * 100, 2); 
             $presentase_verif = round(($totalVerif / $totalVerif_seharusnya) * 100, 2); 
             $presentase_unggah = round(($totalUnggah / $totalUnggah_seharusnya) * 100, 2); 
             
+            if ($presentase_valid < 50) {
+                $klaster = 'merah';
+            } else if ($presentase_valid > 80){
+                $klaster = 'hijau';
+            } else {
+                $klaster = 'kuning';
+            }
 
             $data['totals'] = [
                 'kode_pt' => $kode_pt,
@@ -293,7 +312,8 @@ class ControllerSPMI extends Controller
                 'unggah_seharusnya'=>$totalUnggah_seharusnya,
                 'presentase_valid' => $presentase_valid,
                 'presentase_verif' => $presentase_verif,
-                'presentase_unggah' => $presentase_unggah
+                'presentase_unggah' => $presentase_unggah,
+                'klaster' => $klaster
             ];
 
             $result[] = $data['totals'];
@@ -307,63 +327,90 @@ class ControllerSPMI extends Controller
     public function calculateAll()
     {
         // Retrieve data
-        $data = $this->ambilData();
+        $data = $this->calculate();
+        $row = [];
 
-        // Initialize totals
-        $totalValid = 0;
-        $totalVerif = 0;
-        $totalUnggah = 0;
+        $belum_valid = 0;
+        $sebagian_valid = 0;
+        $semua_valid = 0;
 
-        $totalValid_seharusnya = 0;
-        $totalVerif_seharusnya = 0;
-        $totalUnggah_seharusnya = 0;
-    
-        // Calculate totals by iterating over each item
+        $belum_ver = 0 ;
+        $sebagian_ver = 0; 
+        $semua_ver = 0;
+
+        $belum_unggah = 0;
+        $sebagian_unggah = 0;
+        $semua_unggah = 0;
+
+        $klaster_hijau = 0;
+        $klaster_kuning = 0;
+        $klaster_merah = 0;
+
+        // Loop through each item and add 'pt' to $row array
         foreach ($data as $item) {
-            foreach ($item as $key => $fields) {
-
-                if ($key === "kode_pt" ) {
-                    continue;
-                }
-                
-
-                if ($key === "pt") {
-                    continue;
-                }
-
-                $totalValid  += $fields['valid'];
-                $totalVerif  += $fields['ver'];
-                $totalUnggah += $fields['unggah'];
-
-                $totalValid_seharusnya += 1;
-                $totalVerif_seharusnya += 1;
-                $totalUnggah_seharusnya += 1;
-
-
-            }
-
-            $presentase_valid = ($totalValid/$totalValid_seharusnya)*100;
-            $presentase_verif = ($totalVerif/$totalVerif_seharusnya)*100;
-            $presentase_unggah = ($totalUnggah/$totalUnggah_seharusnya)*100;
-
-            $data['totals'] = [
-                'valid' => $totalValid,
-                'ver' => $totalVerif,
-                'unggah' => $totalUnggah,
-                'valid_seharusnya' => $totalValid_seharusnya,
-                'verif_seharusnya' =>$totalVerif_seharusnya,
-                'unggah_seharusnya'=>$totalUnggah_seharusnya,
-                'presentase_valid' => $presentase_valid,
-                'presentase_verif' => $presentase_verif,
-                'presentase_unggah' => $presentase_unggah
-            ];
-
-
+            $row[] = $item['valid']; 
+            if ($item['valid'] == 0){
+                $belum_valid +=1;
+            } else if ($item['valid'] < 35 ){
+                $sebagian_valid +=1;
+            } else {
+                $semua_valid +=1;
+            }   
         }
-    
-        // Return the result with totals included as JSON
-        // return response()->json($data['totals']);
-        return $data['totals'];
+
+        foreach ($data as $item) {
+            $row[] = $item['ver']; 
+            if ($item['ver'] == 0){
+                $belum_ver +=1;
+            } else if ($item['ver'] < 35 ){
+                $sebagian_ver +=1;
+            } else {
+                $semua_ver+=1;
+            }   
+        }
+
+        foreach ($data as $item) {
+            $row[] = $item['unggah']; 
+            if ($item['unggah'] == 0){
+                $belum_unggah +=1;
+            } else if ($item['unggah'] < 35 ){
+                $sebagian_unggah +=1;
+            } else {
+                $semua_unggah +=1;
+            }   
+        }
+
+        foreach ($data as $item) {
+            $row[] = $item['klaster']; // Menambahkan 'pt' ke dalam array $row
+            if ($item['klaster'] == 'hijau'){
+                $klaster_hijau +=1;
+            } else if ($item['klaster'] == 'kuning' ){
+                $klaster_kuning +=1;
+            } else {
+                $klaster_merah +=1;
+            }   
+        }
+
+        return [
+            'belum_valid' => $belum_valid, 
+            'sebagian_valid' =>$sebagian_valid, 
+            'semua_valid' =>$semua_valid,
+            'belum_ver'=> $belum_ver,
+            'sebagian_ver'=>$sebagian_ver,
+            'semua_ver'=>$semua_ver,
+            'belum_unggah'=>$belum_unggah,
+            'sebagian_unggah'=>$sebagian_unggah,
+            'semua_unggah'=>$semua_unggah,
+            'klaster_hijau' =>$klaster_hijau,
+            'klaster_kuning' =>$klaster_kuning,
+            'klaster_merah' =>$klaster_merah
+        ];
     }
-    
+
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
 }
