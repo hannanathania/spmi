@@ -7,9 +7,9 @@ fetch('/total_semua')
     .then(response => response.json())
     .then(data => {
         const config = {
-            type: 'pie', // Tipe chart
+            type: 'doughnut', // Tipe chart
             data: {
-                labels: ['Tidak Unggah', 'Sebagian Unggah', 'Semua Unggah'], // Menggunakan labels dari server
+                labels: ['Belum Unggah', 'Sebagian Unggah', 'Semua Unggah'], // Menggunakan labels dari server
                 datasets: [{
                     data: [data.belum_unggah, data.sebagian_unggah, data.semua_unggah], // Menggunakan data dari server
                     backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
@@ -17,17 +17,34 @@ fetch('/total_semua')
                 }]
             },
             options: {
-                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: true,
+                  caretPadding: 10,
+                },
+                legend: {
+                  display: true
+                },
+                cutoutPercentage: 80,
                 plugins: {
-                    legend: {
-                        position: 'top',
+                  legend: {
+                    position: 'top',
+                    align: 'start',
+                    padding: {
+                      top: 10,
+                      right: 0,
+                      bottom: 0,
+                      left: 0
                     },
-                    title: {
-                        display: true,
-                        text: 'Donut Chart Example' // Judul chart
-                    }
+                  }
                 }
-            },
+              }
         };
 
         // Buat instance chart
@@ -53,17 +70,34 @@ fetch('/total_semua')
                 }]
             },
             options: {
-                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: true,
+                  caretPadding: 10,
+                },
+                legend: {
+                  display: true
+                },
+                cutoutPercentage: 80,
                 plugins: {
-                    legend: {
-                        position: 'top',
+                  legend: {
+                    position: 'top',
+                    align: 'start',
+                    padding: {
+                      top: 10,
+                      right: 0,
+                      bottom: 0,
+                      left: 0
                     },
-                    title: {
-                        display: true,
-                        text: 'Donut Chart Example' // Judul chart
-                    }
+                  }
                 }
-            },
+              }
         };
 
         // Buat instance chart
@@ -81,7 +115,7 @@ fetch('/total_semua')
         const config = {
             type: 'pie', // Tipe chart
             data: {
-                labels: ['Belum Valid', 'Sebagian Valid', 'Semua Valid'], // Menggunakan labels dari server
+                labels: ['Belum Tervalidasi', 'Sebagian Tervalidasi', 'Semua Tervalidasi'], // Menggunakan labels dari server
                 datasets: [{
                     data: [data.belum_valid, data.sebagian_valid, data.semua_valid], // Menggunakan data dari server
                     backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
@@ -89,17 +123,34 @@ fetch('/total_semua')
                 }]
             },
             options: {
-                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: true,
+                  caretPadding: 10,
+                },
+                legend: {
+                  display: true
+                },
+                cutoutPercentage: 80,
                 plugins: {
-                    legend: {
-                        position: 'top',
+                  legend: {
+                    position: 'top',
+                    align: 'start',
+                    padding: {
+                      top: 10,
+                      right: 0,
+                      bottom: 0,
+                      left: 0
                     },
-                    title: {
-                        display: true,
-                        text: 'Donut Chart Example' // Judul chart
-                    }
+                  }
                 }
-            },
+              }
         };
 
         // Buat instance chart

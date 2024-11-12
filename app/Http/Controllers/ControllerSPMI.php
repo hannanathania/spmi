@@ -14,6 +14,30 @@ class ControllerSPMI extends Controller
 {
     public function index(Request $request)
     {
+        // Hitung total berdasarkan data yang dipaginasi
+        $data = $this->calculate();
+        $total_semua = $this->calculateAll();
+    
+        // Kembalikan view dengan data yang sudah diatur
+        return view('index', [
+            'data' => $data,
+            'total_semua'=>$total_semua
+        ]);
+    }
+
+    public function klaster() {
+        // Query dasar untuk mengambil data ModelSPMI
+        $data = $this->calculate();
+        $data_total = $this->calculateAll();
+
+        // Kembalikan view dengan data yang sudah diatur
+        return view('klasterisasi', [
+            'data'=>$data,
+            'data_total'=>$data_total
+        ]);
+    }   
+    
+    public function contoh(Request $request) {
         // Query dasar untuk mengambil data ModelSPMI
         $spmi = ModelSPMI::query();
         $data = $this->calculate();
@@ -39,20 +63,34 @@ class ControllerSPMI extends Controller
     
         // Paginasi setelah pencarian sudah difilter
         $spmiPaginated = $this->paginate($filteredData);
-        $spmiPaginated->withPath('/');
+        $spmiPaginated->withPath('/contoh_tabel'); 
     
         // Hitung total berdasarkan data yang dipaginasi
         $total_baris = $this->calculate();
         $total_semua = $this->calculateAll();
     
         // Kembalikan view dengan data yang sudah diatur
-        return view('index', [
+        return view('contoh_table', [
             'spmi' => $spmiPaginated,
             'data' => $filteredData,
             'total_baris' => $total_baris,
             'total_semua'=>$total_semua
         ]);
+    }  
+
+    public function show($pt)
+    {
+        $items = $this->calculate(); // This function retrieves all items as an array or collection.
+        
+        // Find the specific item based on the pt code
+        $itemDetails = collect($items)->firstWhere('pt', $pt);
+    
+        // Pass the item to the view
+        return view('table', [
+            'item' => $itemDetails
+        ]);
     }
+    
     
     public function ambilData(){
         $spmi = ModelSPMI::where('tutup', '=', null)->get();
@@ -297,7 +335,7 @@ class ControllerSPMI extends Controller
                 $klaster = 'merah';
             } else if ($presentase_valid > 80){
                 $klaster = 'hijau';
-            } else {
+            } else if ($presentase_valid > 49 || $presentase_valid < 81){
                 $klaster = 'kuning';
             }
 
