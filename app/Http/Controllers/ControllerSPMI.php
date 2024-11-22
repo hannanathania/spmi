@@ -35,47 +35,6 @@ class ControllerSPMI extends Controller
             'data'=>$data,
             'data_total'=>$data_total
         ]);
-    }   
-    
-    public function contoh(Request $request) {
-        // Query dasar untuk mengambil data ModelSPMI
-        $spmi = ModelSPMI::query();
-        $data = $this->calculate();
-    
-        // Check if search input is provided and not empty
-        // Filter array berdasarkan pencarian, jika ada input "search"
-        if ($request->has('search') && !empty($request->search)) {
-            $searchTerm = strtolower($request->search); // Konversi input menjadi lowercase
-
-            $filteredData = array_filter($data, function ($item) use ($searchTerm) {
-                // Jika search term numerik, cari di 'kodept'
-                if (is_numeric($searchTerm)) {
-                    return strpos(strtolower($item['kode_pt']), $searchTerm) !== false;
-                } else {
-                    // Jika bukan numerik, cari di 'ptspmi'
-                    return strpos(strtolower($item['pt']), $searchTerm) !== false;
-                }
-            });
-        } else {
-            // Jika tidak ada pencarian, tampilkan semua data
-            $filteredData = $data;
-        }
-    
-        // Paginasi setelah pencarian sudah difilter
-        $spmiPaginated = $this->paginate($filteredData);
-        $spmiPaginated->withPath('/contoh_tabel'); 
-    
-        // Hitung total berdasarkan data yang dipaginasi
-        $total_baris = $this->calculate();
-        $total_semua = $this->calculateAll();
-    
-        // Kembalikan view dengan data yang sudah diatur
-        return view('contoh_table', [
-            'spmi' => $spmiPaginated,
-            'data' => $filteredData,
-            'total_baris' => $total_baris,
-            'total_semua'=>$total_semua
-        ]);
     }  
 
     public function show($pt)
@@ -445,10 +404,10 @@ class ControllerSPMI extends Controller
         ];
     }
 
-    public function paginate($items, $perPage = 10, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-    }
+    // public function paginate($items, $perPage = 10, $page = null, $options = [])
+    // {
+    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+    //     $items = $items instanceof Collection ? $items : Collection::make($items);
+    //     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    // }
 }

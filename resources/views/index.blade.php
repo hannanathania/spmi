@@ -45,7 +45,21 @@
                         <div class="chart-pie pt-3">
                             <canvas id="myPieChart"></canvas>
                         </div>
+                        <div class="mt-4 text-center small">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-primary"></i> Belum Unggah : {{$total_semua['belum_unggah']}}
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-success"></i> Sebagian Unggah : {{$total_semua['sebagian_unggah']}}
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-info"></i> Semua Unggah : {{$total_semua['semua_unggah']}}
+                            </span>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -59,6 +73,19 @@
                     <div class="card-body">
                         <div class="chart-pie pt-4">
                             <canvas id="myPieChart2"></canvas>
+                        </div>
+                        <div class="mt-4 text-center small">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-primary"></i> Belum Verifikasi : {{$total_semua['belum_ver']}}
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-success"></i> Sebagian Verifikasi : {{$total_semua['sebagian_ver']}}
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-info"></i> Semua Verifikasi : {{$total_semua['semua_ver']}}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -75,6 +102,19 @@
                         <div class="chart-pie pt-4">
                             <canvas id="myPieChart3"></canvas>
                         </div>
+                        <div class="mt-4 text-center small">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-primary"></i> Belum Valid : {{$total_semua['belum_valid']}}
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-success"></i> Sebagian Valid : {{$total_semua['sebagian_valid']}}
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-info"></i> Semua Valid : {{$total_semua['semua_valid']}}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +122,7 @@
 
         <div class="card shadow mb-5">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Klasterisasi SPMI</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Kelengkapan SPMI</h6>
             </div>
         <div class="card-body">
             <div class="table-responsive">

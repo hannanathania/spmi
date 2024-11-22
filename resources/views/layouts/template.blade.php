@@ -36,7 +36,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" href="/fasilitator_wilayah">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-user"></i>
                     <span>Fasilitator Wilayah</span>
                 </a>
             </li>
@@ -44,7 +44,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/klasterisasi">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Klasterisasi</span>
                 </a>
             </li>
@@ -52,7 +52,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/pelaporan_spmi">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-file"></i>
                     <span>Pelaporan Data SPMI PT</span>
                 </a>
             </li>
@@ -60,7 +60,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/klinik_spmi">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-building"></i>
                     <span>Klinik SPMI</span>
                 </a>
             </li>
@@ -92,14 +92,6 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS)
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                        </li> -->
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">

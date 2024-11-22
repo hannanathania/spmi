@@ -12,8 +12,8 @@ fetch('/total_semua')
                 labels: ['Belum Unggah', 'Sebagian Unggah', 'Semua Unggah'], // Menggunakan labels dari server
                 datasets: [{
                     data: [data.belum_unggah, data.sebagian_unggah, data.semua_unggah], // Menggunakan data dari server
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'], // Warna untuk masing-masing bagian
+                    hoverBackgroundColor: ['#4e73df', '#1cc88a', '#36b9cc']
                 }]
             },
             options: {
@@ -29,9 +29,9 @@ fetch('/total_semua')
                   caretPadding: 10,
                 },
                 legend: {
-                  display: true
+                  display: false
                 },
-                cutoutPercentage: 80,
+                cutoutPercentage: 60,
                 plugins: {
                   legend: {
                     position: 'top',
@@ -65,8 +65,8 @@ fetch('/total_semua')
                 labels: ['Belum Verifikasi', 'Sebagian Verifikasi', 'Semua Verifikasi'], // Menggunakan labels dari server
                 datasets: [{
                     data: [data.belum_ver, data.sebagian_ver, data.semua_ver], // Menggunakan data dari server
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'], // Warna untuk masing-masing bagian
+                    hoverBackgroundColor: ['#4e73df', '#1cc88a', '#36b9cc']
                 }]
             },
             options: {
@@ -82,9 +82,9 @@ fetch('/total_semua')
                   caretPadding: 10,
                 },
                 legend: {
-                  display: true
+                  display: false
                 },
-                cutoutPercentage: 80,
+                cutoutPercentage: 60,
                 plugins: {
                   legend: {
                     position: 'top',
@@ -115,11 +115,11 @@ fetch('/total_semua')
         const config = {
             type: 'pie', // Tipe chart
             data: {
-                labels: ['Belum Tervalidasi', 'Sebagian Tervalidasi', 'Semua Tervalidasi'], // Menggunakan labels dari server
+                labels: ['Belum Valid', 'Sebagian Valid', 'Semua Valid'], // Menggunakan labels dari server
                 datasets: [{
                     data: [data.belum_valid, data.sebagian_valid, data.semua_valid], // Menggunakan data dari server
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Warna untuk masing-masing bagian
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'], // Warna untuk masing-masing bagian
+                    hoverBackgroundColor: ['#4e73df', '#1cc88a', '#36b9cc']
                 }]
             },
             options: {
@@ -135,9 +135,9 @@ fetch('/total_semua')
                   caretPadding: 10,
                 },
                 legend: {
-                  display: true
+                  display: false
                 },
-                cutoutPercentage: 80,
+                cutoutPercentage: 60,
                 plugins: {
                   legend: {
                     position: 'top',
