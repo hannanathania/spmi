@@ -25,6 +25,19 @@ class ControllerSPMI extends Controller
         ]);
     }
 
+    public function spmi_pt()
+    {
+        // Hitung total berdasarkan data yang dipaginasi
+        $data = $this->calculate();
+        $total_semua = $this->calculateAll();
+    
+        // Kembalikan view dengan data yang sudah diatur
+        return view('spmi_pt', [
+            'data' => $data,
+            'total_semua'=>$total_semua
+        ]);
+    }
+
     public function klaster() {
         // Query dasar untuk mengambil data ModelSPMI
         $data = $this->calculate();
@@ -267,6 +280,56 @@ class ControllerSPMI extends Controller
             $totalVerif_seharusnya = 0;
             $totalUnggah_seharusnya = 0;
 
+            $totalKebijakan_unggah = 0;
+            $totalKebijakan_verif = 0;
+            $totalKebijakan_valid = 0;
+            for ($i = 1; $i <= 6; $i++) {
+                $totalKebijakan_unggah += $item["kebijakan{$i}"]['unggah'];
+                $totalKebijakan_verif += $item["kebijakan{$i}"]['ver'];
+                $totalKebijakan_valid += $item["kebijakan{$i}"]['valid'];
+            }
+            
+            $totalStandar_unggah = 0;
+            $totalStandar_verif = 0;
+            $totalStandar_valid = 0;
+            for ($i = 1; $i <= 3; $i++) {
+                $totalStandar_unggah += $item["standar{$i}"]['unggah'];
+                $totalStandar_verif += $item["standar{$i}"]['ver'];
+                $totalStandar_valid += $item["standar{$i}"]['valid'];
+            }
+            for ($i = 1; $i <= 7; $i++) {
+                $totalStandar_unggah += $item["lain{$i}"]['unggah'];
+                $totalStandar_verif += $item["lain{$i}"]['ver'];
+                $totalStandar_valid += $item["lain{$i}"]['valid'];
+            }
+
+            $totalAmi_unggah = 0;
+            $totalAmi_verif = 0;
+            $totalAmi_valid = 0;
+            for ($i = 1; $i <= 3; $i++) {
+                $totalAmi_unggah += $item["audit{$i}"]['unggah'];
+                $totalAmi_verif += $item["audit{$i}"]['ver'];
+                $totalAmi_valid += $item["audit{$i}"]['valid'];
+            }
+            
+            $totalPengendalian_unggah = 0;
+            $totalPengendalian_verif = 0;
+            $totalPengendalian_valid = 0;
+            for ($i = 1; $i <= 10; $i++) {
+                $totalPengendalian_unggah += $item["pengendalian{$i}"]['unggah'];
+                $totalPengendalian_verif += $item["pengendalian{$i}"]['ver'];
+                $totalPengendalian_valid += $item["pengendalian{$i}"]['valid'];
+            }
+            
+            $totalPeningkatan_unggah = 0;
+            $totalPeningkatan_verif = 0;
+            $totalPeningkatan_valid = 0;
+            for ($i = 1; $i <= 6; $i++) {
+                $totalPeningkatan_unggah += $item["peningkatan{$i}"]['unggah'];
+                $totalPeningkatan_verif += $item["peningkatan{$i}"]['ver'];
+                $totalPeningkatan_valid += $item["peningkatan{$i}"]['valid'];
+            }
+
             foreach ($item as $key => $fields) {
 
                 if ($key === "kode_pt" ) {
@@ -301,6 +364,21 @@ class ControllerSPMI extends Controller
             $data['totals'] = [
                 'kode_pt' => $kode_pt,
                 'pt' => $pt,
+                'kebijakan_unggah' => $totalKebijakan_unggah,
+                'kebijakan_verif' => $totalKebijakan_verif,
+                'kebijakan_valid' => $totalKebijakan_valid,
+                'standar_unggah' => $totalStandar_unggah,
+                'standar_verif' => $totalStandar_verif,
+                'standar_valid' => $totalStandar_valid,
+                'ami_unggah' => $totalAmi_unggah,
+                'ami_verif' => $totalAmi_verif,
+                'ami_valid' => $totalAmi_valid,
+                'pengendalian_unggah' => $totalPengendalian_unggah,
+                'pengendalian_verif' => $totalPengendalian_verif,
+                'pengendalian_valid' => $totalPengendalian_valid,
+                'peningkatan_unggah' => $totalPeningkatan_unggah,
+                'peningkatan_verif' => $totalPeningkatan_verif,
+                'peningkatan_valid' => $totalPeningkatan_valid,
                 'valid' => $totalValid,
                 'ver' => $totalVerif,
                 'unggah' => $totalUnggah,
@@ -331,64 +409,131 @@ class ControllerSPMI extends Controller
         $sebagian_valid = 0;
         $semua_valid = 0;
 
-        $belum_ver = 0 ;
-        $sebagian_ver = 0; 
+        $belum_ver = 0;
+        $sebagian_ver = 0;
         $semua_ver = 0;
 
         $belum_unggah = 0;
         $sebagian_unggah = 0;
         $semua_unggah = 0;
 
+        // Template untuk data awal
+        $template = [
+            'belum_unggah' => 0,
+            'sebagian_unggah' => 0,
+            'semua_unggah' => 0,
+            'belum_verif' => 0,
+            'sebagian_verif' => 0,
+            'semua_verif' => 0,
+            'belum_valid' => 0,
+            'sebagian_valid' => 0,
+            'semua_valid' => 0,
+        ];
+
+        // Membuat array berdasarkan template
+        $ami = $template;
+        $standar = $template;
+        $pengendalian = $template;
+        $peningkatan = $template;
+        $kebijakan =$template;
+
         $klaster_hijau = 0;
         $klaster_kuning = 0;
         $klaster_merah = 0;
 
-        // Loop through each item and add 'pt' to $row array
+        $list_kategori = ['unggah', 'verif', 'valid'];
+
         foreach ($data as $item) {
-            $row[] = $item['valid']; 
+            foreach ($list_kategori as $kategori) {
+                if ($item["kebijakan_$kategori"] == 0) {
+                    $kebijakan["belum_$kategori"] += 1;
+                } elseif ($item["kebijakan_$kategori"] < 6) {
+                    $kebijakan["sebagian_$kategori"] += 1;
+                } else {
+                    $kebijakan["semua_$kategori"] += 1;
+                }
+            }
+
+            foreach ($list_kategori as $kategori) {
+                if ($item["standar_$kategori"] == 0) {
+                    $standar["belum_$kategori"] += 1;
+                } elseif ($item["standar_$kategori"] < 10) {
+                    $standar["sebagian_$kategori"] += 1;
+                } else {
+                    $standar["semua_$kategori"] += 1;
+                }
+            }
+
+            foreach ($list_kategori as $kategori) {
+                if ($item["ami_$kategori"] == 0) {
+                    $ami["belum_$kategori"] += 1;
+                } elseif ($item["ami_$kategori"] < 3) {
+                    $ami["sebagian_$kategori"] += 1;
+                } else {
+                    $ami["semua_$kategori"] += 1;
+                }
+            }
+
+            foreach ($list_kategori as $kategori) {
+                if ($item["peningkatan_$kategori"] == 0) {
+                    $peningkatan["belum_$kategori"] += 1;
+                } elseif ($item["peningkatan_$kategori"] < 10) {
+                    $peningkatan["sebagian_$kategori"] += 1;
+                } else {
+                    $peningkatan["semua_$kategori"] += 1;
+                }
+            }
+
+            foreach ($list_kategori as $kategori) {
+                if ($item["pengendalian_$kategori"] == 0) {
+                    $pengendalian["belum_$kategori"] += 1;
+                } elseif ($item["pengendalian_$kategori"] < 6) {
+                    $pengendalian["sebagian_$kategori"] += 1;
+                } else {
+                    $pengendalian["semua_$kategori"] += 1;
+                }
+            }
+
             if ($item['valid'] == 0){
                 $belum_valid +=1;
             } else if ($item['valid'] < 35 ){
                 $sebagian_valid +=1;
             } else {
                 $semua_valid +=1;
-            }   
-        }
-
-        foreach ($data as $item) {
-            $row[] = $item['ver']; 
+            } 
+            
             if ($item['ver'] == 0){
                 $belum_ver +=1;
             } else if ($item['ver'] < 35 ){
                 $sebagian_ver +=1;
             } else {
                 $semua_ver+=1;
-            }   
-        }
+            }  
 
-        foreach ($data as $item) {
-            $row[] = $item['unggah']; 
             if ($item['unggah'] == 0){
                 $belum_unggah +=1;
             } else if ($item['unggah'] < 35 ){
                 $sebagian_unggah +=1;
             } else {
                 $semua_unggah +=1;
-            }   
-        }
+            }  
 
-        foreach ($data as $item) {
-            $row[] = $item['klaster']; // Menambahkan 'pt' ke dalam array $row
             if ($item['klaster'] == 'hijau'){
                 $klaster_hijau +=1;
             } else if ($item['klaster'] == 'kuning' ){
                 $klaster_kuning +=1;
             } else {
                 $klaster_merah +=1;
-            }   
+            } 
+            
         }
 
         return [
+            'kebijakan' => $kebijakan,
+            'ami' => $ami,
+            'standar' => $standar,
+            'pengendalian' => $pengendalian,
+            'peningkatan' => $peningkatan,
             'belum_valid' => $belum_valid, 
             'sebagian_valid' =>$sebagian_valid, 
             'semua_valid' =>$semua_valid,
@@ -403,11 +548,4 @@ class ControllerSPMI extends Controller
             'klaster_merah' =>$klaster_merah
         ];
     }
-
-    // public function paginate($items, $perPage = 10, $page = null, $options = [])
-    // {
-    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-    //     $items = $items instanceof Collection ? $items : Collection::make($items);
-    //     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-    // }
 }

@@ -36,132 +36,94 @@
     <!-- Content Row -->
     <div class="container-fluid">
         <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Presentase Unggah</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-pie pt-3">
-                            <canvas id="myPieChart"></canvas>
+            <div class="row">
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Jumlah Unggah Dokumen</h6>
                         </div>
-                        <div class="mt-4 text-center small">
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Belum Unggah : {{$total_semua['belum_unggah']}}
-                            </span>
-                            <br>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Sebagian Unggah : {{$total_semua['sebagian_unggah']}}
-                            </span>
-                            <br>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Semua Unggah : {{$total_semua['semua_unggah']}}
-                            </span>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-3">
+                                <canvas id="myPieChart"></canvas>
+                            </div>
+                            <div class="mt-4 text-center small">
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-primary"></i> Belum Unggah : {{$total_semua['belum_unggah']}} PT
+                                </span>
+                                <br>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-success"></i> Sebagian Unggah : {{$total_semua['sebagian_unggah']}} PT
+                                </span>
+                                <br>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-info"></i> Semua Unggah : {{$total_semua['semua_unggah']}} PT
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Presentase Verifikasi</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-pie pt-4">
-                            <canvas id="myPieChart2"></canvas>
-                        </div>
-                        <div class="mt-4 text-center small">
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Belum Verifikasi : {{$total_semua['belum_ver']}}
-                            </span>
-                            <br>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Sebagian Verifikasi : {{$total_semua['sebagian_ver']}}
-                            </span>
-                            <br>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Semua Verifikasi : {{$total_semua['semua_ver']}}
-                            </span>
-                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Presentase Valid</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-pie pt-4">
-                            <canvas id="myPieChart3"></canvas>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Jumlah Dokumen Terverifikasi</h6>
                         </div>
-                        <div class="mt-4 text-center small">
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Belum Valid : {{$total_semua['belum_valid']}}
-                            </span>
-                            <br>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Sebagian Valid : {{$total_semua['sebagian_valid']}}
-                            </span>
-                            <br>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Semua Valid : {{$total_semua['semua_valid']}}
-                            </span>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-4">
+                                <canvas id="myPieChart2"></canvas>
+                            </div>
+                            <div class="mt-4 text-center small">
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-primary"></i> Belum Terverifikasi : {{$total_semua['belum_ver']}} PT
+                                </span>
+                                <br>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-success"></i> Sebagian Terverifikasi : {{$total_semua['sebagian_ver']}} PT
+                                </span>
+                                <br>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-info"></i> Semua Terverifikasi : {{$total_semua['semua_ver']}} PT
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="card shadow mb-5">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Kelengkapan SPMI</h6>
-            </div>
-        <div class="card-body">
-            <div class="table-responsive">
-            <table class="table table-bordered" id="myTable2" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
-                <thead>
-                    <tr>
-                        <th scope="col">Kode PT</th>
-                        <th scope="col">Nama PT</th>
-                        <th scope="col">Presentase Unggah</th>
-                        <th scope="col">Presentase Verifikasi</th>
-                        <th scope="col">Presentase Validasi</th>
-                        <th scope="col">Detail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @forelse ($data as $item)
-                    <tr>
-                        <td>{{ $item['kode_pt'] }}</td>
-                        <td>{{ $item['pt'] }}</td>
-                        <td>{{ $item['presentase_unggah'] }}%</td>
-                        <td>{{ $item['presentase_verif'] }}%</td>
-                        <td>{{ $item['presentase_valid'] }}%</td>
-                        <td>
-                            <a href="{{ route('detail', ['pt' => $item['pt']]) }}" class="btn btn-primary mt-0">Lihat Detail</a>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center">No user found</td>
-                    </tr>
-                @endforelse
-                </tbody>
-            </table>
-        </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Jumlah Dokumen Valid</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-4">
+                                <canvas id="myPieChart3"></canvas>
+                            </div>
+                            <div class="mt-4 text-center small">
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-primary"></i> Belum Valid : {{$total_semua['belum_valid']}} PT
+                                </span>
+                                <br>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-success"></i> Sebagian Valid : {{$total_semua['sebagian_valid']}} PT
+                                </span>
+                                <br>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle text-info"></i> Semua Valid : {{$total_semua['semua_valid']}} PT
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div> 
     </div>
- 
   
         <!-- End of Page Wrapper -->
 

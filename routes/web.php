@@ -14,6 +14,7 @@ Route::get('/login', [ControllerAdmin::class, 'showLoginForm'])->name('login');
 Route::post('/login', [ControllerAdmin::class, 'login']);
 Route::post('/logout', [ControllerAdmin::class, 'logout'])->name('logout');
 Route::get('/', [ControllerSPMI::class, 'index'])->name('home');
+Route::get('/spmi_pt', [ControllerSPMI::class, 'spmi_pt'])->name('home');
 Route::get('/klasterisasi', [ControllerSPMI::class, 'klaster']);
 Route::get('/data', [ControllerSPMI::class, 'ambilData']);
 Route::get('/total_baris', [ControllerSPMI::class, 'calculate']);

@@ -27,11 +27,28 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item" >
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>SPMI PTS</span>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/">
+                    <i class="fas fa-fw fa-dashboard"></i>
+                    <span>Dashboard</span>
                 </a>
+            </li>
+
+            <li class="nav-item" >
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSPMI"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-dashboard"></i>
+                    <span>SPMI PT</span>
+                </a>
+                <!-- Dropdown Menu -->
+                <div id="collapseSPMI" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">SPMI PT</h6>
+                            <a class="collapse-item" href="/">Pelaporan SPMI per PPEP</a>
+                            <a class="collapse-item" href="/spmi_pt">Pelaporan SPMI per PT</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
