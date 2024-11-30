@@ -24,7 +24,7 @@
     <div class="container-fluid">
     <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar Fasilitator Wilayah</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Daftar Verifikator SPMI</h6>
             </div>
             
     <div class="card-body">
@@ -34,7 +34,7 @@
                         <tr>
                             <th scope="col">Kode PT</th>    
                             <th scope="col">Nama PT</th>
-                            <th scope="col">Nama Faswil</th>
+                            <th scope="col">Nama Verifikator</th>
                         </tr>
                     </thead>
                     <tbody>

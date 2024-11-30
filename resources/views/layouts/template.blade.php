@@ -30,30 +30,38 @@
             <li class="nav-item" >
                 <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>SPMI PTS</span>
+                </a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="/fasilitator_wilayah">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVerifikator"
+                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Fasilitator Wilayah</span>
+                    <span>Verifikator SPMI</span>
                 </a>
+                <!-- Dropdown Menu -->
+                <div id="collapseVerifikator" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Verifikator SPMI</h6>
+                        @if(session('admin_username'))
+                            <a class="collapse-item" href="/fasilitator_wilayah">Daftar Verifikator SPMI</a>
+                            <a class="collapse-item" href="/admin_profile">Tambah Verifikator</a>
+                            <a class="collapse-item" href="/logout">Edit Verifikator</a>
+                        @else
+                            <a class="collapse-item" href="/fasilitator_wilayah">Daftar Verifikator SPMI</a>
+                        @endif
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/klasterisasi">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Klasterisasi</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/pelaporan_spmi">
-                    <i class="fas fa-fw fa-file"></i>
-                    <span>Pelaporan Data SPMI PT</span>
+                    <span>Klasterisasi SPMI</span>
                 </a>
             </li>
 
@@ -65,6 +73,21 @@
                 </a>
             </li>
 
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/direktori_pts">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>Direktori PTS</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/direktori_pts">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>Direktori PTS</span>
+                </a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -92,38 +115,37 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
+                            @if(session('admin_username'))
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{{asset('admin_assets/img/undraw_profile.svg')}}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Selamat datang, <b>{{ session('admin_username') }}</b> !</span>
                             </a>
+                            
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
                             </div>
-                        </li>
+                            @else
+                            <a class="nav-link d-flex align-items-center" href="/login" id="userDropdown">
+                                <img src="{{ asset('admin_assets/img/arrow-right-to-bracket-solid.svg') }}" class="me-2" height="20%">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Login</span>
+                            </a>
 
+                            @endif
+                        </li>
                     </ul>
 
                 </nav>

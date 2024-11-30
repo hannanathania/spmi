@@ -19,7 +19,7 @@
 </head>
 
 <body id="page-top">
-    @extends('layouts.template')
+    @extends('layouts.template_admin')
     @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -27,10 +27,7 @@
     <!-- Page Heading -->
     <center>
         <h1 class="h3 mb-2 text-gray-800">Sistem Penjaminan Mutu Internal - LLDIKTI IV</h1>
-        <p class="mb-4">Selamat Datang di website SPMI untuk perguruan tinggi di wilayah LLDIKTI IV. 
-            Website ini berisi tentang Pelaporan SPMI Perguruan Tinggi, Ploting PT kepada Verifikator SPMI, Klasterisasi SPMI, Klinik SPMI bagi perguruan tinggi, dan juga Direktori Perguruan Tinggi. 
-        </p>
-        <p>Buku SPMI dan Pedoman PT Pengimbas SPMI LLDIKTI IV dapat diakses dan diunduh di sini <a href="https://drive.google.com/drive/folders/15IhWUK_Us-g2Q7OHPw5dL9qS44seI84e">Buku Pedoman SPMI</a></p>
+        <p class="mb-4">Selamat Datang di website SPMI untuk perguruan tinggi di wilayah LLDIKTI IV. Website ini berisi berisi dashboard tentang Report SPMI, termasuk pembagian fasilitator wilayah, dan klasterisasi</p>
     </center>
 
     <!-- Content Row -->
