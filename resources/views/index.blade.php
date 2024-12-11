@@ -34,7 +34,7 @@
     </center>
 
     <!-- Content Row -->
-    <div class="container-fluid">
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-4 col-lg-5">
@@ -123,7 +123,7 @@
                 </div>
             </div> 
         </div> 
-    </div>
+
   
         <!-- End of Page Wrapper -->
 

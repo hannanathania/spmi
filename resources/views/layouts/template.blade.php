@@ -27,84 +27,91 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/">
-                    <i class="fas fa-fw fa-dashboard"></i>
+            <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-fw fa-home"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
-            <li class="nav-item" >
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSPMI"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-dashboard"></i>
+            <li class="nav-item {{ request()->is('spmi_ppep') || request()->is('spmi_pt') ? 'active' : '' }}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSPMI"
+                    aria-expanded="true" aria-controls="collapseSPMI">
+                    <i class="fas fa-fw fa-file"></i>
                     <span>SPMI PT</span>
                 </a>
                 <!-- Dropdown Menu -->
-                <div id="collapseSPMI" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
+                <div id="collapseSPMI" class="collapse {{ request()->is('spmi_ppep') || request()->is('spmi_pt') || request()->is('detail/{pt}') ? 'show' : '' }}">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">SPMI PT</h6>
-                            <a class="collapse-item" href="/">Pelaporan SPMI per PPEP</a>
-                            <a class="collapse-item" href="/spmi_pt">Pelaporan SPMI per PT</a>
+                        <a class="collapse-item {{ request()->is('spmi_ppep') ? 'active' : '' }}" href="/spmi_ppep">Pelaporan SPMI per PPEP</a>
+                        <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/spmi_pt">Pelaporan SPMI per PT</a>
                     </div>
                 </div>
             </li>
 
+
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVerifikator"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+            <!-- Nav Item - Verifikator SPMI -->
+            <li class="nav-item {{ request()->is('admin/fasilitator_wilayah') || request()->is('fasilitator_wilayah') ? 'active' : '' }}">
+                @if(session('admin_username'))
+                <a class="nav-link" href="/admin/fasilitator_wilayah">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Verifikator SPMI</span>
                 </a>
-                <!-- Dropdown Menu -->
-                <div id="collapseVerifikator" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Verifikator SPMI</h6>
-                        @if(session('admin_username'))
-                            <a class="collapse-item" href="/fasilitator_wilayah">Daftar Verifikator SPMI</a>
-                            <a class="collapse-item" href="/admin_profile">Tambah Verifikator</a>
-                            <a class="collapse-item" href="/logout">Edit Verifikator</a>
-                        @else
-                            <a class="collapse-item" href="/fasilitator_wilayah">Daftar Verifikator SPMI</a>
-                        @endif
-                    </div>
-                </div>
+                @else
+                <a class="nav-link" href="/fasilitator_wilayah">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Verifikator SPMI</span>
+                </a>
+                @endif
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/klasterisasi">
+            <li class="nav-item {{ request()->is('klasterisasi') ? 'active' : '' }}">
+                <a class="nav-link" href="/klasterisasi">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Klasterisasi SPMI</span>
                 </a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/klinik_spmi">
+            <li class="nav-item {{ request()->is('pt_pengimbas')? 'active' : ''}}">
+                <a class="nav-link collapsed" href="/pt_pengimbas">
                     <i class="fas fa-fw fa-building"></i>
+                    <span>PT Pengimbas</span>
+                </a>
+            </li>
+
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item  {{request()->is('klinik_spmi') ? 'active' : '' }}">
+                <a class="nav-link collapsed" href="/klinik_spmi">
+                    <i class="fas fa-fw fa-hospital-alt"></i>
                     <span>Klinik SPMI</span>
                 </a>
             </li>
 
+
+
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item {{ request()->is('direktori_pts')}}">
                 <a class="nav-link collapsed" href="/direktori_pts">
-                    <i class="fas fa-fw fa-file"></i>
+                    <i class="fas fa-fw fa-folder-open"></i>
                     <span>Direktori PTS</span>
                 </a>
             </li>
 
+
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/direktori_pts">
-                    <i class="fas fa-fw fa-file"></i>
-                    <span>Direktori PTS</span>
+            <li class="nav-item {{ request()->is('sebaran_pts')}}">
+                <a class="nav-link collapsed" href="/sebaran_pts">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Sebaran PTS</span>
                 </a>
             </li>
+
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

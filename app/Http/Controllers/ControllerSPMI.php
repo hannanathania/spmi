@@ -38,6 +38,19 @@ class ControllerSPMI extends Controller
         ]);
     }
 
+    public function spmi_ppep()
+    {
+        // Hitung total berdasarkan data yang dipaginasi
+        $data = $this->calculate();
+        $total_semua = $this->calculateAll();
+    
+        // Kembalikan view dengan data yang sudah diatur
+        return view('spmi_ppep', [
+            'data' => $data,
+            'total_semua'=>$total_semua
+        ]);
+    }
+
     public function klaster() {
         // Query dasar untuk mengambil data ModelSPMI
         $data = $this->calculate();
@@ -61,6 +74,27 @@ class ControllerSPMI extends Controller
         return view('table', [
             'item' => $itemDetails
         ]);
+    }
+
+    public function show_pt(){
+        $items = $this->get_api_pt();
+        return view('direktori_pt',[
+            'data' => $items
+        ]);
+    }
+
+    public function pt_pengimbas_create(){
+        $items = $this->calculate();
+        return view('pt_pengimbas_create',[
+            'data' => $items
+        ]);       
+    }
+
+    public function pt_pengimbas(){
+        $items = $this->calculate();
+        return view('pt_pengimbas',[
+            'data' => $items
+        ]);       
     }
     
     
@@ -118,7 +152,7 @@ class ControllerSPMI extends Controller
                 'standar3' => [
                     'valid' => ($item->s3 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->s3 && $item->s3 <= 3) ? 1 : 0,
-                    'unggah' => ($item->s1 >= 3) ? 1 : 0,
+                    'unggah' => ($item->s3 >= 1) ? 1 : 0,
                 ],
                 
                 'lain1' => [
@@ -420,13 +454,10 @@ class ControllerSPMI extends Controller
         // Template untuk data awal
         $template = [
             'belum_unggah' => 0,
-            'sebagian_unggah' => 0,
             'semua_unggah' => 0,
             'belum_verif' => 0,
-            'sebagian_verif' => 0,
             'semua_verif' => 0,
             'belum_valid' => 0,
-            'sebagian_valid' => 0,
             'semua_valid' => 0,
         ];
 
@@ -445,50 +476,40 @@ class ControllerSPMI extends Controller
 
         foreach ($data as $item) {
             foreach ($list_kategori as $kategori) {
-                if ($item["kebijakan_$kategori"] == 0) {
+                if ($item["kebijakan_$kategori"] < 6) {
                     $kebijakan["belum_$kategori"] += 1;
-                } elseif ($item["kebijakan_$kategori"] < 6) {
-                    $kebijakan["sebagian_$kategori"] += 1;
                 } else {
                     $kebijakan["semua_$kategori"] += 1;
                 }
             }
 
             foreach ($list_kategori as $kategori) {
-                if ($item["standar_$kategori"] == 0) {
+                if ($item["standar_$kategori"] < 10) {
                     $standar["belum_$kategori"] += 1;
-                } elseif ($item["standar_$kategori"] < 10) {
-                    $standar["sebagian_$kategori"] += 1;
                 } else {
                     $standar["semua_$kategori"] += 1;
                 }
             }
 
             foreach ($list_kategori as $kategori) {
-                if ($item["ami_$kategori"] == 0) {
+                if ($item["ami_$kategori"] < 3) {
                     $ami["belum_$kategori"] += 1;
-                } elseif ($item["ami_$kategori"] < 3) {
-                    $ami["sebagian_$kategori"] += 1;
                 } else {
                     $ami["semua_$kategori"] += 1;
                 }
             }
 
             foreach ($list_kategori as $kategori) {
-                if ($item["peningkatan_$kategori"] == 0) {
+                if ($item["peningkatan_$kategori"] < 6) {
                     $peningkatan["belum_$kategori"] += 1;
-                } elseif ($item["peningkatan_$kategori"] < 10) {
-                    $peningkatan["sebagian_$kategori"] += 1;
                 } else {
                     $peningkatan["semua_$kategori"] += 1;
                 }
             }
 
             foreach ($list_kategori as $kategori) {
-                if ($item["pengendalian_$kategori"] == 0) {
+                if ($item["pengendalian_$kategori"] < 10) {
                     $pengendalian["belum_$kategori"] += 1;
-                } elseif ($item["pengendalian_$kategori"] < 6) {
-                    $pengendalian["sebagian_$kategori"] += 1;
                 } else {
                     $pengendalian["semua_$kategori"] += 1;
                 }
@@ -547,5 +568,89 @@ class ControllerSPMI extends Controller
             'klaster_kuning' =>$klaster_kuning,
             'klaster_merah' =>$klaster_merah
         ];
+    }
+
+    public function get_api_pt()
+    {
+        $url_login = 'https://pddikti.lldikti4.id/api/login';
+        $username = 'magang@lldikti4.id';
+        $password = 'm@g@ng@lldikti4.id';
+    
+        $data_login = [
+            'email' => $username,
+            'password' => $password,
+        ];
+    
+        $curl = curl_init();
+    
+        curl_setopt_array($curl, [
+        CURLOPT_URL => $url_login,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $data_login,
+        ]);
+    
+        $response = curl_exec($curl);
+    
+    
+        if (curl_errno($curl)) {
+            echo 'Error: ' . curl_error($curl);
+        exit;
+        }
+    
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    
+        if ($httpCode !== 200) {
+            echo 'Error: API responded with HTTP code ' . $httpCode;
+        exit;
+        }
+    
+        $data_response = json_decode($response, true);
+    
+        // Ambil token autentikasi dari responsenya
+        $token = $data_response['access_token'];
+        // URL endpoint untuk mengambil data dari API
+        $url_data = 'https://pddikti.lldikti4.id/api/getsatuanpendidikan';
+    
+        // Data yang akan dikirim dalam request untuk mengambil data
+        $data_request = [
+            'kodept' => false,
+            'stat_sp' => false
+        ];
+    
+        // Inisialisasi curl
+        $curl = curl_init();
+    
+        // Set URL endpoint API dan opsi lainnya, termasuk header Authorization dengan token autentikasi
+        curl_setopt_array($curl, [
+        CURLOPT_URL => $url_data,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . $token,
+            ],
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_request,
+        ]);
+    
+        // Eksekusi request untuk mengambil data dan simpan responsenya
+        $response = curl_exec($curl);
+    
+        // Jika terjadi error saat melakukan request, tampilkan pesan error
+        if (curl_errno($curl)) {
+            echo 'Error: ' . curl_error($curl);
+        exit;
+        }
+    
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    
+        if ($httpCode !== 200) {
+            echo 'Error: API responded with HTTP code ' . $httpCode;
+        exit;
+        }
+
+        // Parse data responsenya menjadi array asosiatif
+        $data_response = json_decode($response, true);
+
+        return $data_response;
     }
 }

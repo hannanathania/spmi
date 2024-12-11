@@ -90,25 +90,171 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Card Header - Accordion -->
             <div class="card shadow mb-4">
-                <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                <a href="#collapseCardKebijakan" class="d-block card-header py-3" data-toggle="collapse"
+                    role="button" aria-expanded="true" aria-controls="collapseCardKebijakan">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Kebijakan
+                        @if($item['kebijakan_valid'] >= 6)
+                            <i class="fa fa-check-circle text-success ml-2"></i>
+                            @else
+                            <i class="fas fa-times-circle text-danger ml-2"></i>
+                        @endif
+                    </h6>
                 </a>
-                <!-- Card Content - Collapse -->
-                <div class="collapse hide" id="collapseCardExample">
+                <div class="collapse hide" id="collapseCardKebijakan">
                     <div class="card-body">
-                        This is a collapsable card example using Bootstrap's built in collapse
-                        functionality. <strong>Click on the card header</strong> to see the card body
-                        collapse and expand!
+                        @if($item['kebijakan_valid'] >= 6)
+                                <p>Dokumen audit mutu internal sudah valid</p>
+                        @else
+                            @if($item['kebijakan_unggah'] < 6)
+                                <p>Dokumen yang perlu diunggah : {{6 - $item['kebijakan_unggah']}} dokumen</p>
+                            @endif
+                            @if($item['kebijakan_verif'] - $item['kebijakan_valid'] > 0)
+                                <p>Dokumen perlu diperbaiki : {{$item['kebijakan_verif'] - $item['kebijakan_valid']}} dokumen</p>
+                            @endif
+                            @if($item['kebijakan_unggah'] - $item['kebijakan_verif'] > 0)
+                                <p>Dokumen perlu diperiksa oleh verifikator : {{$item['kebijakan_unggah'] - $item['kebijakan_verif']}} dokumen</p>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>
 
+            <!-- Card Header - Accordion -->
+            <div class="card shadow mb-4">
+                <a href="#collapseCardStandar" class="d-block card-header py-3" data-toggle="collapse"
+                    role="button" aria-expanded="true" aria-controls="collapseCardStandar">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Standar Institusi
+                        @if($item['standar_valid'] >= 10)
+                            <i class="fa fa-check-circle text-success ml-2"></i>
+                            @else
+                            <i class="fas fa-times-circle text-danger ml-2"></i>
+                        @endif
+                    </h6>
+                </a>
+                <div class="collapse hide" id="collapseCardStandar">
+                    <div class="card-body">
+                        @if($item['standar_valid'] >= 10)
+                                <p>Dokumen audit mutu internal sudah valid</p>
+                        @else
+                            @if($item['standar_unggah'] < 10)
+                                <p>Dokumen yang perlu diunggah : {{10 - $item['standar_unggah']}} dokumen</p>
+                            @endif
+                            @if($item['standar_verif'] - $item['standar_valid'] > 0)
+                                <p>Dokumen perlu diperbaiki : {{$item['standar_verif'] - $item['standar_valid']}} dokumen</p>
+                            @endif
+                            @if($item['standar_unggah'] - $item['standar_verif'] >0)
+                                <p>Dokumen perlu diperiksa oleh verifikator : {{$item['standar_unggah'] - $item['standar_verif']}} dokumen</p>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Header - Accordion -->
+            <div class="card shadow mb-4">
+                <a href="#collapseCardAmi" class="d-block card-header py-3" data-toggle="collapse"
+                    role="button" aria-expanded="true" aria-controls="collapseCardAmi">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Audit Mutu Internal
+                        @if($item['ami_valid'] >= 3)
+                            <i class="fa fa-check-circle text-success ml-2"></i>
+                            @else
+                            <i class="fas fa-times-circle text-danger ml-2"></i>
+                        @endif
+                    </h6>
+                </a>
+                <div class="collapse hide" id="collapseCardAmi">
+                    <div class="card-body">
+                    @if($item['ami_valid'] >= 3)
+                            <p>Dokumen audit mutu internal sudah valid</p>
+                    @else
+                        @if($item['ami_unggah'] < 3)
+                            <p>Dokumen yang perlu diunggah : {{3 - $item['ami_unggah']}} dokumen</p>
+                        @endif
+                        @if($item['ami_verif'] - $item['ami_valid'] > 0)
+                            <p>Dokumen perlu diperbaiki : {{$item['ami_verif'] - $item['ami_valid']}} dokumen</p>
+                        @endif
+                        @if($item['ami_unggah'] - $item['ami_verif']>0)
+                            <p>Dokumen perlu diperiksa oleh verifikator : {{$item['ami_unggah'] - $item['ami_verif']}} dokumen</p>
+                        @endif
+                    @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Header - Accordion -->
+            <div class="card shadow mb-4">
+                <a href="#collapseCardPengendalian" class="d-block card-header py-3" data-toggle="collapse"
+                    role="button" aria-expanded="true" aria-controls="collapseCardPengendalian">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Pengendalian
+                        @if($item['pengendalian_valid'] >= 10)
+                            <i class="fa fa-check-circle text-success ml-2"></i>
+                        @else
+                            <i class="fas fa-times-circle text-danger ml-2"></i>
+                        @endif
+                    </h6>
+                </a>
+
+                <div class="collapse hide" id="collapseCardPengendalian">
+                    <div class="card-body">
+                        @if($item['pengendalian_valid'] >= 10)
+                                <p>Dokumen audit mutu internal sudah valid</p>
+                        @else
+                            @if($item['pengendalian_unggah'] < 10)
+                                <p>Dokumen yang perlu diunggah : {{10 - $item['pengendalian_unggah']}} dokumen</p>
+                            @endif
+                            @if($item['pengendalian_verif'] - $item['pengendalian_valid'] > 0)
+                                <p>Dokumen perlu diperbaiki : {{$item['pengendalian_verif'] - $item['pengendalian_valid']}} dokumen</p>
+                            @endif
+                            @if($item['pengendalian_unggah'] - $item['pengendalian_verif']>0)
+                                <p>Dokumen perlu diperiksa oleh verifikator : {{$item['pengendalian_unggah'] - $item['pengendalian_verif']}} dokumen</p>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Header - Accordion -->
+            <div class="card shadow mb-4">
+                <a href="#collapseCardPeningkatan" class="d-block card-header py-3" data-toggle="collapse"
+                    role="button" aria-expanded="true" aria-controls="collapseCardPeningkatan">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Peningkatan
+                        @if($item['peningkatan_valid'] >= 6)
+                            <i class="fa fa-check-circle text-success ml-2"></i>
+                        @else
+                            <i class="fas fa-times-circle text-danger ml-2"></i>
+                        @endif
+                    </h6>
+                </a>
+
+                <div class="collapse hide" id="collapseCardPeningkatan">
+                    <div class="card-body">
+                        @if($item['peningkatan_valid'] >= 6)
+                                <p>Dokumen peningkatan sudah valid</p>
+                        @else
+                            @if($item['peningkatan_unggah'] < 6)
+                                <p>Dokumen yang perlu diunggah : {{6 - $item['peningkatan_unggah']}} dokumen</p>
+                            @endif
+                            @if($item['peningkatan_verif'] - $item['peningkatan_valid'] > 0)
+                                <p>Dokumen perlu diperbaiki : {{$item['peningkatan_verif'] - $item['peningkatan_valid']}} dokumen</p>
+                            @endif
+                            @if($item['peningkatan_unggah'] - $item['peningkatan_verif']>0)
+                                <p>Dokumen perlu diperiksa oleh verifikator : {{$item['peningkatan_unggah'] - $item['peningkatan_verif']}} dokumen</p>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
         </div>
 
-
+        </div>
         @endsection
 
         <!-- Scroll to Top Button -->
