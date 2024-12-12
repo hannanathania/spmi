@@ -30,8 +30,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="multiSelect">Pilih Item</label>
-                    <select id="multiSelect" class="selectpicker form-control" multiple data-live-search="true">
+                    <label for="multiSelect">Pilih Perguruan Tinggi</label>
+                    <select class="selectpicker form-control" multiple data-selected-text-format="count > 3" data-live-search="true">
                         @foreach ($pt as $item)
                             <option>{{$item['kodept']}} - {{$item['ptspmi']}}</option>
                         @endforeach
@@ -40,8 +40,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <br>
-                <p>Jumlah PT yang dipilih: <span id="selectedCount">0</span></p>
+
             </form>
         </div>
 
