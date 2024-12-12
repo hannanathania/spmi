@@ -33,16 +33,16 @@
                         <tr>
                             <th scope="col">Kode PT</th>    
                             <th scope="col">Nama PT</th>
-                            <th scope="col">Akreditasi</th>
+                            <th scope="col">Status Satuan pendidikan</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($data as $item)
-                        <tr>
-                            <td>{{ $item['npsn'] }}</td>
-                            <td>{{ $item['nm_lemb'] }}</td>
-                            <td>{{ $item['stat_sp'] }}</td>
-                        </tr>
+                    <tr>
+                        <td>{{ $item['npsn'] }}</td>
+                        <td><a href="https://direktori.lldikti4.id/perguruantinggi/viewdir/{{ $item['npsn'] }}" target="_blank">{{ $item['nm_lemb'] }}</a></td>
+                        <td>{{ $item['stat_sp'] }}</td>
+                    </tr>
                     @empty
                         <tr>
                             <td colspan="5" class="text-center">No user found</td>

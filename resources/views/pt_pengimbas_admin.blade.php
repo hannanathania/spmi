@@ -23,36 +23,27 @@
     @section('content')
     <div class="container-fluid">
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Verifikator SPMI</h6>
-        </div>
-          
-        <div class="card-body">
-            <a href="/admin/fasilitator_wilayah/create" class="btn btn-primary btn-user">+ Tambah Penugasan</a>
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Daftar PT Pengimbas SPMI</h6>
+            </div>
+            
+    <div class="card-body">
+        <a href="/admin/pt_pengimbas/create" class="btn btn-primary btn-user">+ Tambah Penugasan</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
                     <thead>
                         <tr>
                             <th scope="col">Kode PT</th>    
                             <th scope="col">Nama PT</th>
-                            <th scope="col">Nama Verifikator</th>
-                            <th scope="col">Aksi</th>
+                            <th scope="col">Nama PT Pengimbas</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($data as $item)
                         <tr>
-                            <td>{{ $item['kodept'] }}</td>
-                            <td>{{ $item['ptspmi'] }}</td>
-                            <td>{{ $item['nama_faswil'] }}</td>
-                            <td>
-                                <button class="btn btn-primary btn-user">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-                                <button class="btn btn-danger btn-user">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </td>
+                            <td>{{ $item['kode_pt'] }}</td>
+                            <td>{{ $item['pt'] }}</td>
+                            <td>Nama PT Pengimbas</td>
                         </tr>
                     @empty
                         <tr>

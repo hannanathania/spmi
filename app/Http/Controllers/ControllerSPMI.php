@@ -96,7 +96,13 @@ class ControllerSPMI extends Controller
             'data' => $items
         ]);       
     }
-    
+
+    public function admin_pt_pengimbas(){
+        $items = $this->calculate();
+        return view('pt_pengimbas_admin',[
+            'data' => $items
+        ]);       
+    }
     
     public function ambilData(){
         $spmi = ModelSPMI::where('tutup', '=', null)->get();

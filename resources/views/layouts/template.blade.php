@@ -86,29 +86,33 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item  {{request()->is('klinik_spmi') ? 'active' : '' }}">
-                <a class="nav-link collapsed" href="/klinik_spmi">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKlinik"
+                    aria-expanded="true" aria-controls="collapseKlinik">
                     <i class="fas fa-fw fa-hospital-alt"></i>
                     <span>Klinik SPMI</span>
-                </a>
+                </a>    
+                <div id="collapseKlinik" class="collapse {{ request()->is('klinik_spmi') || request()->is('visualisasi_spmi') || request()->is('detail/{pt}') ? 'show' : '' }}">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Klinik SPMI</h6>
+                        <a class="collapse-item {{ request()->is('klinik_spmi') ? 'active' : '' }}" href="/klinik_spmi">Data Klinik SPMI</a>
+                        <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/visualisasi_spmi">Visualisasi Klinik SPMI</a>
+                    </div>
+                </div>
             </li>
 
-
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item {{ request()->is('direktori_pts')}}">
-                <a class="nav-link collapsed" href="/direktori_pts">
+            <li class="nav-item  {{request()->is('direktori_pts') ? 'active' : '' }}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDirektori"
+                    aria-expanded="true" aria-controls="collapseDirektori">
                     <i class="fas fa-fw fa-folder-open"></i>
                     <span>Direktori PTS</span>
-                </a>
-            </li>
-
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item {{ request()->is('sebaran_pts')}}">
-                <a class="nav-link collapsed" href="/sebaran_pts">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <span>Sebaran PTS</span>
-                </a>
+                </a>    
+                <div id="collapseDirektori" class="collapse {{ request()->is('direktori_pts') || request()->is('sebaran_pts') || request()->is('detail/{pt}') ? 'show' : '' }}">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Klinik SPMI</h6>
+                        <a class="collapse-item {{ request()->is('direktori_pts') ? 'active' : '' }}" href="/direktori_pts">Data Perguruan Tinggi</a>
+                        <a class="collapse-item {{ request()->is('sebaran_pts') ? 'active' : '' }}" href="/sebaran_pts">Sebaran Perguruan Tinggi</a>
+                    </div>
+                </div>
             </li>
 
 
@@ -141,33 +145,32 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             @if(session('admin_username'))
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Selamat datang, <b>{{ session('admin_username') }}</b> !</span>
-                            </a>
-                            
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Selamat datang, <b>{{ session('admin_username') }}</b> !</span>
                                 </a>
-                                <div class="dropdown-divider"></div>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
+                                
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
 
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
+                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
                             @else
-                            <a class="nav-link d-flex align-items-center" href="/login" id="userDropdown">
-                                <img src="{{ asset('admin_assets/img/arrow-right-to-bracket-solid.svg') }}" class="me-2" height="20%">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Login</span>
-                            </a>
-
+                                <a class="nav-link d-flex align-items-center" href="/login" id="userDropdown">
+                                    <img src="{{ asset('admin_assets/img/arrow-right-to-bracket-solid.svg') }}" class="me-2" height="20%">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Login</span>
+                                </a>
                             @endif
                         </li>
                     </ul>
@@ -188,7 +191,7 @@
         </footer>
 
         <!-- Bootstrap core JavaScript-->
-        <script src="{{asset('admin_assets/vendor/jquery/jquery.min.js')}}"></script>
+        <!-- <script src="{{asset('admin_assets/vendor/jquery/jquery.min.js')}}"></script> -->
         <script src="{{asset('admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
         <!-- Core plugin JavaScript-->

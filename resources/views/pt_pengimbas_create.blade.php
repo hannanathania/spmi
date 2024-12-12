@@ -11,60 +11,77 @@
 
     <title>SPMI - LLDIKTI 4</title>
     <!-- CSS Dependencies -->
-    <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{{ asset('admin_assets/css/sb-admin-2.css') }}" rel="stylesheet">
-    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Select CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet">
 </head>
 
 <body>
     @extends('layouts.template')
     @section('content')
     <div class="container-fluid">
-    <div class="card shadow mb-4">
+        <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar PT Pengimbas SPMI</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan PT Pengimbas</h6>
             </div>
-            
             <div class="card-body">
-        <form action="#">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Nama PT Pengimbas</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>Institut Teknologi Nasional Bandung</option>
-                    <option>Universitas Katolik Parahyangan</option>
-                    <option>Universitas Kristen Maranatha</option>
-                    <option>Universitas Islam Bandung</option>
-                    <option>5</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <select class="selectpicker form-control" multiple data-live-search="true">
-                    <option>Mustard</option>
-                    <option>Ketchup</option>
-                    <option>Relish</option>
-                </select>
-            </div>
+                <form action="#" method="POST">
+                    <!-- Include CSRF Token -->
+                    @csrf
 
-            <a href="#" class="btn btn-primary btn-user">Submit</a>
-            
-        </form>
-    </div>
+                    <!-- Single Select with Live Search -->
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Nama PT Pengimbas</label>
+                        <select class="selectpicker form-control" id="exampleFormControlSelect1" data-live-search="true">
+                            @foreach ($data as $item)
+                                <option value="{{ $item['kode_pt'] }}">
+                                    {{ $item['kode_pt'] }} - {{ $item['pt'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Multi-Select with Live Search -->
+                    <div class="form-group">
+                        <label for="multiSelect">Nama PT Asuh</label>
+                        <select id="multiSelect" class="selectpicker form-control" multiple data-live-search="true">
+                            @foreach ($data as $item)
+                                <option value="{{ $item['kode_pt'] }}">
+                                    {{ $item['kode_pt'] }} - {{ $item['pt'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <br>
+                    <p>Jumlah PT yang dipilih: <span id="selectedCount">0</span></p>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script>let table = new DataTable('#myTable');</script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Select JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+
     <script>
-    $(document).ready(function () {
-        $('.selectpicker').selectpicker();
-    });
-</script>
+        $(document).ready(function () {
+            // Initialize Bootstrap Select
+            $('.selectpicker').selectpicker();
 
-       
-
+            // Update Selected Count for Multi-Select
+            $('#multiSelect').on('change', function () {
+                let selectedCount = $(this).val().length; // Count selected items
+                $('#selectedCount').text(selectedCount); // Update count display
+            });
+        });
+    </script>
 
     @endsection
 </body>
+
+</html>

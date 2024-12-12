@@ -43,12 +43,13 @@ class ControllerFaswil extends Controller {
     }
 
     public function klinik_spmi_create() {
-        $data_pt_faswil = ModelSPMI::join('akademik.faswil', 'akademik.faswil.kode_faswil', '=', 'akademik.ptspmi.kode_faswil')
-            ->select('akademik.ptspmi.kodept', 'akademik.ptspmi.ptspmi', 'akademik.ptspmi.kode_faswil', 'akademik.faswil.nama_faswil')
-            ->get();
+        $data_pt = ModelSPMI::all();
+        $data_faswil = ModelFaswil::all();
+
     
         return view('klinik_spmi_create', [
-            'data' => $data_pt_faswil
+            'pt' => $data_pt,
+            'faswil' => $data_faswil
         ]);
     }
 
@@ -62,6 +63,7 @@ class ControllerFaswil extends Controller {
         ]); // Tampilkan form tambah
     }
     // Form untuk menambahkan data (CREATE)
+
     public function create_faswil()
     {
         return view('faswil_create'); // Tampilkan form tambah

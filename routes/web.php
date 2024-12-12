@@ -25,9 +25,11 @@ Route::get('/fasilitator_wilayah', [ControllerFaswil::class, 'get_pt_faswil']);
 Route::get('/klinik_spmi', [ControllerFaswil::class, 'klinik_spmi']);
 Route::get('/klinik_spmi/tambah', [ControllerFaswil::class, 'klinik_spmi_create']);
 Route::get('/admin/fasilitator_wilayah', [ControllerFaswil::class, 'admin_get_pt_faswil']);
+Route::get('/admin/fasilitator_wilayah/create', [ControllerFaswil::class, 'create_pt_faswil']);
 Route::get('/detail/{pt}', [ControllerSPMI::class, 'show'])->name('detail');
 Route::get('/direktori_pts', [ControllerSPMI::class, 'show_pt']);
 Route::get('/pt_pengimbas', [ControllerSPMI::class, 'pt_pengimbas']);
-Route::get('/pt_pengimbas_create', [ControllerSPMI::class, 'pt_pengimbas_create']);
+Route::get('/admin/pt_pengimbas', [ControllerSPMI::class, 'admin_pt_pengimbas']);
+Route::get('/admin/pt_pengimbas/create', [ControllerSPMI::class, 'pt_pengimbas_create']);
 Route::get('/api_pt', [ControllerSPMI::class, 'get_api_pt']);
 

@@ -30,7 +30,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     @if(session('admin_username'))
-                        <a href="/klinik_spmi/tambah" class="btn btn-primary btn-user">+ Tambah Perguruan Tinggi</a>
+                        <a href="/klinik_spmi/tambah" class="btn btn-primary btn-user">+ Tambah Kegiatan Klink</a>
                     @endif
                     <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
                         <thead>

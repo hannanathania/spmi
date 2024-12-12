@@ -10,12 +10,13 @@
     <meta name="author" content="">
 
     <title>SPMI - LLDIKTI 4</title>
-    <!-- CSS Dependencies -->
-    <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{{ asset('admin_assets/css/sb-admin-2.css') }}" rel="stylesheet">
-    
-
+    <!-- Add in the <head> section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </head>
 
 <body>
@@ -28,10 +29,42 @@
             </div>
             
     <div class="card-body">
-        <form action="#">
+        <form>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Nama Perguruan Tinggi</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <label for="exampleFormControlSelect1">Nama Verifikator Wilayah</label>
+                <select class="form-control" id="exampleFormControlSelect1"  data-live-search="true">
+                    @foreach ($faswil as $item)
+                        <option>{{$item['nama_faswil']}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlSelect2">Nama Perguruan Tinggi</label>
+                <select class="form-control"  data-live-search="true">
+                    @foreach ($pt as $item)
+                        <option>{{$item['kodept']}} - {{$item['ptspmi']}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date" class="col-sm-5 col-form-label">Tanggal Klinik</label>
+                <div class="col-sm-4">
+                    <div class="input-group date" id="datepicker">
+                        <input type="text" class="form-control">
+                        <span class="input-group-append">
+                            <span class="input-group-text bg-white">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="multiSelect">Tahap</label>
+                <select class=" form-control">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -41,45 +74,30 @@
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Nama Verifikator Klinik</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Tahap</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Progress PT</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <label for="multiSelect">Progress PT</label>
+                <select class="form-control">
                     <option>Ada</option>
-                    <option>Belum Ada</option>
+                    <option>Tidak Ada</option>
                 </select>
+            </div>  
+
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Deskripsi Progress</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
 
-            <a href="#" class="btn btn-primary btn-user">Submit</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <br>
             
         </form>
     </div>
-    </div>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('#datepicker').datepicker();
+        });
+    </script>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script>let table = new DataTable('#myTable');</script>
 
     @endsection
 </body>
