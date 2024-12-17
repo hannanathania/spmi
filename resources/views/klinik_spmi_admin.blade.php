@@ -29,6 +29,9 @@
                     
             <div class="card-body">
                 <div class="table-responsive">
+                    @if(session('admin_username'))
+                        <a href="/admin/klinik_spmi/create" class="btn btn-primary btn-user">+ Tambah Kegiatan Klink</a>
+                    @endif
                     <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
                         <thead>
                             <tr>  
@@ -37,16 +40,28 @@
                                 <th scope="col">Tahap</th>
                                 <th scope="col">Tanggal Klinik</th>
                                 <th scope="col">Progress PT</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                         @forelse ($data as $item)
                             <tr>
-                            <td>{{ $item['kode_faswil'] }}</td>
+                                <td>{{ $item['nama_pt'] }}</td>
                                 <td>{{ $item['nama_faswil'] }}</td>
                                 <td>{{ $item['tahap'] }}</td>
                                 <td>{{ $item['tanggal_klinik'] }}</td>
                                 <td>{{ $item['progress'] }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-secondary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>

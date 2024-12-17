@@ -28,31 +28,31 @@
             </div>
             
     <div class="card-body">
-                <div class="table-responsive">
-                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
-                    <thead>
-                        <tr>
-                            <th scope="col">Kode PT</th>    
-                            <th scope="col">Nama PT</th>
-                            <th scope="col">Nama PT Pengimbas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @forelse ($data as $item)
-                        <tr>
-                            <td>{{ $item['kode_pt'] }}</td>
-                            <td>{{ $item['pt'] }}</td>
-                            <td>Nama PT Pengimbas</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">No user found</td>
-                        </tr>
-                    @endforelse 
-                    </tbody>
-                </table>
+            <a href="/admin/pt_pengimbas/create" class="btn btn-primary btn-user">+ Tambah Penugasan</a>
+            <div class="table-responsive">
+            <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
+                <thead>
+                    <tr>
+                        <th scope="col">Kode PT</th>    
+                        <th scope="col">Nama PT</th>
+                        <th scope="col">Nama PT Pengimbas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @forelse ($data as $item)
+                    <tr>
+                        <td>{{ $item['kode_pt'] }}</td>
+                        <td>{{ $item['pt'] }}</td>
+                        <td>Nama PT Pengimbas</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">No user found</td>
+                    </tr>
+                @endforelse 
+                </tbody>
+            </table>
             </div>
-        </div>
     </div>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />

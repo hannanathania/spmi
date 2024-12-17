@@ -32,26 +32,6 @@ class ControllerFaswil extends Controller {
             'data' => $data_pt_faswil
         ]);
     }
-    public function klinik_spmi() {
-        $data_pt_faswil = ModelSPMI::join('akademik.faswil', 'akademik.faswil.kode_faswil', '=', 'akademik.ptspmi.kode_faswil')
-            ->select('akademik.ptspmi.kodept', 'akademik.ptspmi.ptspmi', 'akademik.ptspmi.kode_faswil', 'akademik.faswil.nama_faswil')
-            ->get();
-    
-        return view('klinik_spmi', [
-            'data' => $data_pt_faswil
-        ]);
-    }
-
-    public function klinik_spmi_create() {
-        $data_pt = ModelSPMI::all();
-        $data_faswil = ModelFaswil::all();
-
-    
-        return view('klinik_spmi_create', [
-            'pt' => $data_pt,
-            'faswil' => $data_faswil
-        ]);
-    }
 
     public function create_pt_faswil()
     {

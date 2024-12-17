@@ -94,7 +94,11 @@
                 <div id="collapseKlinik" class="collapse {{ request()->is('klinik_spmi') || request()->is('visualisasi_spmi') || request()->is('detail/{pt}') ? 'show' : '' }}">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Klinik SPMI</h6>
+                        @if(session('admin_username'))
+                        <a class="collapse-item {{ request()->is('klinik_spmi') ? 'active' : '' }}" href="/admin/klinik_spmi">Data Klinik SPMI</a>
+                        @else
                         <a class="collapse-item {{ request()->is('klinik_spmi') ? 'active' : '' }}" href="/klinik_spmi">Data Klinik SPMI</a>
+                        @endif
                         <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/visualisasi_spmi">Visualisasi Klinik SPMI</a>
                     </div>
                 </div>
@@ -108,7 +112,7 @@
                 </a>    
                 <div id="collapseDirektori" class="collapse {{ request()->is('direktori_pts') || request()->is('sebaran_pts') || request()->is('detail/{pt}') ? 'show' : '' }}">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Klinik SPMI</h6>
+                        <h6 class="collapse-header">Direktori SPMI</h6>
                         <a class="collapse-item {{ request()->is('direktori_pts') ? 'active' : '' }}" href="/direktori_pts">Data Perguruan Tinggi</a>
                         <a class="collapse-item {{ request()->is('sebaran_pts') ? 'active' : '' }}" href="/sebaran_pts">Sebaran Perguruan Tinggi</a>
                     </div>

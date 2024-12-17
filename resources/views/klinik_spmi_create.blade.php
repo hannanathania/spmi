@@ -18,10 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
-    <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
 </head>
 
 <body>
@@ -34,21 +33,23 @@
             </div>
             
     <div class="card-body">
-        <form>
+        
+        <form action="{{ route('klinik.store') }}" class="user" method="POST">
+        @csrf
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Nama Verifikator Wilayah</label>
-                <select class="selectpicker form-control" data-live-search="true">
+                <select class="selectpicker form-control" name="kode_faswil" data-live-search="true">
                     @foreach ($faswil as $item)
-                        <option>{{$item['nama_faswil']}}</option>
+                        <option value="{{$item['kode_faswil']}}">{{$item['nama_faswil']}}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlSelect2">Nama Perguruan Tinggi</label>
-                <select class="selectpicker form-control" data-live-search="true">
+                <select class="selectpicker form-control" name="kodept" data-live-search="true">
                     @foreach ($pt as $item)
-                        <option>{{$item['kodept']}} - {{$item['ptspmi']}}</option>
+                        <option value="{{$item['kodept']}}">{{$item['kodept']}} - {{$item['ptspmi']}}</option>
                     @endforeach
                 </select>
             </div>
@@ -56,18 +57,18 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="multiSelect">Tahap</label>
-                    <select class="selectpicker form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="selectpicker form-control" name="tahap">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="date">Tanggal Klinik</label>
                     <div class="input-group date" id="datepicker">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="tanggal_klinik">
                         <span class="input-group-append">
                             <span class="input-group-text bg-white">
                                 <i class="fa fa-calendar"></i>
@@ -78,9 +79,9 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group Scol-md-6">
+                <div class="form-group col-md-6">
                     <label for="multiSelect">Progress PT</label>
-                    <select class="selectpicker form-control">
+                    <select class="selectpicker form-control" name="progress">
                         <option>Ada</option>
                         <option>Tidak Ada</option>
                     </select>
@@ -89,7 +90,7 @@
                 <div class="form-group col-md-6">
                     <label for="date">Tanggal Pelaporan Dokumen</label>
                     <div class="input-group date" id="datepicker2">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="tanggal_unggah_doc">
                         <span class="input-group-append">
                             <span class="input-group-text bg-white">
                                 <i class="fa fa-calendar"></i>
@@ -101,17 +102,17 @@
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Deskripsi Progress</label>
-                <textarea class=" form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" type="text" id="exampleFormControlTextarea1" rows="3" name="deskripsi_progress"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Hasil Evaluasi Faswil</label>
-                <textarea class=" form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="hasil_evaluasi"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Deskripsi Evaluasi</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="deskripsi_evaluasi"></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -123,7 +124,7 @@
     <script type="text/javascript">
         $(function() {
             $('.selectpicker').selectpicker();
-        });
+        }); 
         $(function() {
             $('#datepicker').datepicker();
         });

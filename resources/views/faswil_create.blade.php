@@ -21,22 +21,22 @@
         </div>
         <div class="card-body">
             <form>
+                @csrf
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Nama Verifikator Wilayah</label>
-                    <select class="selectpicker form-control" id="exampleFormControlSelect1" data-live-search="true">
+                    <select class="selectpicker form-control" id="nama_faswil" data-live-search="true">
                         @foreach ($faswil as $item)
                             <option>{{$item['nama_faswil']}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="multiSelect">Pilih Perguruan Tinggi</label>
-                    <select class="selectpicker form-control" multiple data-selected-text-format="count > 3" data-live-search="true">
+                    <label for="multiSelect ">Pilih Perguruan Tinggi</label>
+                    <select class="selectpicker form-control" id="nama_pt" multiple data-selected-text-format="count > 3" data-live-search="true">
                         @foreach ($pt as $item)
-                            <option>{{$item['kodept']}} - {{$item['ptspmi']}}</option>
+                            <option>{{$item['ptspmi']}}</option>
                         @endforeach
                     </select>
-                    
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>

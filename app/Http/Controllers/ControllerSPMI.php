@@ -87,7 +87,7 @@ class ControllerSPMI extends Controller
         $items = $this->calculate();
         return view('pt_pengimbas_create',[
             'data' => $items
-        ]);       
+        ]);           
     }
 
     public function pt_pengimbas(){

@@ -41,21 +41,28 @@
                         </select>
                     </div>
 
-                    <!-- Multi-Select with Live Search -->
+                    <br>
+                    <button type="button" class="btn btn-primary" name="add" id="add" style="margin-bottom: 10px;">
+                        + Tambah PT Asuh
+                    </button>
+
+
+                    <table class="table table-bordered" id="table">
+                        <tr>
+                            <th>Nama PT Asuh </th>
+                            <th>Aksi</th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </table>
                     <div class="form-group">
-                        <label for="multiSelect">Nama PT Asuh</label>
-                        <select id="multiSelect" class="selectpicker form-control" multiple data-live-search="true">
-                            @foreach ($data as $item)
-                                <option value="{{ $item['kode_pt'] }}">
-                                    {{ $item['kode_pt'] }} - {{ $item['pt'] }}
-                                </option>
-                            @endforeach
-                        </select>
+                        
+
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <br>
-                    <p>Jumlah PT yang dipilih: <span id="selectedCount">0</span></p>
+                    
                 </form>
             </div>
         </div>
@@ -69,17 +76,73 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // Initialize Bootstrap Select
-            $('.selectpicker').selectpicker();
+        let ptData; // Declare ptData in a higher scope so it's accessible everywhere
 
-            // Update Selected Count for Multi-Select
-            $('#multiSelect').on('change', function () {
-                let selectedCount = $(this).val().length; // Count selected items
-                $('#selectedCount').text(selectedCount); // Update count display
+        // Fetch data from the server
+        fetch('/total_baris')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                ptData = data; // Store the fetched data into ptData
+                console.log(ptData);  // Log ptData to check if it's correctly populated
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
             });
+
+        // Event listener for the "Tambah PT Asuh" button
+        // document.getElementById("add").addEventListener("click", function (e) {
+        //     e.preventDefault(); // Prevent form submission
+        //     if (ptData) {
+        //         console.log(ptData); // Now ptData can be accessed
+        //     } else {
+        //         console.log("ptData is not yet loaded");
+        //     }
+        //     alert("Tambah PT Asuh diklik!");
+        //     // Perform further actions here if necessary
+        // });
+
+        var i = 0;
+        $('#add').click(function() {
+        ++i;
+        let options = '';
+        
+        // Loop through ptData to create the <option> elements dynamically
+        ptData.forEach(function(item) {
+            options += `<option value="${item.kode_pt}">${item.kode_pt} - ${item.pt}</option>`;
         });
+
+        $('#table').append(
+            `<tr>
+                <td>
+                    <select id="multiSelect${i}" name="inputs[${i}]['kode_pt']" class="selectpicker form-control" data-live-search="true">
+                        ${options}
+                    </select>
+                </td>
+                <td>
+                    <a href="#" type="button" class="btn btn-danger remove-table-row">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>`
+        );
+
+        $(document).on('click', '.remove-table-row', function(){
+            $(this).parents('tr').remove();
+        });
+        
+        // Reinitialize the selectpicker for the new select element
+        $('.selectpicker').selectpicker();
+
+    });
+
+
     </script>
+
 
     @endsection
 </body>

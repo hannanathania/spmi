@@ -244,6 +244,7 @@ select,
 optgroup,
 textarea {
   margin: 0;
+  color: #000;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -1825,6 +1826,9 @@ pre code {
   border: 0;
 }
 
+.search_select_box{
+max-width: 400px;
+}
 .form-control {
   display: block;
   width: 100%;
@@ -1833,7 +1837,7 @@ pre code {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #6e707e;
+  color: #4f4b49;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #d1d3e2;
@@ -1858,7 +1862,7 @@ pre code {
 }
 
 .form-control:focus {
-  color: #6e707e;
+  color: #4f4b49;
   background-color: #fff;
   border-color: #bac8f3;
   outline: 0;
@@ -1893,6 +1897,76 @@ pre code {
 .form-control:disabled, .form-control[readonly] {
   background-color: #eaecf4;
   opacity: 1;
+}
+
+/* General styles for the datepicker container */
+.input-group.date {
+  border: 0px solid #ddd;
+  border-radius: 5px;
+
+}
+
+/* Input field styling */
+.input-group.date .form-control {
+  flex: 1;
+  border: none;
+  outline: none;
+  /* padding: 10px; */
+  font-size: 14px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #f8f9fd;
+  color: #333;
+}
+
+.input-group.date .form-control:focus {
+  border-color: #007bff;
+  box-shadow: inset 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Append button styles */
+.input-group.date .input-group-append {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.input-group.date .input-group-text {
+  border: none;
+  border-left: 1px solid #f8f9fd;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #f8f9fd;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Icon styles */
+.input-group.date .fa-calendar {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Hover effect */
+.input-group.date .input-group-text:hover {
+  background-color: #007bff;
+  color: #f8f9fd;
+}
+
+/* Responsive design */
+@media (max-width: 576px) {
+  .input-group.date {
+      max-width: 100%;
+  }
+
+  .input-group.date .form-control {
+      font-size: 12px;
+  }
+
+  .input-group.date .input-group-text {
+      font-size: 12px;
+  }
 }
 
 input[type="date"].form-control,
