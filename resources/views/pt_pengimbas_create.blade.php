@@ -25,7 +25,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan PT Pengimbas</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('pt_pengimbas.store') }}" method="POST" onsubmit="console.log(new FormData(this))">
+                <form action="{{ route('pt_pengimbas.store') }}" method="POST">
                     <!-- Include CSRF Token -->
                     @csrf
 

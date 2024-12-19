@@ -42,16 +42,19 @@
                     <tbody>
                     @forelse ($data as $item)
                         <tr>
-                            <td>{{ $item['kodept'] }}</td>
-                            <td>{{ $item['ptspmi'] }}</td>
-                            <td>{{ $item['nama_faswil'] }}</td>
+                            <td>{{ $item->pt->kodept }}</td>
+                            <td>{{ $item->pt->ptspmi }}</td>
+                            <td>{{ $item->faswil->nama_faswil}}</td>
                             <td>
-                                <button class="btn btn-primary btn-user">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-                                <button class="btn btn-danger btn-user">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-secondary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                             </td>
                         </tr>
                     @empty

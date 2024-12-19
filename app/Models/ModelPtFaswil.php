@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class ModelPtFaswil extends Model
 {
     //
-    protected $table ='akademik.faswil';
+    protected $table ='akademik.pt_faswil';
     public $timestamps = false;
-    protected $primaryKey = 'kode_faswil';
+    protected $primaryKey = 'kode';
     protected $fillable = [
         'kode_faswil',
-        'kode_pt',
+        'kodept',
     ];
 
     public function faswil()

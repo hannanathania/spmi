@@ -32,13 +32,12 @@ class ControllerPtPengimbas_Asuh extends Controller
             'pt_asuh' => $data['pt_asuh']
         ]);
     }
-    
     public function store(Request $request)
     {
-        foreach ($request->kodept as $pt) {
+        foreach ($request->kode_pt_asuh as $pt) {
             ModelPtPengimbas_Asuh::create([
-                'kode_faswil' => $request->kode_faswil,
-                'kodept' => $pt,
+                'kode_pt_peng' => $request->kode_pt_pengimbas,
+                'kode_pt_asuh' => $pt,
             ]);
         }
         Log::info('Request Data:', $request->all());

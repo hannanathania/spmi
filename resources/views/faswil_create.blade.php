@@ -25,14 +25,13 @@
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan PT Pengimbas</h6>
             </div>
             <div class="card-body">
-                <form action="#" method="POST">
+                <form action="{{ route('ptfaswil.store') }}" method="POST">
                     <!-- Include CSRF Token -->
                     @csrf
-
                     <!-- Single Select with Live Search -->
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Nama Verifikator</label>
-                        <select class="selectpicker form-control" id="exampleFormControlSelect1" data-live-search="true">
+                        <select class="selectpicker form-control" id="exampleFormControlSelect1" name="kode_faswil" data-live-search="true">
                             @foreach ($faswil as $item)
                                 <option value="{{ $item['kode_faswil'] }}">
                                     {{ $item['nama_faswil'] }}
@@ -54,8 +53,7 @@
 
                         </tr>
                     </table>
-                    <div class="form-group">
-                        
+                    <div class="form-group">    
 
                     </div>
 
@@ -92,18 +90,6 @@
                 console.error('There was a problem with the fetch operation:', error);
             });
 
-        // Event listener for the "Tambah PT Asuh" button
-        // document.getElementById("add").addEventListener("click", function (e) {
-        //     e.preventDefault(); // Prevent form submission
-        //     if (ptData) {
-        //         console.log(ptData); // Now ptData can be accessed
-        //     } else {
-        //         console.log("ptData is not yet loaded");
-        //     }
-        //     alert("Tambah PT Asuh diklik!");
-        //     // Perform further actions here if necessary
-        // });
-
         var i = 0;
         $('#add').click(function() {
         ++i;
@@ -117,7 +103,7 @@
         $('#table').append(
             `<tr>
                 <td>
-                    <select id="multiSelect${i}" name="inputs[${i}]['kode_pt']" class="selectpicker form-control" data-live-search="true">
+                    <select id="multiSelect${i}" name="kodept[]" class="selectpicker form-control" data-live-search="true">
                         ${options}
                     </select>
                 </td>
