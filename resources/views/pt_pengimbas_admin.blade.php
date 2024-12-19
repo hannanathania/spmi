@@ -30,28 +30,27 @@
     <div class="card-body">
         <a href="/admin/pt_pengimbas/create" class="btn btn-primary btn-user">+ Tambah Penugasan</a>
             <div class="table-responsive">
-                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
-                    <thead>
-                        <tr>
-                            <th scope="col">Kode PT</th>    
-                            <th scope="col">Nama PT</th>
-                            <th scope="col">Nama PT Pengimbas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @forelse ($data as $item)
-                        <tr>
-                            <td>{{ $item['kode_pt'] }}</td>
-                            <td>{{ $item['pt'] }}</td>
-                            <td>Nama PT Pengimbas</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">No user found</td>
-                        </tr>
-                    @endforelse 
-                    </tbody>
-                </table>
+            <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
+            <thead>
+                <tr>
+                    <th>Kode PT Asuh</th>
+                    <th>Nama PT Asuh</th>
+                    <th>Kode PT Pengimbas</th>
+                    <th>Nama PT Pengimbas</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $item)
+                <tr>
+                    <td>{{ $item->asuh->kodept ?? 'Tidak Ada'  }}</td>
+                    <td>{{ $item->asuh->ptspmi ?? 'Tidak Ada' }}</td>
+                    <td>{{ $item->pengimbas->kodept ?? 'Tidak Ada'}}</td>
+                    <td>{{ $item->pengimbas->ptspmi ?? 'Tidak Ada' }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+            </table>
             </div>
         </div>
     </div>

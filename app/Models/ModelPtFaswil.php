@@ -14,8 +14,18 @@ class ModelPtFaswil extends Model
     protected $primaryKey = 'kode_faswil';
     protected $fillable = [
         'kode_faswil',
-        'nama_faswil',
         'kode_pt',
-        'nik',
     ];
+
+    public function faswil()
+    {
+        return $this->belongsTo(ModelFaswil::class, 'kode_faswil', 'kode_faswil');
+    }
+
+    public function pt()
+    {
+        return $this->belongsTo(ModelSPMI::class, 'kodept', 'kodept');
+    }
+
+
 }

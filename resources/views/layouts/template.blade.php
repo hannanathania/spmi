@@ -76,11 +76,18 @@
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item {{ request()->is('pt_pengimbas')? 'active' : ''}}">
+            <li class="nav-item {{ request()->is('pt_pengimbas') || request()->is('admin/pt_pengimbas') ? 'active' : ''}}">
+                @if(session('admin_username'))
+                <a class="nav-link collapsed" href="admin/pt_pengimbas">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>PT Pengimbas</span>
+                </a>
+                @else
                 <a class="nav-link collapsed" href="/pt_pengimbas">
                     <i class="fas fa-fw fa-building"></i>
                     <span>PT Pengimbas</span>
                 </a>
+                @endif
             </li>
 
 

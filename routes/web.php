@@ -4,9 +4,10 @@ use App\Models\ModelLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\ControllerKlinik;
-use App\Http\Controllers\ControllerFaswil;
+use App\Http\Controllers\ControllerPtFaswil;
 use App\Http\Controllers\ControllerAdmin;
 use App\Http\Controllers\ControllerSPMI;
+use App\Http\Controllers\ControllerPtPengimbas_Asuh;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/create', [ControllerAdmin::class, 'create'])->name('admin.create');
@@ -29,20 +30,23 @@ Route::get('/contoh_tabel', [ControllerSPMI::class, 'contoh']);
 
 Route::get('/klinik_spmi', [ControllerKlinik::class, 'klinik_spmi'])->name('klinik');
 Route::get('/admin/klinik_spmi', [ControllerKlinik::class, 'admin_klinik_spmi']);
-Route::get('/admin/klinik_spmi/create', [ControllerKlinik::class, 'klinik_spmi_create']);
+Route::get('/admin/klinik_spmi/edit', [ControllerKlinik::class, 'edit']);
+Route::get('/admin/klinik_spmi/create', [ControllerKlinik::class, 'create']);
 Route::post('/klinik_spmi', [ControllerKlinik::class, 'store'])->name('klinik.store');
 
 
-Route::get('/fasilitator_wilayah', [ControllerFaswil::class, 'get_pt_faswil']);
-Route::get('/admin/fasilitator_wilayah', [ControllerFaswil::class, 'admin_get_pt_faswil']);
-Route::get('/admin/fasilitator_wilayah/create', [ControllerFaswil::class, 'create_pt_faswil']);
+Route::get('/fasilitator_wilayah', [ControllerPtFaswil::class, 'get_pt_faswil']);
+Route::get('/admin/fasilitator_wilayah', [ControllerPtFaswil::class, 'admin_get_pt_faswil']);
+Route::get('/admin/fasilitator_wilayah/create', [ControllerPtFaswil::class, 'create_pt_faswil']);
 
 Route::get('/detail/{pt}', [ControllerSPMI::class, 'show'])->name('detail');
 Route::get('/direktori_pts', [ControllerSPMI::class, 'show_pt']);
 
-Route::get('/pt_pengimbas', [ControllerSPMI::class, 'pt_pengimbas']);
-Route::get('/admin/pt_pengimbas', [ControllerSPMI::class, 'admin_pt_pengimbas']);
-Route::get('/admin/pt_pengimbas/create', [ControllerSPMI::class, 'pt_pengimbas_create']);
+Route::get('/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'pt_pengimbas'])->name('pt_pengimbas');
+Route::get('data/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'getPtPengimbas']);
+Route::get('/admin/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'admin_pt_pengimbas']);
+Route::get('/admin/pt_pengimbas/create', [ControllerPtPengimbas_Asuh::class, 'create']);
+Route::post('/admin/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'store'])->name('pt_pengimbas.store');
 
 Route::get('/api_pt', [ControllerSPMI::class, 'get_api_pt']);
 

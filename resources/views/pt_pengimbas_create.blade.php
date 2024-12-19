@@ -25,31 +25,30 @@
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan PT Pengimbas</h6>
             </div>
             <div class="card-body">
-                <form action="#" method="POST">
+                <form action="{{ route('pt_pengimbas.store') }}" method="POST" onsubmit="console.log(new FormData(this))">
                     <!-- Include CSRF Token -->
                     @csrf
 
                     <!-- Single Select with Live Search -->
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Nama PT Pengimbas</label>
-                        <select class="selectpicker form-control" id="exampleFormControlSelect1" data-live-search="true">
-                            @foreach ($data as $item)
-                                <option value="{{ $item['kode_pt'] }}">
-                                    {{ $item['kode_pt'] }} - {{ $item['pt'] }}
+                        <select class="selectpicker form-control" id="exampleFormControlSelect1" name="kode_pt_pengimbas" data-live-search="true">
+                            @foreach ($pt_pengimbas as $item)
+                                <option value="{{ $item['kodept'] }}">
+                                    {{ $item['kodept'] }} - {{ $item['ptspmi'] }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-                    <br>
-                    <button type="button" class="btn btn-primary" name="add" id="add" style="margin-bottom: 10px;">
-                        + Tambah PT Asuh
-                    </button>
+                    <a type="button" class="link" name="add" id="add" style="margin-bottom: 10px; display: block; text-align: right;">
+                        + Tambah Perguruan Tinggi
+                    </a>
 
 
                     <table class="table table-bordered" id="table">
                         <tr>
-                            <th>Nama PT Asuh </th>
+                            <th>Nama PT Asuh</th>
                             <th>Aksi</th>
                         </tr>
                         <tr>
@@ -57,8 +56,6 @@
                         </tr>
                     </table>
                     <div class="form-group">
-                        
-
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -77,9 +74,8 @@
 
     <script>
         let ptData; // Declare ptData in a higher scope so it's accessible everywhere
-
         // Fetch data from the server
-        fetch('/total_baris')
+        fetch('/data/pt_pengimbas')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -87,7 +83,7 @@
                 return response.json();
             })
             .then(data => {
-                ptData = data; // Store the fetched data into ptData
+                ptData = data.pt_asuh; // Store the fetched data into ptData
                 console.log(ptData);  // Log ptData to check if it's correctly populated
             })
             .catch(error => {
@@ -95,16 +91,16 @@
             });
 
         // Event listener for the "Tambah PT Asuh" button
-        // document.getElementById("add").addEventListener("click", function (e) {
-        //     e.preventDefault(); // Prevent form submission
-        //     if (ptData) {
-        //         console.log(ptData); // Now ptData can be accessed
-        //     } else {
-        //         console.log("ptData is not yet loaded");
-        //     }
-        //     alert("Tambah PT Asuh diklik!");
-        //     // Perform further actions here if necessary
-        // });
+        document.getElementById("add").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent form submission
+            if (ptData) {
+                console.log(ptData); // Now ptData can be accessed
+            } else {
+                console.log("ptData is not yet loaded");
+            }
+            alert("Tambah PT Asuh diklik!");
+            // Perform further actions here if necessary
+        });
 
         var i = 0;
         $('#add').click(function() {
@@ -113,13 +109,13 @@
         
         // Loop through ptData to create the <option> elements dynamically
         ptData.forEach(function(item) {
-            options += `<option value="${item.kode_pt}">${item.kode_pt} - ${item.pt}</option>`;
+            options += `<option value="${item.kodept}">${item.kodept} - ${item.ptspmi}</option>`;
         });
 
         $('#table').append(
             `<tr>
                 <td>
-                    <select id="multiSelect${i}" name="inputs[${i}]['kode_pt']" class="selectpicker form-control" data-live-search="true">
+                    <select id="multiSelect${i}" name="kode_pt_asuh[]" class="selectpicker form-control" data-live-search="true">
                         ${options}
                     </select>
                 </td>
@@ -129,7 +125,17 @@
                     </a>
                 </td>
             </tr>`
+
         );
+
+        $('select[name^="kode_pt_asuh"]').each(function () {
+                console.log($(this).val()); // Ambil dan cetak nilai
+            });
+
+        // Jika ingin trigger saat nilai berubah
+        $('select[name^="kode_pt_asuh"]').on('change', function () {
+            console.log($(this).val());
+        });
 
         $(document).on('click', '.remove-table-row', function(){
             $(this).parents('tr').remove();

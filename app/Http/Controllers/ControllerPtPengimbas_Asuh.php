@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\ModelSPMI;
+use App\Models\ModelPtPengimbas_Asuh;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\DB;
+
+class ControllerPtPengimbas_Asuh extends Controller
+{
+    public function getPtPengimbas() {
+        $pt_pengimbas = ModelSPMI::whereIn('kodept', ['042002', '041027', '041007', '041002', '041006', '041034', '041008', '041057', '041004', '041041'])
+                        ->select('kodept', 'ptspmi')
+                        ->get()
+                        ->toArray();
+        //unikom, itenas, unisba, marnat, unpar, widyatama, unpas, tel-u, pakuan, presiden
+        $pt_asuh = ModelSPMI::whereNotIn('kodept', ['042002', '041027', '041007', '041002', '041006', '041034', '041008', '041057', '041004', '041041'])
+                        ->select('kodept', 'ptspmi')
+                        ->get()
+                        ->toArray();
+        return [
+            'pt_pengimbas'=>$pt_pengimbas, 
+            'pt_asuh'=> $pt_asuh
+        ];
+    }
+
+    public function create() {
+        $data = $this->getPtPengimbas();
+        return view ('pt_pengimbas_create', [
+            'pt_pengimbas' => $data['pt_pengimbas'],
+            'pt_asuh' => $data['pt_asuh']
+        ]);
+    }
+    
+    public function store(Request $request)
+    {
+        foreach ($request->kodept as $pt) {
+            ModelPtPengimbas_Asuh::create([
+                'kode_faswil' => $request->kode_faswil,
+                'kodept' => $pt,
+            ]);
+        }
+        Log::info('Request Data:', $request->all());
+        return redirect()->route('pt_pengimbas')->with('success', 'Data berhasil disimpan!');
+    }
+
+    public function pt_pengimbas(){
+        $data = ModelPtPengimbas_Asuh::with(['pengimbas', 'asuh'])->get();
+
+        return view('pt_pengimbas', compact('data'));
+    }
+
+    public function admin_pt_pengimbas(){
+        $data = ModelPtPengimbas_Asuh::with(['pengimbas', 'asuh'])->get();
+
+        return view('pt_pengimbas_admin', compact('data'));
+    }
+    
+}

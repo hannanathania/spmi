@@ -24,7 +24,7 @@ class ControllerKlinik extends Controller
         return $data;
     }
 
-    public function klinik_spmi_create() {
+    public function create() {
         $data_pt = ModelSPMI::all();
         $data_faswil = ModelFaswil::all();
     
@@ -33,6 +33,7 @@ class ControllerKlinik extends Controller
             'faswil' => $data_faswil
         ]);
     }
+
     public function store(Request $request)
     {
         // Validasi data (opsional tapi sangat disarankan)
@@ -55,11 +56,37 @@ class ControllerKlinik extends Controller
         return redirect()->route('klinik')->with('success', 'Data berhasil disimpan!');
     }
 
-    public function edit(){
-        
+    public function edit($kode)
+    {
+        // Retrieve the existing record from the database by its ID
+        $data = ModelKlinik::findOrFail($kode);
+    
+        // Return the view with the existing data to pre-fill the form
+        return view('klinik_spmi_edit', compact('data'));
     }
+    
+    public function update(Request $request, $kode)
+    {
+        // Validate the incoming data (same as in the store method)
+        $validated = $request->validate([
+            'kode_faswil' => 'required|string',
+            'kodept' => 'required|string',
+            'tahap' => 'required|integer',
+            'tanggal_klinik' => 'required|date',
+            'progress' => 'required|string',
+            'tanggal_unggah_doc' => 'nullable|date',
+            'deskripsi_progress' => 'nullable|string',
+            'hasil_evaluasi' => 'nullable|string',
+            'deskripsi_evaluasi' => 'nullable|string',
+        ]);
+        
+        // Find the existing record and update it
+        $klinik = ModelKlinik::findOrFail($kode);
+        $klinik->update($validated);
 
-
+        // Redirect or return response
+        return redirect()->route('klinik')->with('success', 'Data berhasil diperbarui!');
+    }
 
     public function klinik_spmi() {
         $data = $this->data_klinik_spmi();
