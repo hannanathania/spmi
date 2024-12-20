@@ -23,4 +23,5 @@ class ModelPtPengimbas_Asuh extends Model
     {
         return $this->belongsTo(ModelPtAsuh::class, 'kode_pt_asuh', 'kodept');
     }
+
 }

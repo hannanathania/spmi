@@ -14,7 +14,7 @@
     <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{ asset('admin_assets/css/sb-admin-2.css') }}" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -22,40 +22,54 @@
     @extends('layouts.template')
     @section('content')
     <div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Verifikator SPMI</h1>
     <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar Verifikator SPMI</h6>
-            </div>
-            
-    <div class="card-body">
-                <div class="table-responsive">
-                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
-                    <thead>
-                        <tr>
-                            <th scope="col">Kode PT</th>    
-                            <th scope="col">Nama PT</th>
-                            <th scope="col">Nama Verifikator</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @forelse ($data as $item)
-                        <tr>
-                            <td>{{ $item['kodept'] }}</td>
-                            <td>{{ $item['ptspmi'] }}</td>
-                            <td>{{ $item['nama_faswil'] }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">No user found</td>
-                        </tr>
-                    @endforelse 
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Sebaran Verifikator</h6>
+    </div>
+    <div class="chart-bar pt-4">
+        <canvas id="myBarChart"></canvas>
+    </div>
     </div>
 
+    <div class="card shadow mb-4">
+    
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Verifikator SPMI</h6>
+    </div>
+  
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nama Faswil</th>
+                        <th>Nama PT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($groupedData as $kode_faswil => $items)
+                        <tr>
+                            <!-- Menampilkan nama_faswil -->
+                            <td>{{ $items['nama_faswil'] }}</td>
+                            
+                            <td>
+                                @foreach ($items['pt'] as $pt)
+                                    <li>{{ $pt['nama_pt'] }}</li> <!-- Menampilkan nama PT dan kodept per faswil -->
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{asset('admin_assets/js/demo/chart-bar-demo.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>let table = new DataTable('#myTable');</script>

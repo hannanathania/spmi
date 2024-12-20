@@ -7,19 +7,43 @@ use App\Models\ModelPtFaswil;
 use Illuminate\Support\Facades\Log; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ControllerPtFaswil extends Controller
 {
     public function pt_faswil(){
-        $data = ModelPtFaswil::with(['faswil', 'pt'])->get();
+        $groupedData = $this->get_pt_faswil();
+        return view('faswil', compact('groupedData'));
+    }
 
-        return view('faswil', compact('data'));
+    public function get_pt_faswil(){
+        $data_faswil = ModelFaswil::pluck('nama_faswil', 'kode_faswil')->toArray();
+        $data_pt = ModelPtFaswil::whereIn('kode_faswil', array_keys($data_faswil))->with('pt')->get();
+        
+        $groupedData = [];
+        
+        foreach ($data_pt as $item) {
+            // Memastikan bahwa kode_faswil sudah ada dalam $groupedData
+            if (!isset($groupedData[$item->kode_faswil])) {
+                $groupedData[$item->kode_faswil] = [
+                    'kode_faswil' => $item->kode_faswil,
+                    'nama_faswil' => $data_faswil[$item->kode_faswil], // Mengambil nama_faswil berdasarkan kode_faswil
+                    'pt' => [] // Inisialisasi array untuk PT
+                ];
+            }
+        
+            // Menambahkan data PT ke dalam array 'pt'
+            $groupedData[$item->kode_faswil]['pt'][] = [
+                'kode_pt' => $item->kodept,
+                'nama_pt' => $item->pt->ptspmi // Mengambil nama_pt dari relasi pt
+            ];
+        }
+        return $groupedData;
     }
 
     public function admin_get_pt_faswil(){
-        $data = ModelPtFaswil::with(['faswil', 'pt'])->get();
-
-        return view('faswil_admin', compact('data'));
+        $groupedData = $this->get_pt_faswil();
+        return view('faswil_admin', compact('groupedData'));
     }
 
     public function create_pt_faswil()
@@ -42,15 +66,24 @@ class ControllerPtFaswil extends Controller
     public function store(Request $request)
     {
         foreach ($request->kodept as $pt) {
+            // Check if the kodept already exists in the database
+            $existingPt = ModelPtFaswil::where('kodept', $pt)->first();
+    
+            if ($existingPt) {
+                // If the kodept exists, skip the insert and notify the user
+                return redirect()->back()->with('error', 'Kode PT ' . $pt . ' sudah terdaftar!');
+            }
+    
+            // If the kodept does not exist, proceed to insert
             ModelPtFaswil::create([
                 'kode_faswil' => $request->kode_faswil,
                 'kodept' => $pt,
             ]);
         }
-
-        Log::info('Request Data:', $request->all());
+    
         return redirect()->route('faswil')->with('success', 'Data berhasil disimpan!');
     }
+    
 
     // Form untuk edit data (EDIT)
     public function edit_faswil($id)
@@ -93,10 +126,19 @@ class ControllerPtFaswil extends Controller
     
 
     // Menghapus data (DELETE)
-    public function destroy_faswil($kode)
+    public function destroy_faswil($kodept)
     {
-        $item = ModelFaswil::findOrFail($kode);
-        $item->delete(); // Hapus data
-        return redirect()->route('faswil')->with('success', 'Data berhasil dihapus!');
+        // Attempt to find the record with the given kode_pt
+        $ptFaswil = ModelPtFaswil::where('kodept', $kodept)->first();
+    
+        // If the record is found, delete it
+        if ($ptFaswil) {
+            $ptFaswil->delete();
+            return redirect()->back()->with('success', 'PT berhasil dihapus');
+        }
+    
+        // If no record is found, return a not found message
+        return redirect()->back()->with('error', 'PT tidak ada');
     }
+    
 }

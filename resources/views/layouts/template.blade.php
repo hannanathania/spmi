@@ -41,11 +41,12 @@
                     <span>SPMI PT</span>
                 </a>
                 <!-- Dropdown Menu -->
-                <div id="collapseSPMI" class="collapse {{ request()->is('spmi_ppep') || request()->is('spmi_pt') || request()->is('detail/{pt}') ? 'show' : '' }}">
+                <div id="collapseSPMI" class="collapse {{ request()->is('spmi_ppep') || request()->is('spmi_pt') || request()->is('detail/{pt}')  ? 'active' : '' }} ? 'show' : '' }}">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">SPMI PT</h6>
+                        <!-- <a class="collapse-item {{ request()->is('fasilitator_wilayah') ? 'active' : '' }}" href="/fasilitator_wilayah">Verifikator SPMI</a> -->
                         <a class="collapse-item {{ request()->is('spmi_ppep') ? 'active' : '' }}" href="/spmi_ppep">Pelaporan SPMI per PPEP</a>
-                        <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/spmi_pt">Pelaporan SPMI per PT</a>
+                        <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/spmi_pt">Pelaporan SPMI per PT</a> 
                     </div>
                 </div>
             </li>
@@ -78,7 +79,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item {{ request()->is('pt_pengimbas') || request()->is('admin/pt_pengimbas') ? 'active' : ''}}">
                 @if(session('admin_username'))
-                <a class="nav-link collapsed" href="admin/pt_pengimbas">
+                <a class="nav-link collapsed" href="/admin/pt_pengimbas">
                     <i class="fas fa-fw fa-building"></i>
                     <span>PT Pengimbas</span>
                 </a>

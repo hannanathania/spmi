@@ -1899,6 +1899,16 @@ max-width: 400px;
   opacity: 1;
 }
 
+.fade-out-alert {
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.fade-out-alert.fade {
+  opacity: 0;
+  pointer-events: none; /* Prevents click events when fully faded */
+}
+
 /* General styles for the datepicker container */
 .input-group.date {
   border: 0px solid #ddd;

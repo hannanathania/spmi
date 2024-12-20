@@ -24,7 +24,6 @@
         <div class="container-fluid">
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">Klasterisasi SPMI</h1>
-            <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate architecto porro explicabo sapiente deserunt aspernatur excepturi consequuntur vero! Amet cupiditate nisi sit ullam, voluptatum incidunt veniam eligendi placeat commodi sunt!</p>
             <div class="row">
             <div class="col-xl-4 col-md-6 mb-4">
                     <div class="card border-left-danger shadow h-100 py-2">

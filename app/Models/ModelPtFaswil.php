@@ -27,5 +27,9 @@ class ModelPtFaswil extends Model
         return $this->belongsTo(ModelSPMI::class, 'kodept', 'kodept');
     }
 
+    public function pts()
+    {
+        return $this->hasMany(ModelSPMI::class, 'kodept', 'kodept'); // Asumsikan 'kode_faswil' sebagai kunci
+    }
 
 }

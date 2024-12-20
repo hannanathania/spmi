@@ -35,9 +35,8 @@
                 <tr>
                     <th>Kode PT Asuh</th>
                     <th>Nama PT Asuh</th>
-                    <th>Kode PT Pengimbas</th>
                     <th>Nama PT Pengimbas</th>
-
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,8 +44,17 @@
                 <tr>
                     <td>{{ $item->asuh->kodept ?? 'Tidak Ada'  }}</td>
                     <td>{{ $item->asuh->ptspmi ?? 'Tidak Ada' }}</td>
-                    <td>{{ $item->pengimbas->kodept ?? 'Tidak Ada'}}</td>
                     <td>{{ $item->pengimbas->ptspmi ?? 'Tidak Ada' }}</td>
+                    <td>                                    
+                        <!-- Form untuk delete -->
+                        <form action="{{ route('delete_pt_asuh', $item->asuh->kodept) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Anda yakin akan menghapus penugasan?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

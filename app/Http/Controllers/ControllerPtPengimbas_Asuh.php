@@ -55,5 +55,20 @@ class ControllerPtPengimbas_Asuh extends Controller
 
         return view('pt_pengimbas_admin', compact('data'));
     }
+
+    public function destroy_pt_asuh($kode_pt_asuh)
+    {
+        // Attempt to find the record with the given kode_pt
+        $ptAsuh = ModelPtPengimbas_Asuh::where('kode_pt_asuh', $kode_pt_asuh)->first();
+    
+        // If the record is found, delete it
+        if ($ptAsuh) {
+            $ptAsuh->delete();
+            return redirect()->back()->with('success', 'PT berhasil dihapus');
+        }
+    
+        // If no record is found, return a not found message
+        return redirect()->back()->with('error', 'PT tidak ada');
+    }
     
 }

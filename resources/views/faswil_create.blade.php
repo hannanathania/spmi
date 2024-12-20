@@ -58,8 +58,20 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    @if (session('success'))
+                    <script type="text/javascript">
+                            alert("{{ session('success') }}");
+                        </script>
+                    @endif
+
+                    @if (session('error'))
+                        <script type="text/javascript">
+                            alert("{{ session('error') }}");
+                        </script>
+                    @endif
                     
                 </form>
+
             </div>
         </div>
     </div>
@@ -121,6 +133,19 @@
         
         // Reinitialize the selectpicker for the new select element
         $('.selectpicker').selectpicker();
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // Select the alerts
+        const alerts = document.querySelectorAll('.fade-out-alert');
+        
+        // Loop through each alert
+        alerts.forEach(alert => {
+            // Set a delay before fading out (e.g., 3 seconds)
+            setTimeout(() => {
+                alert.classList.add('fade'); // Add the fade class to trigger fading
+            }, 3000); // Change 3000 to your desired time in milliseconds (3 seconds here)
+        });
+    });
 
     });
 
