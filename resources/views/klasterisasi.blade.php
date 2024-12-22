@@ -88,7 +88,7 @@
                             <th scope="col">Kode PT</th>
                             <th scope="col">Nama PT</th>
                             <th scope="col">Klaster</th>
-                            <!-- <th scope="col">Detail</th> -->
+                            <th scope="col">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,10 +96,28 @@
                         <tr>
                             <td>{{ $item['kode_pt'] }}</td>
                             <td>{{ $item['pt'] }}</td>
-                            <td>{{ ucfirst($item['klaster']) }}</td>
-                            <!-- <td>
-                                <a href="{{ route('detail', ['pt' => $item['pt']]) }}" class="btn btn-primary mt-0">Lihat Detail</a>
-                            </td> -->
+                            @if($item['klaster'] == 'hijau')
+                                <td>
+                                    <span class="badge badge-success" disabled>{{ ucfirst($item['klaster']) }}</span>
+                                </td>
+                            @elseif($item['klaster'] == 'merah')
+                                <td>
+                                    <span class="badge badge-danger" disabled>{{ ucfirst($item['klaster']) }}</span>
+                                </td>
+                            @elseif($item['klaster'] == 'kuning')
+                                <td>
+                                    <span class="badge badge-warning" disabled>{{ ucfirst($item['klaster']) }}</span>
+                                </td>
+                            @else
+                                <td>
+                                    <span class="badge badge-secondary" disabled>{{ ucfirst($item['klaster']) }}</span>
+                                </td>
+                            @endif
+                            <td>
+                                <a href="{{ route('detail_spmi', ['pt' => $item['pt']]) }}" class="btn btn-primary mt-0">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -110,6 +128,7 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
 
     <a class="scroll-to-top rounded" href="#page-top">

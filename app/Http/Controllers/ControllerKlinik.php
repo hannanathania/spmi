@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 class ControllerKlinik extends Controller
 {
     public function data_klinik_spmi() {
-        $data = ModelKlinik::all();
+        $data_klinik = ModelKlinik::all();
+        $data_pt = ModelSPMI::all();
+        $data_faswil = ModelFaswil::all(); // Ambil data Faswil
 
-        foreach ($data as $item) {
+        foreach ($data_klinik as $item) {
             // Ambil nama_faswil berdasarkan kode_faswil
             $item->nama_faswil = DB::table('akademik.faswil') 
                 ->where('kode_faswil', $item->kode_faswil) 
@@ -21,17 +23,19 @@ class ControllerKlinik extends Controller
                 ->where('kodept', $item->kodept) 
                 ->value('ptspmi'); 
         }
-        return $data;
+
+        return [
+            'data_klinik'=>$data_klinik, 
+            'data_faswil'=>$data_faswil, 
+            'data_pt'=>$data_pt
+        ];
     }
 
     public function create() {
         $data_pt = ModelSPMI::all();
-        $data_faswil = ModelFaswil::all();
+        $data_faswil = ModelFaswil::all(); // Ambil data Faswil
     
-        return view('klinik_spmi_create', [
-            'pt' => $data_pt,
-            'faswil' => $data_faswil
-        ]);
+        return view('klinik_spmi_create', compact('data_pt', 'data_faswil')); // Pastikan variabel dikirim
     }
 
     public function store(Request $request)
@@ -60,9 +64,17 @@ class ControllerKlinik extends Controller
     {
         // Retrieve the existing record from the database by its ID
         $data = ModelKlinik::findOrFail($kode);
+        $data_pt = ModelSPMI::all();
+        $data_faswil = ModelFaswil::all(); // Ambil data Faswil
+        
     
         // Return the view with the existing data to pre-fill the form
-        return view('klinik_spmi_edit', compact('data'));
+        // return [
+        //     'data_klinik' => $data, 
+        //     'data_pt' => $data_pt, 
+        //     'data_faswil' => $data_faswil
+        // ];
+        return view('klinik_spmi_edit',compact('data_pt', 'data_faswil', 'data'));
     }
     
     public function update(Request $request, $kode)
@@ -90,18 +102,13 @@ class ControllerKlinik extends Controller
 
     public function klinik_spmi() {
         $data = $this->data_klinik_spmi();
-        
-        return view('klinik_spmi_admin', [
-            'data' => $data
-        ]);
-            
+        //return $data;
+        return view('klinik_spmi', compact('data'));   
     }
-
     public function admin_klinik_spmi() {
         $data = $this->data_klinik_spmi();
         
-        return view('klinik_spmi_admin', [
-            'data' => $data
-        ]);
+        //return $data;
+        return view('klinik_spmi_admin',compact('data'));
     }
 }

@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Nama Verifikator Wilayah</label>
                 <select class="selectpicker form-control" name="kode_faswil" data-live-search="true">
-                    @foreach ($faswil as $item)
+                    @foreach ($data_faswil as $item)
                         <option value="{{$item['kode_faswil']}}">{{$item['nama_faswil']}}</option>
                     @endforeach
                 </select>
@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label for="exampleFormControlSelect2">Nama Perguruan Tinggi</label>
                 <select class="selectpicker form-control" name="kodept" data-live-search="true">
-                    @foreach ($pt as $item)
+                    @foreach ($data_pt as $item)
                         <option value="{{$item['kodept']}}">{{$item['kodept']}} - {{$item['ptspmi']}}</option>
                     @endforeach
                 </select>

@@ -56,7 +56,9 @@
                         <td>{{ $item['presentase_verif'] }}%</td>
                         <td>{{ $item['presentase_valid'] }}%</td>
                         <td>
-                            <a href="{{ route('detail', ['pt' => $item['pt']]) }}" class="btn btn-primary mt-0">Lihat Detail</a>
+                            <a href="{{ route('detail_spmi', ['pt' => $item['pt']]) }}" class="btn btn-primary mt-0">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
                         </td>
                     </tr>
                 @empty

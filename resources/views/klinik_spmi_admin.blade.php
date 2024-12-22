@@ -38,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($data as $item)
+                        @foreach ($data['data_klinik'] as $item)
                             <tr>
                                 <td>{{ $item['nama_pt'] }}</td>
                                 <td>{{ $item['nama_faswil'] }}</td>
@@ -50,7 +50,7 @@
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item['kode'] }}">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <a href="#" class="btn btn-secondary">
+                                    <a href="{{ route('klinik.edit', $item['kode']) }}" class="btn btn-secondary">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a href="#" class="btn btn-danger">

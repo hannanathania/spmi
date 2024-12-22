@@ -34,15 +34,17 @@
             
     <div class="card-body">
         
-        <form action="{{ route('klinik.store') }}" class="user" method="POST">
+        <form action="{{ route('klinik.edit', $data['kode']) }}" class="user" method="POST">
         @csrf
         @method('PUT')
-        
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Nama Verifikator Wilayah</label>
                 <select class="selectpicker form-control" name="kode_faswil" data-live-search="true">
-                    @foreach ($faswil as $item)
-                        <option value="{{$item['kode_faswil']}}">{{$item['nama_faswil']}}</option>
+                    @foreach ($data_faswil as $item)
+                        <option value="{{ $item['kode_faswil'] }}" 
+                            {{ old('kode_faswil', $data['kode_faswil'] ?? '') == $item['kode_faswil'] ? 'selected' : '' }}>
+                            {{ $item['nama_faswil'] }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -50,8 +52,11 @@
             <div class="form-group">
                 <label for="exampleFormControlSelect2">Nama Perguruan Tinggi</label>
                 <select class="selectpicker form-control" name="kodept" data-live-search="true">
-                    @foreach ($pt as $item)
-                        <option value="{{$item['kodept']}}">{{$item['kodept']}} - {{$item['ptspmi']}}</option>
+                    @foreach ($data_pt as $item)
+                        <option value="{{$item['kodept']}}"
+                            {{old('kodept', $data['kodept'] ?? '') == $item['kodept'] ? 'selected' : ''}}>
+                            {{$item['ptspmi']}}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -60,17 +65,17 @@
                 <div class="form-group col-md-6">
                     <label for="multiSelect">Tahap</label>
                     <select class="selectpicker form-control" name="tahap">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="1" {{ old('tahap', $data->tahap ?? '') == 1 ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ old('tahap', $data->tahap ?? '') == 2 ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ old('tahap', $data->tahap ?? '') == 3 ? 'selected' : '' }}>3</option>
+                        <option value="4" {{ old('tahap', $data->tahap ?? '') == 4 ? 'selected' : '' }}>4</option>
+                        <option value="5" {{ old('tahap', $data->tahap ?? '') == 5 ? 'selected' : '' }}>5</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="date">Tanggal Klinik</label>
                     <div class="input-group date" id="datepicker">
-                        <input type="text" class="form-control" name="tanggal_klinik">
+                        <input type="text" class="form-control" name="tanggal_klinik" value="{{ old('tanggal_klinik', $data['tanggal_klinik'] ?? '') }}">
                         <span class="input-group-append">
                             <span class="input-group-text bg-white">
                                 <i class="fa fa-calendar"></i>
@@ -84,15 +89,15 @@
                 <div class="form-group col-md-6">
                     <label for="multiSelect">Progress PT</label>
                     <select class="selectpicker form-control" name="progress">
-                        <option>Ada</option>
-                        <option>Tidak Ada</option>
+                        <option {{ old('progress', $data['progress'] ?? '') == 'Ada' ? 'selected' : '' }}>Ada</option>
+                        <option {{ old('progress', $data['progress'] ?? '') == 'Tidak Ada' ? 'selected' : '' }}>Tidak Ada</option>
                     </select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="date">Tanggal Pelaporan Dokumen</label>
                     <div class="input-group date" id="datepicker2">
-                        <input type="text" class="form-control" name="tanggal_unggah_doc">
+                        <input type="text" class="form-control" name="tanggal_unggah_doc" value="{{ old('tanggal_unggah_doc', $data['tanggal_unggah_doc'] ?? '') }}">
                         <span class="input-group-append">
                             <span class="input-group-text bg-white">
                                 <i class="fa fa-calendar"></i>
@@ -104,17 +109,29 @@
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Deskripsi Progress</label>
-                <textarea class="form-control" type="text" id="exampleFormControlTextarea1" rows="3" name="deskripsi_progress"></textarea>
+                <textarea class="form-control" 
+                    id="exampleFormControlTextarea1" 
+                    rows="3" 
+                    name="deskripsi_progress">{{ old('deskripsi_progress', $data['deskripsi_progress'] ?? '') }}</textarea>
             </div>
+
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Hasil Evaluasi Faswil</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="hasil_evaluasi"></textarea>
+                <textarea class="form-control" 
+                    id="exampleFormControlTextarea1" 
+                    rows="3" 
+                    name="hasil_evaluasi">{{ old('hasil_evaluasi', $data['hasil_evaluasi'] ?? '') }}
+                </textarea>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Deskripsi Evaluasi</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="deskripsi_evaluasi"></textarea>
+                <textarea class="form-control" 
+                    id="exampleFormControlTextarea1" 
+                    rows="3" 
+                    name="deskripsi_evaluasi">{{ old('deskripsi_evaluasi', $data['deskripsi_evaluasi'] ?? '') }}
+                </textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

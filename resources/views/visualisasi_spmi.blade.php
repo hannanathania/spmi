@@ -42,9 +42,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($data['data_klinik'] as $item)
+                        @foreach ($data as $item)
                             <tr>
-                                <td>{{ $item['nama_pt'] }}</td>
+                                <td>{{ $item['kode_faswil'] }}</td>
                                 <td>{{ $item['nama_faswil'] }}</td>
                                 <td>{{ $item['tahap'] }}</td>
                                 <td>{{ $item['tanggal_klinik'] }}</td>

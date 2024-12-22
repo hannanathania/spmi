@@ -73,6 +73,10 @@ body {
   outline: 0 !important;
 }
 
+button:disabled {
+  opacity: 10;  /* Mengembalikan opacity agar tombol tidak buram */
+}
+
 hr {
   box-sizing: content-box;
   height: 0;

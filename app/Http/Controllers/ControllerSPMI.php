@@ -83,27 +83,6 @@ class ControllerSPMI extends Controller
         ]);
     }
 
-    public function pt_pengimbas_create(){
-        $items = $this->calculate();
-        return view('pt_pengimbas_create',[
-            'data' => $items
-        ]);           
-    }
-
-    public function pt_pengimbas(){
-        $items = $this->calculate();
-        return view('pt_pengimbas',[
-            'data' => $items
-        ]);       
-    }
-
-    public function admin_pt_pengimbas(){
-        $items = $this->calculate();
-        return view('pt_pengimbas_admin',[
-            'data' => $items
-        ]);       
-    }
-    
     public function ambilData(){
         $spmi = ModelSPMI::where('tutup', '=', null)->get();
         $result = []; 
@@ -400,6 +379,8 @@ class ControllerSPMI extends Controller
             } else if ($presentase_valid > 49 || $presentase_valid < 81){
                 $klaster = 'kuning';
             }
+
+            $verifikator = 
 
             $data['totals'] = [
                 'kode_pt' => $kode_pt,

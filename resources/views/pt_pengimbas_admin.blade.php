@@ -36,6 +36,8 @@
                     <th>Kode PT Asuh</th>
                     <th>Nama PT Asuh</th>
                     <th>Nama PT Pengimbas</th>
+                    <th>Klaster PT Pengimbas</th>
+                    <th>Klaster PT Asuh</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -45,6 +47,41 @@
                     <td>{{ $item->asuh->kodept ?? 'Tidak Ada'  }}</td>
                     <td>{{ $item->asuh->ptspmi ?? 'Tidak Ada' }}</td>
                     <td>{{ $item->pengimbas->ptspmi ?? 'Tidak Ada' }}</td>
+                    @if($item->pengimbas->klaster == 'hijau')
+                    <td>
+                        <span class="badge badge-success" >{{ ucfirst($item->pengimbas->klaster) }}</span>
+                    </td>
+                    @elseif($item->pengimbas->klaster == 'merah')
+                        <td>
+                            <span class="badge badge-danger" >{{ ucfirst($item->pengimbas->klaster) }}</span>
+                        </td>
+                    @elseif($item->pengimbas->klaster == 'kuning')
+                        <td>
+                            <span class="badge badge-warning" >{{ ucfirst($item->pengimbas->klaster) }}</span>
+                        </td>
+                    @else
+                        <td>
+                            <span class="badge badge-secondary" disabled>{{ ucfirst($item->pengimbas->klaster) }}</span>
+                        </td>
+                    @endif
+
+                    @if($item->asuh->klaster == 'hijau')
+                    <td>
+                        <span class="badge badge-success">{{ ucfirst($item->asuh->klaster) }}</span>
+                    </td>
+                    @elseif($item->asuh->klaster == 'merah')
+                        <td>
+                            <span class="badge badge-danger">{{ ucfirst($item->asuh->klaster) }}</span>
+                        </td>
+                    @elseif($item->asuh->klaster == 'kuning')
+                        <td>
+                            <span class="badge badge-warning" >{{ ucfirst($item->asuh->klaster) }}</span>
+                        </td>
+                    @else
+                        <td>
+                            <span class="badge badge-secondary" >{{ ucfirst($item->asuh->klaster) }}</span>
+                        </td>
+                    @endif 
                     <td>                                    
                         <!-- Form untuk delete -->
                         <form action="{{ route('delete_pt_asuh', $item->asuh->kodept) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Anda yakin akan menghapus penugasan?');">

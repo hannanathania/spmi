@@ -32,60 +32,25 @@
             <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
             <thead>
                 <tr>
+                    <th>Kode PT Pengimbas</th>
                     <th>Nama PT Pengimbas</th>
+                    <th>Kode PT Asuh</th>
                     <th>Nama PT Asuh</th>
-                    <th>Klaster PT Pengimbas</th>
-                    <th>Klaster PT Asuh</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($data as $item)
                 <tr>
+                    <td>{{ $item->pengimbas->kodept ?? 'Tidak Ada'}}</td>
                     <td>{{ $item->pengimbas->ptspmi ?? 'Tidak Ada' }}</td>
+                    <td>{{ $item->asuh->kodept ?? 'Tidak Ada'  }}</td>
                     <td>{{ $item->asuh->ptspmi ?? 'Tidak Ada' }}</td>
-                        @if($item->pengimbas->klaster == 'hijau')
-                        <td>
-                            <span class="badge badge-success" >{{ ucfirst($item->pengimbas->klaster) }}</span>
-                        </td>
-                        @elseif($item->pengimbas->klaster == 'merah')
-                            <td>
-                                <span class="badge badge-danger" >{{ ucfirst($item->pengimbas->klaster) }}</span>
-                            </td>
-                        @elseif($item->pengimbas->klaster == 'kuning')
-                            <td>
-                                <span class="badge badge-warning" >{{ ucfirst($item->pengimbas->klaster) }}</span>
-                            </td>
-                        @else
-                            <td>
-                                <span class="badge badge-secondary" disabled>{{ ucfirst($item->pengimbas->klaster) }}</span>
-                            </td>
-                        @endif
-
-                        @if($item->asuh->klaster == 'hijau')
-                        <td>
-                            <span class="badge badge-success">{{ ucfirst($item->asuh->klaster) }}</span>
-                        </td>
-                        @elseif($item->asuh->klaster == 'merah')
-                            <td>
-                                <span class="badge badge-danger">{{ ucfirst($item->asuh->klaster) }}</span>
-                            </td>
-                        @elseif($item->asuh->klaster == 'kuning')
-                            <td>
-                                <span class="badge badge-warning" >{{ ucfirst($item->asuh->klaster) }}</span>
-                            </td>
-                        @else
-                            <td>
-                                <span class="badge badge-secondary" >{{ ucfirst($item->asuh->klaster) }}</span>
-                            </td>
-                        @endif                       
                 </tr>
                 @endforeach
             </tbody>
             </table>
             </div>
     </div>
-    </div>
-
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
