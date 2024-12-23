@@ -25,9 +25,10 @@
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Verifikator</h6>
             </div>
             <div class="card-body"> 
-                <form id="myForm" action="{{ route('faswil.store') }}" method="POST">
+                <form id="myForm" action="{{ route('faswil.update', $data['kode_faswil'])}}" method="POST">
                     <!-- Include CSRF Token -->
                     @csrf
+                    @method('PUT')
                     <!-- Single Select with Live Search -->
                     <div class="form-group">    
                         <label for="exampleFormControlSelect1">Kode Verifikator</label>
@@ -37,6 +38,7 @@
                             id="exampleFormControlSelect1" 
                             name="kode_faswil" 
                             placeholder="Masukkan kode verifikator"
+                            value="{{$data['kode_faswil']}}"
                             required>
                     </div>
 
@@ -48,18 +50,28 @@
                             id="exampleFormControlSelect1" 
                             name="nama_faswil" 
                             placeholder="Masukkan nama verifikator"
+                            value="{{$data['nama_faswil']}}"
                             required>
                     </div>
 
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">Nama Perguruan Tinggi</label>
-                        <select class="selectpicker form-control" name="kode_pt" data-live-search="true" required>
-                            <option value="" disabled selected>Pilih Nama Perguruan Tinggi</option> 
+                        <select class="selectpicker form-control" name="kode_pt" data-live-search="true">
+                            <!-- Tambahkan opsi kosong sebagai default -->
+                            <option value="" 
+                                {{ old('kode_pt', $data['kode_pt'] ?? '') == '' ? 'selected' : '' }} 
+                                disabled>
+                                Pilih Perguruan Tinggi
+                            </option>
                             @foreach ($data_pt as $item)
-                                <option value="{{$item['kodept']}}">{{$item['kodept']}} - {{$item['ptspmi']}}</option>
+                                <option value="{{$item['kodept']}}"
+                                    {{ old('kode_pt', $data['kode_pt'] ?? '') == $item['kodept'] ? 'selected' : '' }}>
+                                    {{$item['ptspmi']}}
+                                </option>
                             @endforeach
                         </select>
                     </div>
+
 
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Nomor Induk Dosen Nasional (NIDN)</label>
@@ -68,6 +80,7 @@
                             class="form-control" 
                             id="exampleFormControlSelect1" 
                             name="nik" 
+                            value="{{$data['nik']}}"
                             placeholder="Masukkan NIDN">
                     </div>
 
@@ -78,6 +91,7 @@
                             class="form-control" 
                             id="exampleFormControlSelect1" 
                             name="gelar_depan" 
+                            value="{{$data['gelar_depan']}}"
                             placeholder="Masukkan gelar depan">
                     </div>
 
@@ -88,6 +102,7 @@
                             class="form-control" 
                             id="exampleFormControlSelect1" 
                             name="gelar_blk" 
+                            value="{{$data['gelar_blk']}}"
                             placeholder="Masukkan gelar belakang">
                     </div>
 

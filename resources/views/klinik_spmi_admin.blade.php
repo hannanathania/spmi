@@ -47,15 +47,19 @@
                                 <td>{{ $item['progress'] }}</td>
                                 <td>
                                     <!-- Modal Trigger -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item['kode'] }}">
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item['kode'] }}">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <a href="{{ route('klinik.edit', $item['kode']) }}" class="btn btn-secondary">
+                                    <a href="{{ route('klinik.edit', $item['kode']) }}" class="btn btn-secondary btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="#" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <form action="{{ route('klinik.delete', $item['kode'])}}" method="POST" style="display:inline-block;" onsubmit="return confirm('Anda yakin akan menghapus kegiatan klinik?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>    
                                 </td>
                             </tr>
                             <!-- Modal for each row -->

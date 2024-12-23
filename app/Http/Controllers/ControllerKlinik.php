@@ -11,7 +11,7 @@ class ControllerKlinik extends Controller
 {
     public function data_klinik_spmi() {
         $data_klinik = ModelKlinik::all();
-        $data_pt = ModelSPMI::all();
+        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
         $data_faswil = ModelFaswil::all(); // Ambil data Faswil
 
         foreach ($data_klinik as $item) {
@@ -32,7 +32,7 @@ class ControllerKlinik extends Controller
     }
 
     public function create() {
-        $data_pt = ModelSPMI::all();
+        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
         $data_faswil = ModelFaswil::all(); // Ambil data Faswil
     
         return view('klinik_spmi_create', compact('data_pt', 'data_faswil')); // Pastikan variabel dikirim
@@ -64,7 +64,7 @@ class ControllerKlinik extends Controller
     {
         // Retrieve the existing record from the database by its ID
         $data = ModelKlinik::findOrFail($kode);
-        $data_pt = ModelSPMI::all();
+        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
         $data_faswil = ModelFaswil::all(); // Ambil data Faswil
         
     
@@ -100,11 +100,19 @@ class ControllerKlinik extends Controller
         return redirect()->route('klinik')->with('success', 'Data berhasil diperbarui!');
     }
 
+    public function destroy_klinik_spmi($kode){
+        // Attempt to find the record with the given kode_pt
+        $klinik = ModelKlinik::where('kode', $kode)->first();
+        $klinik->delete();
+        return redirect()->back()->with('success', 'Klinik berhasil dihapus');
+    }
+
     public function klinik_spmi() {
         $data = $this->data_klinik_spmi();
         //return $data;
         return view('klinik_spmi', compact('data'));   
     }
+
     public function admin_klinik_spmi() {
         $data = $this->data_klinik_spmi();
         

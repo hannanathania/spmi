@@ -25,21 +25,38 @@
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan PT Pengimbas</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('pt_pengimbas.store') }}" method="POST">
+                <form action="{{ route('penugasan_pengimbas.store') }}" method="POST">
                     <!-- Include CSRF Token -->
                     @csrf
 
                     <!-- Single Select with Live Search -->
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Nama PT Pengimbas</label>
-                        <select class="selectpicker form-control" id="exampleFormControlSelect1" name="kodept" data-live-search="true">
+                        <select class="selectpicker form-control" id="exampleFormControlSelect1" name="kode_pt_pengimbas" data-live-search="true">
                             <option value="" disabled selected>Pilih Nama Perguruan Tinggi</option> 
-                            @foreach ($data as $item)
+                            @foreach ($pt_pengimbas as $item)
                                 <option value="{{ $item['kodept'] }}">
                                     {{ $item['kodept'] }} - {{ $item['ptspmi'] }}
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <a type="button" class="link" name="add" id="add" style="margin-bottom: 10px; display: block; text-align: right;">
+                        + Tambah Perguruan Tinggi
+                    </a>
+
+
+                    <table class="table table-bordered" id="table">
+                        <tr>
+                            <th>Nama PT Asuh</th>
+                            <th>Aksi</th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </table>
+                    <div class="form-group">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>

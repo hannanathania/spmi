@@ -14,7 +14,11 @@ class ModelPtFaswil extends Model
     protected $primaryKey = 'kode';
     protected $fillable = [
         'kode_faswil',
+        'nama_faswil',
         'kodept',
+        'nik',
+        'gelar_depan',
+        'gelar_blk'
     ];
 
     public function faswil()

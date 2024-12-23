@@ -25,21 +25,36 @@
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Penugasan PT Pengimbas</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('pt_pengimbas.store') }}" method="POST">
+                <form action="{{ route('ptfaswil.store') }}" method="POST">
                     <!-- Include CSRF Token -->
                     @csrf
-
                     <!-- Single Select with Live Search -->
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Nama PT Pengimbas</label>
-                        <select class="selectpicker form-control" id="exampleFormControlSelect1" name="kodept" data-live-search="true">
-                            <option value="" disabled selected>Pilih Nama Perguruan Tinggi</option> 
-                            @foreach ($data as $item)
-                                <option value="{{ $item['kodept'] }}">
-                                    {{ $item['kodept'] }} - {{ $item['ptspmi'] }}
+                        <label for="exampleFormControlSelect1">Nama Verifikator</label>
+                        <select class="selectpicker form-control" id="exampleFormControlSelect1" name="kode_faswil" data-live-search="true">
+                            @foreach ($faswil as $item)
+                                <option value="{{ $item['kode_faswil'] }}">
+                                    {{ $item['nama_faswil'] }}
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <a type="button" class="link" name="add" id="add" style="margin-bottom: 10px; display: block; text-align: right;">
+                        + Tambah Perguruan Tinggi
+                    </a>
+
+                    <table class="table table-bordered" id="table">
+                        <tr>
+                            <th>Nama PT </th>
+                            <th>Aksi</th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </table>
+                    <div class="form-group">    
+
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -56,6 +71,7 @@
                     @endif
                     
                 </form>
+
             </div>
         </div>
     </div>
@@ -69,8 +85,9 @@
 
     <script>
         let ptData; // Declare ptData in a higher scope so it's accessible everywhere
+
         // Fetch data from the server
-        fetch('/data/pt_pengimbas')
+        fetch('/total_baris')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -78,13 +95,12 @@
                 return response.json();
             })
             .then(data => {
-                ptData = data.pt_asuh; // Store the fetched data into ptData
+                ptData = data; // Store the fetched data into ptData
                 console.log(ptData);  // Log ptData to check if it's correctly populated
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-
 
         var i = 0;
         $('#add').click(function() {
@@ -93,16 +109,15 @@
         
         // Loop through ptData to create the <option> elements dynamically
         ptData.forEach(function(item) {
-            
-            options += ` 
-            <option value="${item.kodept}">${item.kodept} - ${item.ptspmi}</option>
+            options += `
+            <option value="${item.kode_pt}">${item.kode_pt} - ${item.pt}</option>
             `;
         });
 
         $('#table').append(
             `<tr>
                 <td>
-                    <select id="multiSelect${i}" name="kode_pt_asuh[]" class="selectpicker form-control" data-live-search="true">
+                    <select id="multiSelect${i}" name="kodept[]" class="selectpicker form-control" data-live-search="true">
                         ${options}
                     </select>
                 </td>
@@ -112,17 +127,7 @@
                     </a>
                 </td>
             </tr>`
-
         );
-
-        $('select[name^="kode_pt_asuh"]').each(function () {
-                console.log($(this).val()); // Ambil dan cetak nilai
-            });
-
-        // Jika ingin trigger saat nilai berubah
-        $('select[name^="kode_pt_asuh"]').on('change', function () {
-            console.log($(this).val());
-        });
 
         $(document).on('click', '.remove-table-row', function(){
             $(this).parents('tr').remove();
@@ -130,6 +135,19 @@
         
         // Reinitialize the selectpicker for the new select element
         $('.selectpicker').selectpicker();
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // Select the alerts
+        const alerts = document.querySelectorAll('.fade-out-alert');
+        
+        // Loop through each alert
+        alerts.forEach(alert => {
+            // Set a delay before fading out (e.g., 3 seconds)
+            setTimeout(() => {
+                alert.classList.add('fade'); // Add the fade class to trigger fading
+            }, 3000); // Change 3000 to your desired time in milliseconds (3 seconds here)
+        });
+    });
 
     });
 

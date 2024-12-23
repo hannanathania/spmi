@@ -13,9 +13,10 @@ class ModelFaswil extends Model
     protected $fillable = [
         'kode_faswil',
         'nama_faswil',
+        'kode_pt',
+        'nik',
+        'gelar_dpn',
+        'gelar_blk'
     ];
-    public function pts()
-    {
-        return $this->hasMany(ModelPtFaswil::class, 'kode_faswil', 'kode_faswil');
-    }
+
 }

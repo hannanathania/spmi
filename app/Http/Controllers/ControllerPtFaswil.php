@@ -16,30 +16,43 @@ class ControllerPtFaswil extends Controller
         return view('faswil', compact('groupedData'));
     }
 
-    public function get_pt_faswil(){
+    public function get_pt_faswil() {
         $data_faswil = ModelFaswil::pluck('nama_faswil', 'kode_faswil')->toArray();
         $data_pt = ModelPtFaswil::whereIn('kode_faswil', array_keys($data_faswil))->with('pt')->get();
-        
+        $spmiController = new ControllerSPMI();
+        $data_SPMI = $spmiController->calculate(); // Data klaster
+    
+        // Membuat array untuk mencari klaster berdasarkan kodept
+        $klaster_map = [];
+        foreach ($data_SPMI as $item) {
+            $klaster_map[$item['kode_pt']] = $item['klaster']; // Memetakan kodept ke klaster
+        }
+    
+        // Inisialisasi groupedData dengan seluruh faswil
         $groupedData = [];
-        
-        foreach ($data_pt as $item) {
-            // Memastikan bahwa kode_faswil sudah ada dalam $groupedData
-            if (!isset($groupedData[$item->kode_faswil])) {
-                $groupedData[$item->kode_faswil] = [
-                    'kode_faswil' => $item->kode_faswil,
-                    'nama_faswil' => $data_faswil[$item->kode_faswil], // Mengambil nama_faswil berdasarkan kode_faswil
-                    'pt' => [] // Inisialisasi array untuk PT
-                ];
-            }
-        
-            // Menambahkan data PT ke dalam array 'pt'
-            $groupedData[$item->kode_faswil]['pt'][] = [
-                'kode_pt' => $item->kodept,
-                'nama_pt' => $item->pt->ptspmi // Mengambil nama_pt dari relasi pt
+        foreach ($data_faswil as $kode_faswil => $nama_faswil) {
+            $groupedData[$kode_faswil] = [
+                'kode_faswil' => $kode_faswil,
+                'nama_faswil' => $nama_faswil,
+                'pt' => [] // Awalnya kosong
             ];
         }
+    
+        // Menambahkan data PT ke groupedData
+        foreach ($data_pt as $item) {
+            $kode_pt = $item->kodept; // Ambil kode_pt dari data_pt
+            $klaster = isset($klaster_map[$kode_pt]) ? $klaster_map[$kode_pt] : 'Tidak Dikenal'; // Ambil klaster dari klaster_map
+    
+            $groupedData[$item->kode_faswil]['pt'][] = [
+                'kode_pt' => $item->kodept,
+                'nama_pt' => $item->pt->ptspmi, // Mengambil nama_pt dari relasi pt
+                'klaster' => $klaster // Menambahkan klaster di sini
+            ];
+        }
+    
         return $groupedData;
     }
+    
 
     public function admin_get_pt_faswil(){
         $groupedData = $this->get_pt_faswil();
@@ -48,9 +61,9 @@ class ControllerPtFaswil extends Controller
 
     public function create_pt_faswil()
     {
-        $data_pt = ModelSPMI::all();
+        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
         $data_faswil = ModelFaswil::all();
-        return view('faswil_create' , [
+        return view('penugasan_faswil_create' , [
             'pt' => $data_pt,
             'faswil' => $data_faswil
         ]); // Tampilkan form tambah
@@ -59,7 +72,7 @@ class ControllerPtFaswil extends Controller
     // Form untuk menambahkan data (CREATE)
     public function create_faswil()
     {
-        return view('faswil_create'); // Tampilkan form tambah
+        return view('penugasan_faswil_create'); // Tampilkan form tambah
     }
 
     // Menyimpan data baru (STORE)

@@ -93,17 +93,17 @@
 
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item  {{request()->is('klinik_spmi') ? 'active' : '' }}">
+            <li class="nav-item  {{ request()->is('admin/klinik_spmi') || request()->is('klinik_spmi') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKlinik"
                     aria-expanded="true" aria-controls="collapseKlinik">
                     <i class="fas fa-fw fa-hospital-alt"></i>
                     <span>Klinik SPMI</span>
                 </a>    
-                <div id="collapseKlinik" class="collapse {{ request()->is('klinik_spmi') || request()->is('visualisasi_spmi') || request()->is('detail/{pt}') ? 'show' : '' }}">
+                <div id="collapseKlinik" class="collapse {{ request()->is('/admin/klinik_spmi') || request()->is('klinik_spmi') || request()->is('visualisasi_spmi') }}">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Klinik SPMI</h6>
                         @if(session('admin_username'))
-                        <a class="collapse-item {{ request()->is('klinik_spmi') ? 'active' : '' }}" href="/admin/klinik_spmi">Data Klinik SPMI</a>
+                        <a class="collapse-item {{ request()->is('/admin/klinik_spmi') ? 'active' : '' }}" href="/admin/klinik_spmi">Data Klinik SPMI</a>
                         @else
                         <a class="collapse-item {{ request()->is('klinik_spmi') ? 'active' : '' }}" href="/klinik_spmi">Data Klinik SPMI</a>
                         @endif
@@ -155,12 +155,12 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow">
+                        <li class="nav-item dropdown">
                             @if(session('admin_username'))
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Selamat datang, <b>{{ session('admin_username') }}</b> !</span>
-                                </a>
+                                    <a class="nav-link" href="#" id="userDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Selamat datang, <b>{{ session('admin_username') }}</b> !</span>
+                                    </a>
                                 
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

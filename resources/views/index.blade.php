@@ -37,6 +37,42 @@
 
         <div class="container-fluid">
             <div class="row">
+                <!-- Pie Chart Column -->
+                <div class="col-xl-8 col-lg-5">
+                    <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Klasterisasi SPMI di LLDIKTI IV</h6>
+                    </div>
+                    <div class="card-body d-flex">
+                    <!-- Pie Chart Column -->
+                    <div class="flex-grow-1">
+                        <div class="chart-pie pt-3">
+                            <canvas id="myPieChart4"></canvas>
+                        </div>
+                    </div>
+                    <!-- Text Information Column -->
+                    <div class="ml-4">
+                        <div class="mt-4 text-right small">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-danger"></i> Klaster Merah : {{$total_semua['klaster_merah']}} PT
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-warning"></i> Klaster Kuning: {{$total_semua['klaster_kuning']}} PT
+                            </span>
+                            <br>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-success"></i> Klaster Hijau : {{$total_semua['klaster_hijau']}} PT
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-xl-4 col-lg-5">
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->

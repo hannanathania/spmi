@@ -114,7 +114,7 @@
                                 </td>
                             @endif
                             <td>
-                                <a href="{{ route('detail_spmi', ['pt' => $item['pt']]) }}" class="btn btn-primary mt-0">
+                                <a href="{{ route('detail_spmi', ['pt' => $item['pt']]) }}" class="btn btn-primary btn-sm">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                             </td>
