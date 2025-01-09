@@ -66,6 +66,18 @@
                                     <center><a href="/">Back</a></center>
                                     <br>
                                     
+                                    @if ($errors->has('username'))
+                                        <div class="alert alert-danger">
+                                            {{ $errors->first('username') }}
+                                        </div>
+                                    @endif
+
+                                    @if ($errors->has('password'))
+                                        <div class="alert alert-danger">
+                                            {{ $errors->first('password') }}
+                                        </div>
+                                    @endif
+
                                     @if(session('error'))
                                         <div class="alert alert-danger">{{ session('error') }}</div>
                                     @endif

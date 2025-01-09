@@ -29,8 +29,12 @@ class ControllerAdmin extends Controller
         $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:8',
-        ]);
-    
+        ]);      
+
+        if (strlen($request->password) < 8) {
+            return back()->withErrors(['password' => 'Password minimal memiliki 8 karakter']);
+        }
+              
         // Buat instance admin baru
         $admin = new ModelAdmin();
         $admin->username = $request->username;
@@ -41,7 +45,7 @@ class ControllerAdmin extends Controller
         session(['admin_id' => $admin->id, 'admin_username' => $admin->username]);
     
         // Redirect dengan pesan sukses
-        return redirect()->route('home')->with('success', 'Admin created successfully!');
+        return redirect()->route('home')->with('success', 'Admin berhasil didaftarkan');
     }
 
     // Display the specified resource
@@ -51,27 +55,52 @@ class ControllerAdmin extends Controller
     }
 
     // Show the form for editing the specified resource
-    public function edit(ModelAdmin $admin)
+    public function edit()
     {
-        return view('admin.edit', compact('admin'));
+        $data = ModelAdmin::findOrFail(session('admin_id'));
+        //return $data;
+        return view('admin.profile', compact('data'));
     }
 
     // Update the specified resource in storage
-    public function update(Request $request, ModelAdmin $admin)
+    public function updateUsername(Request $request, $admin_id)
     {
+        // Validasi input untuk username
         $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:admins,username,' . $admin->id,
-            'password' => 'nullable|string|min:8',
+            'username' => 'required|string|max:255|unique:admins,username,' . $admin_id,
         ]);
-
-        $admin->username = $request->username;
-        if ($request->filled('password')) {
-            $admin->password = Hash::make($request->password);
-        }
+    
+        // Cari admin berdasarkan ID
+        $admin = ModelAdmin::findOrFail($admin_id);
+        $admin->username = $validated['username'];
         $admin->save();
-
-        return redirect()->route('admin.index')->with('success', 'Admin updated successfully!');
+    
+        return back()->with('success', 'Username berhasil diperbarui.');
     }
+
+    public function updatePassword(Request $request, $admin_id)
+{
+    // Validasi input untuk password
+    $validated = $request->validate([
+        'current_password' => 'required|string',
+        'new_password' => 'required|string|min:8',
+    ]);
+
+    // Cari admin berdasarkan ID
+    $admin = ModelAdmin::findOrFail($admin_id);
+
+    // Verifikasi current password
+    if (!Hash::check($validated['current_password'], $admin->password)) {
+        return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
+    }
+
+    // Perbarui password
+    $admin->password = Hash::make($validated['new_password']);
+    $admin->save();
+
+    return back()->with('success', 'Password berhasil diperbarui.');
+}
+    
 
     // Remove the specified resource from storage
     public function destroy(ModelAdmin $admin)

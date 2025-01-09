@@ -23,6 +23,23 @@
     @extends('layouts.template')
     @section('content')
     <div class="container-fluid">
+    
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Progress Perguruan Tinggi</h6>
+            </div> 
+            <div class="card-body">
+                @php
+                    $totalRecords = count($data['data_klinik']);
+                @endphp
+                <p>Total Records: {{ $totalRecords }}</p>
+                <div class="chart-pie pt-4">
+                    <canvas id="myPieChart6"></canvas>
+                </div>
+            </div>          
+        </div>
+        
+
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Klinik SPMI</h6>

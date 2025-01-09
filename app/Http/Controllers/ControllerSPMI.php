@@ -17,11 +17,28 @@ class ControllerSPMI extends Controller
         // Hitung total berdasarkan data yang dipaginasi
         $data = $this->calculate();
         $total_semua = $this->calculateAll();
-    
+        $api_pt = $this->get_api_pt();
+
+        $countAkreditasi = [
+            'Unggul' => 0,
+            'A' => 0,
+            'Baik Sekali' => 0,
+            'Baik' => 0,
+            'B' => 0,
+            'Tidak tersedia' => 0,
+        ];
+        
+        foreach ($api_pt as $pt) {
+            if (isset($countAkreditasi[$pt['akreditasi']])) {
+                $countAkreditasi[$pt['akreditasi']]++;
+            }
+        }
+        
         // Kembalikan view dengan data yang sudah diatur
         return view('index', [
             'data' => $data,
-            'total_semua'=>$total_semua
+            'total_semua'=>$total_semua,
+            'countAkreditasi'=>$countAkreditasi
         ]);
     }
 
@@ -84,190 +101,221 @@ class ControllerSPMI extends Controller
     }
 
     public function ambilData(){
-        $spmi = ModelSPMI::where('tutup', '=', null)->get();
+        $spmi = ModelSPMI::where('tutup', '=', null)
+        ->whereNotIn('kodept', ['041103', '041129', '041131'])
+        ->get();
+
         $result = []; 
     
         foreach ($spmi as $item) {
             $row = [
                 'pt' => $item->ptspmi,
                 'kode_pt' => $item->kodept,
+                //Pengaturan pengelolaan SPMI Institusi
                 'kebijakan1' => [
                     'valid' => ($item->val1 == 1) ? 1 : 0,
                     'ver' => ($item->ver1 == 1) ? 1 : 0,
                     'unggah' => ($item->ul1!=null || $item->ul1!='') ? 1 : 0,
                 ],
+                //Pengaturan organisasi pengelola SPMI Institusi  
                 'kebijakan2' => [
                     'valid' => ($item->val2 == 1) ? 1 : 0,
                     'ver' => ($item->ver2 == 1) ? 1 : 0,
                     'unggah' => ($item->ul2!=null || $item->ul2!='') ? 1 : 0,
                 ],
+                //Pengaturan terkait pelaksanaan standar dalam SPMI Institusi
                 'kebijakan3' => [
                     'valid' => ($item->val3 == 1) ? 1 : 0,
                     'ver' => ($item->ver3 == 1) ? 1 : 0,
                     'unggah' => ($item->ul3!=null || $item->ul3!='') ? 1 : 0,
                 ],
+                //Pengaturan terkait evaluasi pelaksanaan standar
                 'kebijakan4' => [
                     'valid' => ($item->val4 == 1) ? 1 : 0,
                     'ver' => ($item->ver4 == 1) ? 1 : 0,
                     'unggah' => ($item->ul4!=null || $item->ul4!='') ? 1 : 0,
                 ],
+                //Pengaturan terkait pengendalian pelaksanaan standar
                 'kebijakan5' => [
                     'valid' => ($item->val5 == 1) ? 1 : 0,
                     'ver' => ($item->ver5 == 1) ? 1 : 0,
                     'unggah' => ($item->ul5!=null || $item->ul5!='') ? 1 : 0,
                 ],
+                //Pengaturan terkait peningkatan standar dalam SPMI Institusi
                 'kebijakan6' => [
                     'valid' => ($item->val6 == 1) ? 1 : 0,
                     'ver' => ($item->ver6 == 1) ? 1 : 0,
                     'unggah' => ($item->ul6!=null || $item->ul6!='') ? 1 : 0,
                 ],
-                
+                //Standar di aspek pendidikan
                 'standar1' => [
                     'valid' => ($item->s1 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->s1 && $item->s1 <= 3) ? 1 : 0,
                     'unggah' => ($item->s1 >= 1) ? 1 : 0,
                 ],
-
+                //	Standar di aspek penelitian
                 'standar2' => [
                     'valid' => ($item->s2 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->s2 && $item->s2 <= 3) ? 1 : 0,
                     'unggah' => ($item->s2 >= 1) ? 1 : 0,
                 ],
-
+                //Standar di aspek pengabdian pada masyarakat
                 'standar3' => [
                     'valid' => ($item->s3 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->s3 && $item->s3 <= 3) ? 1 : 0,
                     'unggah' => ($item->s3 >= 1) ? 1 : 0,
                 ],
-                
+                //aspek pengelolaan organisasi
                 'lain1' => [
                     'valid' => ($item->l1 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l1 && $item->l1 <= 3) ? 1 : 0,
                     'unggah' => ($item->l1 >= 1) ? 1 : 0,
                 ],
+                //aspek kemahasiswaan
                 'lain2' => [
                     'valid' => ($item->l2 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l2 && $item->l2 <= 3) ? 1 : 0,
                     'unggah' => ($item->l2 >= 1) ? 1 : 0,
                 ],
+                //aspek sumber daya manusia
                 'lain3' => [
                     'valid' => ($item->l3 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l3 && $item->l3 <= 3) ? 1 : 0,
                     'unggah' => ($item->l3 >= 1) ? 1 : 0,
                 ],
+                //aspek sarana prasarana
                 'lain4' => [
                     'valid' => ($item->l4 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l4 && $item->l4 <= 3) ? 1 : 0,
                     'unggah' => ($item->l4 >= 1) ? 1 : 0,
                 ],
+                //aspek kerjasama
                 'lain5' => [
                     'valid' => ($item->l5 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l5 && $item->l5 <= 3) ? 1 : 0,
                     'unggah' => ($item->l5 >= 1) ? 1 : 0,
                 ],
+                //aspek keuangan
                 'lain6' => [
                     'valid' => ($item->l6 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l6 && $item->l6 <= 3) ? 1 : 0,
                     'unggah' => ($item->l6 >= 1) ? 1 : 0,
                 ],
+                //aspek kesejahteraan
                 'lain7' => [
                     'valid' => ($item->l7 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->l7 && $item->l7 <= 3) ? 1 : 0,
                     'unggah' => ($item->l7 >= 1) ? 1 : 0,
                 ],
-
+                //Praktik Baik Atau Mekanisme
                 'audit1' => [
                     'valid' => ($item->ami1 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->ami1 && $item->ami1 <= 3) ? 1 : 0,
                     'unggah' => ($item->ami1 >= 1) ? 1 : 0,
                 ],
+                //Temuan
                 'audit2' => [
                     'valid' => ($item->ami2 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->ami2 && $item->ami2 <= 3) ? 1 : 0,
                     'unggah' => ($item->ami2 >= 1) ? 1 : 0,
                 ],
+                //Rekomendasi Peningkatan Mutu
                 'audit3' => [
                     'valid' => ($item->ami3 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->ami3 && $item->ami3 <= 3) ? 1 : 0,
                     'unggah' => ($item->ami3 >= 1) ? 1 : 0,
                 ],
-
+                //aspek pengelolaan organisasi
                 'pengendalian1' => [
                     'valid' => ($item->k1 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k1 && $item->k1 <= 3) ? 1 : 0,
                     'unggah' => ($item->k1 >= 1) ? 1 : 0,
                 ],
+                //aspek kerjasama
                 'pengendalian2' => [
                     'valid' => ($item->k2 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k2 && $item->k2 <= 3) ? 1 : 0,
                     'unggah' => ($item->k2 >= 1) ? 1 : 0,
                 ],
+                //Standar di aspek pengabdian pada masyarakat
                 'pengendalian3' => [
                     'valid' => ($item->k3 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k3 && $item->k3 <= 3) ? 1 : 0,
                     'unggah' => ($item->k3 >= 1) ? 1 : 0,
                 ],
+                //aspek kesejahteraan
                 'pengendalian4' => [
                     'valid' => ($item->k4 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k4 && $item->k4 <= 3) ? 1 : 0,
                     'unggah' => ($item->k4 >= 1) ? 1 : 0,
                 ],
+                //aspek keuangan
                 'pengendalian5' => [
                     'valid' => ($item->k5 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k5 && $item->k5 <= 3) ? 1 : 0,
                     'unggah' => ($item->k5 >= 1) ? 1 : 0,
                 ],
+                //aspek sarana prasarana
                 'pengendalian6' => [
                     'valid' => ($item->k6 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k6 && $item->k6 <= 3) ? 1 : 0,
                     'unggah' => ($item->k6 >= 1) ? 1 : 0,
                 ],
+                //aspek sumber daya manusia
                 'pengendalian7' => [
                     'valid' => ($item->k7 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k7 && $item->k7 <= 3) ? 1 : 0,
                     'unggah' => ($item->k7 >= 1) ? 1 : 0,
                 ],
+                //Standar di aspek pendidikan
                 'pengendalian8' => [
                     'valid' => ($item->k8 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k8 && $item->k8 <= 3) ? 1 : 0,
                     'unggah' => ($item->k8 >= 1) ? 1 : 0,
                 ],
+                //Standar di aspek penelitian
                 'pengendalian9' => [
                     'valid' => ($item->k9 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k9 && $item->k9 <= 3) ? 1 : 0,
                     'unggah' => ($item->k9 >= 1) ? 1 : 0,
                 ],
+                //aspek kemahasiswaan
                 'pengendalian10' => [
                     'valid' => ($item->k10 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->k10 && $item->k10 <= 3) ? 1 : 0,
                     'unggah' => ($item->k10 >= 1) ? 1 : 0,
                 ],
-
+                //Pengaturan pengelolaan SPMI Institusi
                 'peningkatan1' => [
                     'valid' => ($item->t1 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->t1 && $item->t1 <= 3) ? 1 : 0,
                     'unggah' => ($item->t1 >= 1) ? 1 : 0,
                 ],
+                //Pengaturan organisasi pengelola SPMI Institusi
                 'peningkatan2' => [
                     'valid' => ($item->t2 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->t2 && $item->t2 <= 3) ? 1 : 0,
                     'unggah' => ($item->t2 >= 1) ? 1 : 0,
                 ],
+                //Pengaturan terkait pelaksanaan standar dalam SPMI Institusi
                 'peningkatan3' => [
                     'valid' => ($item->t3 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->t3 && $item->t3 <= 3) ? 1 : 0,
                     'unggah' => ($item->t3 >= 1) ? 1 : 0,
                 ],
+                //Pengaturan terkait evaluasi pelaksanaan standar
                 'peningkatan4' => [
                     'valid' => ($item->t4 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->t4 && $item->t4 <= 3) ? 1 : 0,
                     'unggah' => ($item->t4 >= 1) ? 1 : 0,
                 ],
+                //Pengaturan terkait pengendalian pelaksanaan standar
                 'peningkatan5' => [
                     'valid' => ($item->t5 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->t5 && $item->t5 <= 3) ? 1 : 0,
                     'unggah' => ($item->t5 >= 1) ? 1 : 0,
                 ],
+                //Pengaturan terkait peningkatan standar dalam SPMI Institusi
                 'peningkatan6' => [
                     'valid' => ($item->t6 == 3) ? 1 : 0,
                     'ver' => (2 <= $item->t6 && $item->t6 <= 3) ? 1 : 0,
@@ -285,6 +333,7 @@ class ControllerSPMI extends Controller
     {
         // Retrieve data
         $data = $this->ambilData();
+        // $akreditasi = $this->get_api_pt(); 
 
         // Calculate totals by iterating over each item
         foreach ($data as $item) {
@@ -379,9 +428,7 @@ class ControllerSPMI extends Controller
             } else if ($presentase_valid > 49 || $presentase_valid < 81){
                 $klaster = 'kuning';
             }
-
-            $verifikator = 
-
+        
             $data['totals'] = [
                 'kode_pt' => $kode_pt,
                 'pt' => $pt,
@@ -409,7 +456,9 @@ class ControllerSPMI extends Controller
                 'presentase_valid' => $presentase_valid,
                 'presentase_verif' => $presentase_verif,
                 'presentase_unggah' => $presentase_unggah,
-                'klaster' => $klaster
+                'klaster' => $klaster,
+                // 'akreditasi' => $akreditasi_pt,
+                // 'kota_kab' => $kota_kab
             ];
 
             $result[] = $data['totals'];
@@ -562,6 +611,10 @@ class ControllerSPMI extends Controller
         $url_login = 'https://pddikti.lldikti4.id/api/login';
         $username = 'magang@lldikti4.id';
         $password = 'm@g@ng@lldikti4.id';
+        $spmi = ModelSPMI::where('tutup', '=', null)
+        ->whereNotIn('kodept', ['041103', '041129', '041131'])
+        ->select('kodept')
+        ->get();
     
         $data_login = [
             'email' => $username,
@@ -635,9 +688,109 @@ class ControllerSPMI extends Controller
         exit;
         }
 
+        $result = [];
         // Parse data responsenya menjadi array asosiatif
         $data_response = json_decode($response, true);
+        
+        // Cek apakah JSON berhasil di-decode
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return ['error' => 'Invalid JSON response'];
+        }
+        
+        foreach ($data_response as $data) {
+            // Pastikan 'npsn' dan 'kota_kab' ada dalam data
+            if (!isset($data['npsn']) || !isset($data['kota_kab'])) {
+                continue; // Skip jika data tidak lengkap
+            }
+        
+            // Ambil prefiks 2 digit pertama dari 'npsn'
+            $npsn_prefix = substr($data['npsn'], 0, 3);
+        
+            // Tentukan bentuk dan jenis pendidikan_pt
+            $bentuk = 'Tidak diketahui';
+            $pendidikan_pt = 'Tidak diketahui';
+        
+            switch ($npsn_prefix) {
+                case '043':
+                    $bentuk = 'Sekolah Tinggi';
+                    $pendidikan_pt = 'Akademik';
+                    break;
+                case '041':
+                    $bentuk = 'Universitas';
+                    $pendidikan_pt = 'Akademik';
+                    break;
+                case '044':
+                    $bentuk = 'Akademi';
+                    $pendidikan_pt = 'Vokasi';
+                    break;
+                case '045':
+                    $bentuk = 'Politeknik';
+                    $pendidikan_pt = 'Vokasi';
+                    break;
+                case '042':
+                    $bentuk = 'Institut';
+                    $pendidikan_pt = 'Akademik';
+                    break;
+                case '046':
+                    $bentuk = 'Akademi Komunitas';
+                    $pendidikan_pt = 'Vokasi';
+                    break;
+            }
+        
+            foreach ($spmi as $item) {
+                // Cek apakah 'kode_pt' ada dan cocok dengan 'npsn'
+                if (isset($item['kodept']) && $data['npsn'] == $item['kodept']) {
+                    $akreditasi = $data['akreditasi']['nm_akred'] ?? 'Tidak tersedia';
+        
+                    // Menambahkan data ke array result
+                    $result[] = [
+                        'npsn' => $data['npsn'],
+                        'nm_lemb' => $data['nm_lemb'],
+                        'akreditasi' => $akreditasi,
+                        'kota_kab' => $data['kota_kab'],
+                        'bentuk' => $bentuk, // Menambahkan bentuk
+                        'pendidikan_pt' => $pendidikan_pt // Menambahkan jenis pendidikan
+                    ];
+        
+                    break; // Berhenti setelah menemukan data yang cocok
+                }
+            }
+        }
+        
+        
+        // Cek apakah hasilnya kosong
+        if (empty($result)) {
+            return ['message' => 'No matching data found'];
+        }
+        
+        return $result;
+        
+    }
 
-        return $data_response;
+    public function data_sebaran_pts()
+    {
+        // Contoh data: ganti dengan query dari database atau data sebenarnya
+        $data = $this->get_api_pt();
+
+        // Menghitung jumlah institusi per kota
+        $result = [];
+        foreach ($data as $item) {
+            $kota_kab = $item['kota_kab'];
+            if (!isset($result[$kota_kab])) {
+                $result[$kota_kab] = ['kota_kab' => $kota_kab, 'jumlah_institusi' => 0];
+            }
+            $result[$kota_kab]['jumlah_institusi']++;
+        }
+
+        // Format ulang hasil menjadi array numerik
+        $response = array_values($result);
+
+        // Mengembalikan data sebagai JSON
+        return response()->json($response);
+    }
+
+    public function sebaran_pts(){
+        $data = $this->get_api_pt();
+        return view('sebaran_pts', ['data'=>$data]);
     }
 }

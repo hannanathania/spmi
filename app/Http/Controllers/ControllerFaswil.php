@@ -14,7 +14,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ControllerFaswil extends Controller {
     public function create(){
-        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
+        $data_pt = ModelSPMI::where('tutup', '=', null)
+        ->whereNotIn('kodept', ['041103', '041129', '041131'])
+        ->get();
         return view('faswil_create', compact('data_pt'));
     }
 
@@ -54,7 +56,9 @@ class ControllerFaswil extends Controller {
 
     public function edit($kode_faswil){
         $data = ModelFaswil::findOrFail($kode_faswil);
-        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
+        $data_pt = ModelSPMI::where('tutup', '=', null)
+        ->whereNotIn('kodept', ['041103', '041129', '041131'])
+        ->get();
         return view('faswil_edit', compact('data','data_pt'));
     }
 
@@ -62,7 +66,7 @@ class ControllerFaswil extends Controller {
         $validated = $request->validate([
             'kode_faswil' => 'required|string',
             'nama_faswil' => 'required|string',
-            'kode_pt' => 'required|string',
+            'kode_pt' => 'nullable|string',
             'nik'=>'nullable|string',
             'gelar_depan'=>'nullable|string',
             'gelar_blk'=>'nullable|string',

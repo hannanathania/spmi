@@ -18,6 +18,18 @@ Route::get('/admin/create', [ControllerAdmin::class, 'create'])
 Route::post('/admin/create', [ControllerAdmin::class, 'store'])
         ->name('admin.store');
 
+Route::get('/admin/profile', [ControllerAdmin::class, 'edit'])
+        ->name('admin.profile');
+// Route untuk update username
+Route::put('admin/profile/edit/username/{admin_id}', [ControllerAdmin::class, 'updateUsername'])
+    ->middleware(AdminMiddleware::class)
+    ->name('admin.updateUsername');
+// Route untuk update password
+Route::put('admin/profile/edit/password/{admin_id}', [ControllerAdmin::class, 'updatePassword'])
+    ->middleware(AdminMiddleware::class)
+    ->name('admin.updatePassword');
+
+
 Route::get('/login', [ControllerAdmin::class, 'showLoginForm'])
         ->name('login');
 Route::post('/login', [ControllerAdmin::class, 'login']);
@@ -36,6 +48,8 @@ Route::get('/contoh_tabel', [ControllerSPMI::class, 'contoh']);
 Route::get('spmi_pt/detail/{pt}', [ControllerSPMI::class, 'show'])
         ->name('detail_spmi');
 Route::get('/direktori_pts', [ControllerSPMI::class, 'show_pt']);
+Route::get('/sebaran_pts', [ControllerSPMI::class, 'sebaran_pts']);
+Route::get('data/sebaran_pts', [ControllerSPMI::class, 'data_sebaran_pts']);
 
 Route::get('/klinik_spmi', [ControllerKlinik::class, 'klinik_spmi']);
 Route::get('/data/klinik_spmi', [ControllerKlinik::class, 'data_klinik_spmi']);

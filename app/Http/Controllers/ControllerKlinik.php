@@ -11,7 +11,9 @@ class ControllerKlinik extends Controller
 {
     public function data_klinik_spmi() {
         $data_klinik = ModelKlinik::all();
-        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
+        $data_pt = ModelSPMI::where('tutup', '=', null)
+                    ->whereNotIn('kodept', ['041103', '041129', '041131'])
+                    ->get();
         $data_faswil = ModelFaswil::all(); // Ambil data Faswil
 
         foreach ($data_klinik as $item) {
@@ -32,7 +34,9 @@ class ControllerKlinik extends Controller
     }
 
     public function create() {
-        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
+        $data_pt = ModelSPMI::where('tutup', '=', null)
+                    ->whereNotIn('kodept', ['041103', '041129', '041131'])
+                    ->get();
         $data_faswil = ModelFaswil::all(); // Ambil data Faswil
     
         return view('klinik_spmi_create', compact('data_pt', 'data_faswil')); // Pastikan variabel dikirim
@@ -64,7 +68,9 @@ class ControllerKlinik extends Controller
     {
         // Retrieve the existing record from the database by its ID
         $data = ModelKlinik::findOrFail($kode);
-        $data_pt = ModelSPMI::where('tutup', '=', null)->get();
+        $data_pt = ModelSPMI::where('tutup', '=', null)
+                    ->whereNotIn('kodept', ['041103', '041129', '041131'])
+                    ->get();
         $data_faswil = ModelFaswil::all(); // Ambil data Faswil
         
     

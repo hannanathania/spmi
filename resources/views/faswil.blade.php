@@ -42,6 +42,7 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Nama Verifikator</th>
+                                <th scope="col">Dokumen yang belum diverifikasi</th> 
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -50,6 +51,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}.</td>
                                     <td>{{ $items['nama_faswil'] }}</td>
+                                    <td>{{ $items['total_verif'] }}</td>
                                     <td>
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $kode_faswil }}">
                                             <i class="fas fa-eye"></i> List PT
@@ -68,6 +70,7 @@
                                                                     <th scope="col">Kode PT</th>
                                                                     <th scope="col">Nama PT</th> 
                                                                     <th scope="col">Klaster</th> 
+                                                                    <th scope="col">Dokumen yang perlu diverifikasi</th> 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -92,6 +95,7 @@
                                                                                 <span class="badge badge-secondary" disabled>{{ $pt['klaster'] }}</span>
                                                                             </td>
                                                                         @endif
+                                                                        <td>{{ $pt['perlu_verif'] }}</td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>

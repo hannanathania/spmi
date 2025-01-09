@@ -4583,6 +4583,13 @@ input[type="button"].btn-block {
   border-radius: 0.35rem;
 }
 
+.hover-effect:hover {
+  background-color: #f8f9fd; /* Warna latar belakang ketika hover */
+  cursor: pointer; /* Menunjukkan kursor berubah saat hover */
+  transform: scale(1.05); /* Membesarkan sedikit card saat hover */
+  transition: all 0.3s ease-in-out; /* Efek transisi smooth */
+}
+
 .card > hr {
   margin-right: 0;
   margin-left: 0;

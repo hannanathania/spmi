@@ -107,7 +107,7 @@
                         @else
                         <a class="collapse-item {{ request()->is('klinik_spmi') ? 'active' : '' }}" href="/klinik_spmi">Data Klinik SPMI</a>
                         @endif
-                        <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/visualisasi_spmi">Visualisasi Klinik SPMI</a>
+                        <!-- <a class="collapse-item {{ request()->is('spmi_pt') ? 'active' : '' }}" href="/visualisasi_spmi">Visualisasi Klinik SPMI</a> -->
                     </div>
                 </div>
             </li>
@@ -164,7 +164,7 @@
                                 
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="/admin/profile">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
                                     </a>

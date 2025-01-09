@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class ControllerPtPengimbas extends Controller
 {
     public function create() {
-        $data = ModelSPMI::where('tutup', '=', null)->get();
+        $data = ModelSPMI::where('tutup', '=', null)
+        ->whereNotIn('kodept', ['041103', '041129', '041131'])
+        ->get();
         return view ('pt_pengimbas_create', compact('data'));
     }
 

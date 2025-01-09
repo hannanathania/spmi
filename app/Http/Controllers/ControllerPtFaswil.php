@@ -22,10 +22,16 @@ class ControllerPtFaswil extends Controller
         $spmiController = new ControllerSPMI();
         $data_SPMI = $spmiController->calculate(); // Data klaster
     
-        // Membuat array untuk mencari klaster berdasarkan kodept
+        // Membuat array untuk mencari klaster berdasarkan kode_pt
         $klaster_map = [];
         foreach ($data_SPMI as $item) {
-            $klaster_map[$item['kode_pt']] = $item['klaster']; // Memetakan kodept ke klaster
+            $klaster_map[$item['kode_pt']] = $item['klaster']; // Memetakan kode_pt ke klaster
+        }
+    
+        // Membuat array untuk mencari verifikasi berdasarkan kode_pt
+        $verif_map = [];
+        foreach ($data_SPMI as $item) {
+            $verif_map[$item['kode_pt']] = $item['unggah'] - $item['ver']; // Memetakan kode_pt ke verifikasi
         }
     
         // Inisialisasi groupedData dengan seluruh faswil
@@ -34,7 +40,8 @@ class ControllerPtFaswil extends Controller
             $groupedData[$kode_faswil] = [
                 'kode_faswil' => $kode_faswil,
                 'nama_faswil' => $nama_faswil,
-                'pt' => [] // Awalnya kosong
+                'pt' => [], // Awalnya kosong
+                'total_verif' => 0 // Awalnya 0
             ];
         }
     
@@ -42,18 +49,22 @@ class ControllerPtFaswil extends Controller
         foreach ($data_pt as $item) {
             $kode_pt = $item->kodept; // Ambil kode_pt dari data_pt
             $klaster = isset($klaster_map[$kode_pt]) ? $klaster_map[$kode_pt] : 'Tidak Dikenal'; // Ambil klaster dari klaster_map
+            $verif = isset($verif_map[$kode_pt]) ? $verif_map[$kode_pt] : 0;
     
             $groupedData[$item->kode_faswil]['pt'][] = [
                 'kode_pt' => $item->kodept,
                 'nama_pt' => $item->pt->ptspmi, // Mengambil nama_pt dari relasi pt
-                'klaster' => $klaster // Menambahkan klaster di sini
+                'klaster' => $klaster, // Menambahkan klaster di sini
+                'perlu_verif' => $verif
             ];
+    
+            // Menambahkan nilai verifikasi ke total_verif per faswil
+            $groupedData[$item->kode_faswil]['total_verif'] += $verif;
         }
     
         return $groupedData;
     }
     
-
     public function admin_get_pt_faswil(){
         $groupedData = $this->get_pt_faswil();
         return view('faswil_admin', compact('groupedData'));

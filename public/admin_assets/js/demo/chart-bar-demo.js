@@ -45,8 +45,8 @@ fetch('/data/fasilitator_wilayah') // Fetch from the correct endpoint
               datasets: [{
                   label: 'Jumlah PT', // Add label for the dataset
                   data: ptCounts, // Use PT counts as data
-                  backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f1f1f1', '#e0e0e0'], // Colors for each bar
-                  hoverBackgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f1f1f1', '#e0e0e0']
+                  backgroundColor: ['#4e73df'], // Colors for each bar
+                  hoverBackgroundColor: ['#4e73df']
               }]
           },
           options: {
@@ -84,4 +84,113 @@ fetch('/data/fasilitator_wilayah') // Fetch from the correct endpoint
     })
     .catch(error => console.error('Error fetching data:', error));
 
+document.addEventListener("DOMContentLoaded", function() {
+        fetch('/api_pt') // Ambil data dari endpoint yang sesuai
+            .then(response => response.json())
+            .then(data => {
+                const bentukCounts = {};
+                const bentukDetails = {}; // Menyimpan nama PT untuk setiap bentuk
+    
+                // Menghitung jumlah PT per bentuk dan menyimpan detail PT
+                data.forEach(item => {
+                    bentukCounts[item.bentuk] = (bentukCounts[item.bentuk] || 0) + 1;
+                    if (!bentukDetails[item.bentuk]) {
+                        bentukDetails[item.bentuk] = [];
+                    }
+                    bentukDetails[item.bentuk].push(item.nm_lemb);
+                });
+    
+                const bentukLabels = Object.keys(bentukCounts);
+                const bentukData = Object.values(bentukCounts);
+    
+                const config = {
+                    type: 'bar',
+                    data: {
+                        labels: bentukLabels,
+                        datasets: [{
+                            label: 'Jumlah PT',
+                            data: bentukData,
+                            backgroundColor: ['#4e73df'],
+                            hoverBackgroundColor: ['#375a9e']
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: true,
+                            caretPadding: 10,
+                        },
+                        legend: {
+                            display: false,
+                        }
+                    }
+                };
+    
+                // Membuat chart dengan konfigurasi
+                const ctx = document.getElementById('myBarChart2').getContext('2d');
+                const myBarChart = new Chart(ctx, config);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });    
 
+fetch('/data/sebaran_pts') // Adjust the endpoint as needed
+  .then(response => response.json())
+  .then(data => {
+    // Urutkan data berdasarkan jumlah_institusi terbanyak, dan ambil 5 teratas
+    const top5SebaranPt = data
+      .sort((a, b) => b.jumlah_institusi - a.jumlah_institusi)
+      .slice(0, 5);
+
+    // Extract city names and institutions count for top 5
+    const labels = top5SebaranPt.map(item => item.kota_kab);
+    const jumlahInstitusi = top5SebaranPt.map(item => item.jumlah_institusi);
+    
+    // Bar chart configuration
+    const ctx = document.getElementById('myBarChart3').getContext('2d');
+    const myBarChart3 = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Jumlah Institusi',
+          data: jumlahInstitusi,
+          backgroundColor: ['#4e73df'], // Colors for each bar
+          hoverBackgroundColor: ['#4e73df'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        maintainAspectRatio: false, // Allow chart to scale independently
+        tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: true,
+            caretPadding: 10,
+        },
+        legend: {
+            display: false,
+            position: 'top',
+            align: 'start',
+            padding: {
+                top: 10,
+                right: 0,
+                bottom: 0,
+                left: 0
+            },
+        }
+      }
+    });
+  })
+  .catch(error => console.error('Error fetching data:', error));
+
+  

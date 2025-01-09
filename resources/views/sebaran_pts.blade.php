@@ -24,10 +24,10 @@
     <div class="container-fluid">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Jumlah PTS Berdasarkan Bentuk</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Top 5 Kabupaten/Kota dengan PTS terbanyak di LLDIKTI IV</h6>
             </div>
             <div class="chart-bar pt-4">
-                <canvas id="myBarChart2" width="400" height="200"></canvas>
+                <canvas id="myBarChart3"></canvas>
             </div>
         </div>
         <div class="card shadow mb-4">
@@ -41,8 +41,7 @@
                             <tr>
                                 <th scope="col">Kode PT</th>    
                                 <th scope="col">Nama PT</th>
-                                <th scope="col">APT</th>
-                                <th scope="col">Bentuk</th>
+                                <th scope="col">Kab./Kota</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,8 +53,7 @@
                                 {{ $item['nm_lemb'] }}
                             </a>
                             </td>
-                            <td>{{ $item['akreditasi'] ?? 'Tidak terakrediatsi' }}</td>
-                            <td>{{$item['bentuk']}}</td>    
+                            <td>{{ $item['kota_kab'] }}</td>
                         </tr>
                         @empty
                             <tr>
@@ -66,38 +64,9 @@
                     </table>
                 </div>
             </div>
-            
-            <!-- Modal HTML -->
-            <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="infoModalLabel">Detail PT</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Tabel yang akan diisi dengan data -->
-                    <table class="table table-bordered" id="ptTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                        <th>No</th>
-                        <th>Nama PT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Data PT akan diisi oleh JavaScript -->
-                    </tbody>
-                    </table>
-                    <!-- Pesan jika tidak ada data -->
-                    <p id="noDataMessage" style="display:none;">Tidak ada data PT untuk kategori ini.</p>
-                </div>
-                </div>
-            </div>
-            </div>
 
         </div>
 
-    <!-- Bootstrap JS for modal functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -105,7 +74,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>let table = new DataTable('#myTable');</script>
-    <script>let table2 = new DataTable('#ptTable');</script>
 
     @endsection
 </body>

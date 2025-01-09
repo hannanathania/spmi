@@ -214,6 +214,96 @@ fetch('/total_semua')
     })
     .catch(error => console.error('Error fetching data:', error));
 
+fetch('/api_pt')
+    .then(response => response.json())
+    .then(data => {
+        let unggul = 0;
+        let baik = 0;
+        let baik_sekali = 0;
+        let b =0;
+        let a =0;
+        let tidak_tersedia = 0; 
+        
+        data.forEach(item => {
+            if (item.akreditasi === 'Unggul') {
+                unggul++;
+            } else if (item.akreditasi === 'Baik') {
+                baik++;
+            } else if (item.akreditasi === 'Baik Sekali') {
+                baik_sekali++;
+            } else if (item.akreditasi === 'Tidak tersedia') {
+                tidak_tersedia++;
+            } else if (item.akreditasi === 'A') {
+                a++;
+            } else if (item.akreditasi === 'B') {
+                b++;
+            }
+          });
+
+        const config = {
+            type: 'pie', // Pie chart type
+            data: {
+                labels: ['Unggul', 'A', 'Baik Sekali', 'Baik', 'B', 'Tidak Tersedia'], // Labels for the chart
+                datasets: [{
+                    data: [unggul, a, baik_sekali, baik, b, tidak_tersedia], // Data from the server
+                    backgroundColor: [
+                        '#4e73df', 
+                        '#1cc88a', 
+                        '#36b9cc', 
+                        '#6a89cc', 
+                        '#17a673', 
+                        '#2c9faf'
+                    ],
+                    hoverBackgroundColor: [
+                        '#2c4a7a', // lebih gelap dari '#375a9e'
+                        '#0d5b40', // lebih gelap dari '#13855c'
+                        '#1b6067', // lebih gelap dari '#258795'
+                        '#30485f', // lebih gelap dari '#5079a5'
+                        '#08412f', // lebih gelap dari '#0f624d'
+                        '#144c59'  // lebih gelap dari '#1d7684'
+                    ]
+                    
+            }]
+            },
+            options: {
+                maintainAspectRatio: false, // Ensure it maintains aspect ratio
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 0,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'start',
+                        padding: {
+                            top: 10,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        },
+                    }
+                }
+            }
+        };
+
+        // Create the pie chart instance
+        const myPieChart = new Chart(
+            document.getElementById('myPieChart5'),
+            config
+        );
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
 fetch('/data/klinik_spmi')
     .then(response => response.json())
     .then(data => {
@@ -272,8 +362,10 @@ fetch('/data/klinik_spmi')
 
         // Create the pie chart instance
         const myPieChart = new Chart(
-            document.getElementById('myPieChart5'),
+            document.getElementById('myPieChart6'),
             config
         );
     })
     .catch(error => console.error('Error fetching data:', error));
+
+  
