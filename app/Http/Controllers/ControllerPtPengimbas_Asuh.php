@@ -78,10 +78,21 @@ class ControllerPtPengimbas_Asuh extends Controller
 
     public function store(Request $request)
     {
+        if (!$request->has('kode_pt_peng') || empty($request->kode_pt_peng)) {
+            return redirect()->back()->with('error', 'Harap pilih Perguruan Tinggi Pengimbas!');
+        }
+
+        if (!$request->has('kode_pt_asuh') || empty($request->kode_pt_asuh)) {
+            return redirect()->back()->with('error', 'Harap pilih setidaknya satu Perguruan Tinggi!');
+        }
+
         foreach ($request->kode_pt_asuh as $pt) {
             $existingPt = ModelPtPengimbas_Asuh::where('kode_pt_asuh', $pt)->first();
     
             if ($existingPt) {
+                // If the kodept exists, skip the insert and notify the user
+                return redirect()->back()->with('error', 'Kode PT ' . $pt . ' sudah terdaftar!');
+            } if ($existingPt) {
                 // If the kodept exists, skip the insert and notify the user
                 return redirect()->back()->with('error', 'Kode PT ' . $pt . ' sudah terdaftar!');
             }
@@ -220,6 +231,14 @@ class ControllerPtPengimbas_Asuh extends Controller
     
         // If no record is found, return a not found message
         return redirect()->back()->with('error', 'PT tidak ada');
+    }
+
+    public function getPtPengimbasAsuh() {
+        $pt_pengimbas = ModelPtPengimbas::all(); 
+        $pt_asuh = ModelPtAsuh::all(); 
+        return (['pt_pengimbas' => $pt_pengimbas,
+            'pt_asuh' => $pt_asuh]  
+        );
     }
     
 }

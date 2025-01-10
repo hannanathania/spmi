@@ -87,7 +87,7 @@
     <script>
         let ptData; // Declare ptData in a higher scope so it's accessible everywhere
         // Fetch data from the server
-        fetch('/data/pt_pengimbas')
+    fetch('/data/pt_pengimbas_asuh')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

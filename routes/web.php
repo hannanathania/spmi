@@ -104,6 +104,7 @@ Route::post('/admin/fasilitator_wilayah', [ControllerPtFaswil::class, 'store'])
 
 Route::get('/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'pt_pengimbas']);
 Route::get('data/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'getPtPengimbas']);
+Route::get('data/pt_pengimbas_asuh', [ControllerPtPengimbas_Asuh::class, 'getPtPengimbasAsuh']);
 Route::get('pt_pengimbas/detail/{pt_pengimbas}', [ControllerPtPengimbas_Asuh::class, 'pt_pengimbas_detail']);
 Route::get('/admin/pt_pengimbas', [ControllerPtPengimbas_Asuh::class, 'admin_pt_pengimbas'])
         ->middleware(AdminMiddleware::class)
