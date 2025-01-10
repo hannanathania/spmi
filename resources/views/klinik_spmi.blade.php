@@ -32,7 +32,10 @@
                 @php
                     $totalRecords = count($data['data_klinik']);
                 @endphp
-                <p>Total Records: {{ $totalRecords }}</p>
+                <center>
+                <h6 class="m-0 font-weight-bold text-gray-800">Jumlah PT yang mengikuti Klinik : {{ $totalRecords }}</h6>
+                </center>
+                
                 <div class="chart-pie pt-4">
                     <canvas id="myPieChart6"></canvas>
                 </div>
@@ -107,6 +110,9 @@
         </div>
     </div>
 
+    <script src="{{asset('admin_assets/vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.js"></script>
+    <script src="{{asset('admin_assets/js/demo/chart-pie-demo.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

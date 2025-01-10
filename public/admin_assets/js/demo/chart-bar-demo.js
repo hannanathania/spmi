@@ -193,4 +193,55 @@ fetch('/data/sebaran_pts') // Adjust the endpoint as needed
   })
   .catch(error => console.error('Error fetching data:', error));
 
-  
+fetch('/data/pt_pengimbas') // Fetch from the correct endpoint
+  .then(response => response.json())
+  .then(data => {
+    const keys = Object.keys(data);
+
+    // Proses data menjadi array nama PT pengimbas dan jumlah PT asuh
+    const labels = keys.map(key => data[key].nama_pt_peng); // Nama PT pengimbas
+    const ptCounts = keys.map(key => data[key].pt_asuh.length); // Jumlah PT asuh
+    
+      const config = {
+        type: 'bar', // Bar chart type
+        data: {
+            labels: labels, // Use faswil names as labels
+            datasets: [{
+                label: 'Jumlah PT', // Add label for the dataset
+                data: ptCounts, // Use PT counts as data
+                backgroundColor: ['#4e73df'], // Colors for each bar
+                hoverBackgroundColor: ['#4e73df']
+            }]
+        },
+        options: {
+            maintainAspectRatio: false, // Allow chart to scale independently
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: true,
+                caretPadding: 10,
+            },
+            legend: {
+                display: false,
+                position: 'top',
+                align: 'start',
+                padding: {
+                    top: 10,
+                    right: 0,
+                    bottom: 0,
+                    left: 0
+                },
+            }
+        }
+    };
+      // Create the bar chart
+      const myBarChart = new Chart(
+          document.getElementById('myBarChart4'),
+          config
+      );
+  })
+  .catch(error => console.error('Error fetching data:', error));

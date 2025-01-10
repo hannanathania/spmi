@@ -14,23 +14,65 @@ use Illuminate\Support\Facades\DB;
 class ControllerPtPengimbas_Asuh extends Controller
 {
     public function getPtPengimbas() {
-    
-        // Mengambil data pt_pengimbas berdasarkan kodept yang ada
-        $pt_pengimbas = ModelPtPengimbas::all();
-        $pt_asuh = ModelPtAsuh::all();
+        $data_pengimbas = ModelPtPengimbas::all(); // Semua PT Pengimbas
+        $data_asuh = ModelPtPengimbas_Asuh::with(['pengimbas', 'asuh'])->get();
+        $spmiController = new ControllerSPMI();
+        $data_SPMI = $spmiController->calculate(); // Data klaster
         
-    
-        return [
-            'pt_pengimbas' => $pt_pengimbas, 
-            'pt_asuh' => $pt_asuh
-        ];
+        // Membuat array untuk mencari klaster berdasarkan kodept
+        $klaster_map = [];
+        foreach ($data_SPMI as $item) {
+            $klaster_map[$item['kode_pt']] = $item['klaster']; // Memetakan kodept ke klaster
+        }
+        
+        // Inisialisasi groupedData
+        $groupedData = [];
+        
+        // Tambahkan semua PT Pengimbas ke groupedData
+        foreach ($data_pengimbas as $pt_pengimbas) {
+            $kode_pt_peng = $pt_pengimbas->kodept;
+        
+            $groupedData[$kode_pt_peng] = [
+                'kode_pt_peng' => $kode_pt_peng,
+                'nama_pt_peng' => $pt_pengimbas->ptspmi,
+                'klaster_pengimbas' => $klaster_map[$kode_pt_peng] ?? 'Tidak Dikenal', // Tentukan klaster PT Pengimbas
+                'pt_asuh' => [] // Inisialisasi array untuk PT Asuh
+            ];
+        }
+        
+        // Tambahkan PT Asuh ke groupedData
+        foreach ($data_asuh as $item) {
+            $kode_pt_peng = $item->kode_pt_peng;
+            $kode_pt_asuh = $item->kode_pt_asuh;
+        
+            // Pastikan bahwa PT Pengimbas sudah ada dalam groupedData
+            if (!isset($groupedData[$kode_pt_peng])) {
+                $groupedData[$kode_pt_peng] = [
+                    'kode_pt_peng' => $kode_pt_peng,
+                    'nama_pt_peng' => $item->pengimbas->ptspmi,
+                    'klaster_pengimbas' => $klaster_map[$kode_pt_peng] ?? 'Tidak Dikenal',
+                    'pt_asuh' => []
+                ];
+            }
+        
+            // Tambahkan data PT Asuh ke dalam array 'pt_asuh'
+            $groupedData[$kode_pt_peng]['pt_asuh'][] = [
+                'kode_pt_asuh' => $kode_pt_asuh,
+                'nama_pt_asuh' => $item->asuh->ptspmi,
+                'klaster_asuh' => $klaster_map[$kode_pt_asuh] ?? 'Tidak Dikenal'
+            ];
+        }
+        
+        // Mengembalikan data yang terstruktur
+        return $groupedData;
     }
 
     public function create() {
-        $data = $this->getPtPengimbas();
+        $pt_pengimbas = ModelPtPengimbas::all(); 
+        $pt_asuh = ModelPtAsuh::all(); 
         return view ('penugasan_pengimbas_create', [
-            'pt_pengimbas' => $data['pt_pengimbas'],
-            'pt_asuh' => $data['pt_asuh']
+            'pt_pengimbas' => $pt_pengimbas,
+            'pt_asuh' => $pt_asuh
         ]);
     }
 

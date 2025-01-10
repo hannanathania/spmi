@@ -305,67 +305,75 @@ fetch('/api_pt')
     .catch(error => console.error('Error fetching data:', error));
 
 fetch('/data/klinik_spmi')
-    .then(response => response.json())
+    .then(response => {
+        console.log('Fetching data...');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
+        console.log('Data fetched:', data);
         let adaCount = 0;
         let tidakAdaCount = 0;
-        
-        // Loop through each entry in the fetched `data.data_klinik` array
-        data.data_klinik.forEach(item => {
-            if (item.progress === 'Ada') {
-                adaCount++;
-            } else if (item.progress === 'Tidak Ada') {
-                tidakAdaCount++;
-            }
-        });
 
-        const config = {
-            type: 'pie', // Pie chart type
-            data: {
-                labels: ['Ada', 'Tidak Ada'], // Labels for the chart
-                datasets: [{
-                    data: [adaCount, tidakAdaCount], // Data from the server
-                    backgroundColor: ['#ff0000', '#ffcc00'], // Red for Ada, Yellow for Tidak Ada
-                    hoverBackgroundColor: ['#ff0000', '#ffcc00'] // Hover colors
-                }]
-            },
-            options: {
-                maintainAspectRatio: false, // Ensure it maintains aspect ratio
-                tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: true,
-                    caretPadding: 10,
+        if (Array.isArray(data.data_klinik)) {
+            data.data_klinik.forEach(item => {
+                if (item.progress === 'Ada') {
+                    adaCount++;
+                } else if (item.progress === 'Tidak Ada') {
+                    tidakAdaCount++;
+                }
+            });
+        } else {
+            throw new Error('Data format is incorrect');
+        }
+
+        console.log('Count Ada:', adaCount);
+        console.log('Count Tidak Ada:', tidakAdaCount);
+
+        const ctx = document.getElementById('myPieChart6');
+        if (ctx) {
+            console.log('Canvas found:', ctx);
+            const config = {
+                type: 'pie',
+                data: {
+                    labels: ['Ada', 'Tidak Ada'],
+                    datasets: [{
+                        data: [adaCount, tidakAdaCount],
+                        backgroundColor: ['#4e73df', '#1cc88a'], // Warna SB Admin 2
+                        hoverBackgroundColor: ['#3753d8', '#17a673'], // Warna hover
+                    }]
                 },
-                legend: {
-                    display: false
-                },
-                cutoutPercentage: 0,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        align: 'start',
-                        padding: {
-                            top: 10,
-                            right: 0,
-                            bottom: 0,
-                            left: 0
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            caretPadding: 10
                         },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            align: 'start'
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        // Create the pie chart instance
-        const myPieChart = new Chart(
-            document.getElementById('myPieChart6'),
-            config
-        );
+            new Chart(ctx, config);
+            console.log('Chart created successfully!');
+        } else {
+            console.error('Canvas element with id "myPieChart6" not found.');
+        }
     })
-    .catch(error => console.error('Error fetching data:', error));
+    .catch(error => console.error('Error fetching or processing data:', error));
+
+
 
   

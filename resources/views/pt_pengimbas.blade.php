@@ -23,106 +23,116 @@
     @extends('layouts.template')
     @section('content')
     <div class="container-fluid">
-    <div class="card shadow mb-4">
+        <h1 class="h3 mb-2 text-gray-800">PT Pengimbas SPMI</h1>
+        <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar PT Pengimbas SPMI</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Sebaran PT Pengimbas</h6>
             </div>
-            
-    <div class="card-body">
-            <div class="table-responsive">
-            <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Kode PT Pengimbas</th>
-                    <th>Nama PT Pengimbas</th>
-                    <th>Klaster PT Pengimbas</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($groupedData as $key => $item)
-                <tr>
-                    <td>{{ $loop->iteration }}. </td>
-                    <td>{{ $item['kode_pt_peng'] ?? 'Tidak Ada'  }}</td>
-                    <td>{{ $item['nama_pt_peng'] ?? 'Tidak Ada' }}</td>
-                    @if($item['klaster_pengimbas']  == 'hijau')
+            <div class="chart-bar pt-4">
+                <canvas id="myBarChart4"></canvas>
+            </div>
+        </div> 
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Daftar PT Pengimbas SPMI</h6>
+                </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0"> <!-- Added table-bordered for clearer separation of cells -->
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Kode PT Pengimbas</th>
+                        <th>Nama PT Pengimbas</th>
+                        <th>Klaster PT Pengimbas</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($groupedData as $key => $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}. </td>
+                        <td>{{ $item['kode_pt_peng'] ?? 'Tidak Ada'  }}</td>
+                        <td>{{ $item['nama_pt_peng'] ?? 'Tidak Ada' }}</td>
+                        @if($item['klaster_pengimbas']  == 'hijau')
+                            <td>
+                                <span class="badge badge-success" >{{ ucfirst($item['klaster_pengimbas']) }}</span>
+                            </td>
+                        @elseif($item['klaster_pengimbas'] == 'merah')
+                            <td>
+                                <span class="badge badge-danger" >{{ ucfirst($item['klaster_pengimbas']) }}</span>
+                            </td>
+                        @elseif($item['klaster_pengimbas'] == 'kuning')
+                            <td>
+                                <span class="badge badge-warning" >{{ ucfirst($item['klaster_pengimbas']) }}</span>
+                            </td>
+                        @else
+                            <td>
+                                <span class="badge badge-secondary" disabled>{{ ucfirst($item['klaster_pengimbas']) }}</span>
+                            </td>
+                        @endif 
                         <td>
-                            <span class="badge badge-success" >{{ ucfirst($item['klaster_pengimbas']) }}</span>
-                        </td>
-                    @elseif($item['klaster_pengimbas'] == 'merah')
-                        <td>
-                            <span class="badge badge-danger" >{{ ucfirst($item['klaster_pengimbas']) }}</span>
-                        </td>
-                    @elseif($item['klaster_pengimbas'] == 'kuning')
-                        <td>
-                            <span class="badge badge-warning" >{{ ucfirst($item['klaster_pengimbas']) }}</span>
-                        </td>
-                    @else
-                        <td>
-                            <span class="badge badge-secondary" disabled>{{ ucfirst($item['klaster_pengimbas']) }}</span>
-                        </td>
-                    @endif 
-                    <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $item['kode_pt_peng'] }}">
-                            <i class="fas fa-eye"></i>
-                        </button>   
-                        <div class="modal fade" id="detailModal{{ $item['kode_pt_peng'] }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $item['kode_pt_peng'] }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="detailModalLabel{{ $item['kode_pt_peng']  }}">Detail PT Asuh : {{ $item['nama_pt_peng'] }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Kode PT</th>
-                                                    <th scope="col">Nama PT</th> 
-                                                    <th scope="col">Klaster</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($item['pt_asuh'] as $pt_asuh)
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $item['kode_pt_peng'] }}">
+                                <i class="fas fa-eye"></i>
+                            </button>   
+                            <div class="modal fade" id="detailModal{{ $item['kode_pt_peng'] }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $item['kode_pt_peng'] }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="detailModalLabel{{ $item['kode_pt_peng']  }}">Detail PT Asuh : {{ $item['nama_pt_peng'] }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-bordered">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{ $pt_asuh['kode_pt_asuh'] }}</td>
-                                                        <td>{{ $pt_asuh['nama_pt_asuh']}}</td>                                                                    
-                                                        @if($pt_asuh['klaster_asuh'] == 'hijau')
-                                                            <td>
-                                                                <span class="badge badge-success">{{ ucfirst($pt_asuh['klaster_asuh'] ) }}</span>
-                                                            </td>
-                                                        @elseif($pt_asuh['klaster_asuh'] == 'merah')
-                                                            <td>
-                                                                <span class="badge badge-danger">{{ ucfirst($pt_asuh['klaster_asuh'] ) }}</span>
-                                                            </td>
-                                                        @elseif($pt_asuh['klaster_asuh']  == 'kuning')
-                                                            <td>
-                                                                <span class="badge badge-warning">{{ ucfirst($pt_asuh['klaster_asuh'] ) }}</span>
-                                                            </td>
-                                                        @else
-                                                            <td>
-                                                                <span class="badge badge-secondary" disabled>{{ $pt_asuh['klaster_asuh']  }}</span>
-                                                            </td>
-                                                        @endif
+                                                        <th scope="col">Kode PT</th>
+                                                        <th scope="col">Nama PT</th> 
+                                                        <th scope="col">Klaster</th> 
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($item['pt_asuh'] as $pt_asuh)
+                                                        <tr>
+                                                            <td>{{ $pt_asuh['kode_pt_asuh'] }}</td>
+                                                            <td>{{ $pt_asuh['nama_pt_asuh']}}</td>                                                                    
+                                                            @if($pt_asuh['klaster_asuh'] == 'hijau')
+                                                                <td>
+                                                                    <span class="badge badge-success">{{ ucfirst($pt_asuh['klaster_asuh'] ) }}</span>
+                                                                </td>
+                                                            @elseif($pt_asuh['klaster_asuh'] == 'merah')
+                                                                <td>
+                                                                    <span class="badge badge-danger">{{ ucfirst($pt_asuh['klaster_asuh'] ) }}</span>
+                                                                </td>
+                                                            @elseif($pt_asuh['klaster_asuh']  == 'kuning')
+                                                                <td>
+                                                                    <span class="badge badge-warning">{{ ucfirst($pt_asuh['klaster_asuh'] ) }}</span>
+                                                                </td>
+                                                            @else
+                                                                <td>
+                                                                    <span class="badge badge-secondary" disabled>{{ $pt_asuh['klaster_asuh']  }}</span>
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            </table>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                </table>
+                </div>
             </div>
-        </div>
+        </div>    
+
     </div>
 
     <!-- Bootstrap JS for modal functionality -->
